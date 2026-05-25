@@ -953,7 +953,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -1059,5 +1059,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "@@last_modified": "2025-06-05 12:38:37.885451",
+  "@@locale": "fil"
 }

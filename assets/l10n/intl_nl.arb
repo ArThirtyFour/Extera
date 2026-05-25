@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-14 12:41:09.955292",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "Over ons",
   "@about": {
     "type": "String",
@@ -829,7 +829,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -1001,7 +1001,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username} heeft je uitgenodigd voor FluffyChat.\n1. Bezoek https://fluffychat.im en installeer de app\n2. Registreer of log in\n3. Open deze uitnodigingslink:\n{link}",
+  "inviteText": "{username} heeft je uitgenodigd voor Extera.\n1. Bezoek https://extera.xyz en installeer de app\n2. Registreer of log in\n3. Open deze uitnodigingslink:\n{link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -1173,7 +1173,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "newMessageInFluffyChat": "💬 Nieuw bericht in FluffyChat",
+  "newMessageInFluffyChat": "💬 Nieuw bericht in Extera",
   "@newMessageInFluffyChat": {
     "type": "String",
     "placeholders": {}
@@ -1800,7 +1800,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "FluffyChat",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -2348,7 +2348,7 @@
   "@hydrate": {},
   "indexedDbErrorTitle": "Problemen met privémodus",
   "@indexedDbErrorTitle": {},
-  "indexedDbErrorLong": "Het opslaan van berichten is helaas niet standaard ingeschakeld in de privémodus.\nBezoek alsjeblieft\n - about:config\n - stel dom.indexedDB.privateBrowsing.enabled in op true\nAnders is het niet mogelijk om FluffyChat op te starten.",
+  "indexedDbErrorLong": "Het opslaan van berichten is helaas niet standaard ingeschakeld in de privémodus.\nBezoek alsjeblieft\n - about:config\n - stel dom.indexedDB.privateBrowsing.enabled in op true\nAnders is het niet mogelijk om Extera op te starten.",
   "@indexedDbErrorLong": {},
   "countFiles": "{count} bestanden",
   "@countFiles": {
@@ -2395,13 +2395,13 @@
   "@callingPermissions": {},
   "callingAccount": "Telefoon-account",
   "@callingAccount": {},
-  "callingAccountDetails": "Hiermee kan FluffyChat de Android telefoon-app gebruiken.",
+  "callingAccountDetails": "Hiermee kan Extera de Android telefoon-app gebruiken.",
   "@callingAccountDetails": {},
   "appearOnTop": "Bovenaan verschijnen",
   "@appearOnTop": {},
-  "appearOnTopDetails": "Laat de app bovenaan verschijnen (niet nodig als je FluffyChat al hebt ingesteld als een belaccount)",
+  "appearOnTopDetails": "Laat de app bovenaan verschijnen (niet nodig als je Extera al hebt ingesteld als een belaccount)",
   "@appearOnTopDetails": {},
-  "otherCallingPermissions": "Microfoon, camera en andere FluffyChat-rechten",
+  "otherCallingPermissions": "Microfoon, camera en andere Extera-rechten",
   "@otherCallingPermissions": {},
   "newGroup": "Nieuwe groep",
   "@newGroup": {},
@@ -3218,7 +3218,7 @@
   },
   "continueText": "Doorgaan",
   "@continueText": {},
-  "welcomeText": "Hallo hallo 👋 Dit is FluffyChat. Je kan inloggen op elke server die werkt met https://matrix.org. En dan chat je met iedereen. Het is een groot decentraal chat-netwerk!",
+  "welcomeText": "Hallo hallo 👋 Dit is Extera. Je kan inloggen op elke server die werkt met https://matrix.org. En dan chat je met iedereen. Het is een groot decentraal chat-netwerk!",
   "@welcomeText": {},
   "appWantsToUseForLogin": "Inloggen met '{server}'",
   "@appWantsToUseForLogin": {
@@ -3233,7 +3233,7 @@
   "@appWantsToUseForLoginDescription": {},
   "open": "Open",
   "@open": {},
-  "appIntroduction": "FluffyChat laat je chatten met je vrienden tussen verschillende chat-netwerken. Lees meer op https://matrix.org of tik *Continue*.",
+  "appIntroduction": "Extera laat je chatten met je vrienden tussen verschillende chat-netwerken. Lees meer op https://matrix.org of tik *Continue*.",
   "@appIntroduction": {},
   "completedKeyVerification": "{sender} ronde de sleutelverificatie af",
   "@completedKeyVerification": {
@@ -3340,5 +3340,6 @@
   "notSupportedOnThisDevice": "Niet ondersteund op dit apparaat",
   "@notSupportedOnThisDevice": {},
   "commandHint_roomupgrade": "Upgradeer deze kamer naar de aangegeven kamerversie",
-  "@commandHint_roomupgrade": {}
+  "@commandHint_roomupgrade": {},
+  "@@locale": "nl"
 }

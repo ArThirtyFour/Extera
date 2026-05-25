@@ -1,6 +1,6 @@
 {
   "@@locale": "de",
-  "@@last_modified": "2021-08-14 12:41:10.119255",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "alwaysUse24HourFormat": "true",
   "@alwaysUse24HourFormat": {
     "description": "Set to true to always display time of day in 24 hour format."
@@ -997,7 +997,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username} hat Dich zu Extera eingeladen. \n1. Gehe auf fluffychat.im und installiere die App \n2. Melde Dich in der App an \n3. Öffne den Einladungslink: \n {link}",
+  "inviteText": "{username} hat Dich zu Extera eingeladen. \n1. Gehe auf extera.xyz und installiere die App \n2. Melde Dich in der App an \n3. Öffne den Einladungslink: \n {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -2386,7 +2386,7 @@
   "@hideUnimportantStateEvents": {},
   "doNotShowAgain": "Nicht mehr anzeigen",
   "@doNotShowAgain": {},
-  "appearOnTopDetails": "Ermöglicht, dass die App oben angezeigt wird (nicht erforderlich, wenn du Fluffychat bereits als Anrufkonto eingerichtet haben)",
+  "appearOnTopDetails": "Ermöglicht, dass die App oben angezeigt wird (nicht erforderlich, wenn du Extera bereits als Anrufkonto eingerichtet haben)",
   "@appearOnTopDetails": {},
   "noKeyForThisMessage": "Dies kann passieren, wenn die Nachricht gesendet wurde, bevor du dich auf diesem Gerät bei deinem Konto angemeldet hast.\n\nEs ist auch möglich, dass der Absender dein Gerät blockiert hat oder etwas mit der Internetverbindung schief gelaufen ist.\n\nKannst du die Nachricht in einer anderen Sitzung lesen? Dann kannst du die Nachricht davon übertragen! Gehe zu den Einstellungen > Geräte und vergewissere dich, dass sich deine Geräte gegenseitig verifiziert haben. Wenn du den Raum das nächste Mal öffnest und beide Sitzungen im Vordergrund sind, werden die Schlüssel automatisch übertragen.\n\nDu möchtest die Schlüssel beim Abmelden oder Gerätewechsel nicht verlieren? Stelle sicher, dass du das Chat-Backup in den Einstellungen aktiviert hast.",
   "@noKeyForThisMessage": {},

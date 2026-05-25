@@ -1098,7 +1098,7 @@
   },
   "homeserver": "Hem-servitor",
   "@homeserver": {},
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -1142,7 +1142,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "FluffyChat",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -2346,5 +2346,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "@@last_modified": "2025-06-05 12:38:37.885451",
+  "@@locale": "ie"
 }

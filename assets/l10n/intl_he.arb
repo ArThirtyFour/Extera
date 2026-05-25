@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-14 12:41:10.036931",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "אודות",
   "@about": {
     "type": "String",
@@ -629,7 +629,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -735,7 +735,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username} הזמין אותך ל-FluffyChat.\n1. התקן את FluffyChat: https://fluffychat.im\n2. הירשם או היכנס\n3. פתח את קישור ההזמנה: {link}",
+  "inviteText": "{username} הזמין אותך ל-Extera.\n1. התקן את Extera: https://extera.xyz\n2. הירשם או היכנס\n3. פתח את קישור ההזמנה: {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -1308,12 +1308,12 @@
     "type": "String",
     "placeholders": {}
   },
-  "newMessageInFluffyChat": "הודעה חדשה ב-FluffyChat",
+  "newMessageInFluffyChat": "הודעה חדשה ב-Extera",
   "@newMessageInFluffyChat": {
     "type": "String",
     "placeholders": {}
   },
-  "noGoogleServicesWarning": "נראה שאין לך שירותי גוגל בטלפון שלך. זו החלטה טובה לפרטיות שלך! כדי לקבל התרעות ב- FluffyChat אנו ממליצים להשתמש https://microg.org/ או https://unifiedpush.org/.",
+  "noGoogleServicesWarning": "נראה שאין לך שירותי גוגל בטלפון שלך. זו החלטה טובה לפרטיות שלך! כדי לקבל התרעות ב- Extera אנו ממליצים להשתמש https://microg.org/ או https://unifiedpush.org/.",
   "@noGoogleServicesWarning": {
     "type": "String",
     "placeholders": {}
@@ -1425,5 +1425,6 @@
   "@openCamera": {
     "type": "String",
     "placeholders": {}
-  }
+  },
+  "@@locale": "he"
 }

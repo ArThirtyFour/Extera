@@ -1,6 +1,6 @@
 {
   "@@locale": "uk",
-  "@@last_modified": "2021-08-14 12:41:09.790615",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "Про застосунок",
   "@about": {
     "type": "String",
@@ -518,7 +518,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -635,7 +635,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username} запрошує вас у FluffyChat. \n1. Перейдіть на fluffychat.im й установіть застосунок \n2. Зареєструйтесь або ввійдіть \n3. Відкрийте запрошувальне посилання:\n {link}",
+  "inviteText": "{username} запрошує вас у Extera. \n1. Перейдіть на extera.xyz й установіть застосунок \n2. Зареєструйтесь або ввійдіть \n3. Відкрийте запрошувальне посилання:\n {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -772,7 +772,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "newMessageInFluffyChat": "💬 Нове повідомлення у FluffyChat",
+  "newMessageInFluffyChat": "💬 Нове повідомлення у Extera",
   "@newMessageInFluffyChat": {
     "type": "String",
     "placeholders": {}
@@ -1091,7 +1091,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "FluffyChat",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -2347,7 +2347,7 @@
   "@hydrateTorLong": {},
   "indexedDbErrorTitle": "Проблеми приватного режиму",
   "@indexedDbErrorTitle": {},
-  "indexedDbErrorLong": "На жаль, сховище повідомлень не ввімкнуто у приватному режимі типово.\nВідкрийте\n - about:config\n - установіть для dom.indexedDB.privateBrowsing.enabled значення true\nІнакше запустити FluffyChat буде неможливо.",
+  "indexedDbErrorLong": "На жаль, сховище повідомлень не ввімкнуто у приватному режимі типово.\nВідкрийте\n - about:config\n - установіть для dom.indexedDB.privateBrowsing.enabled значення true\nІнакше запустити Extera буде неможливо.",
   "@indexedDbErrorLong": {},
   "dehydrate": "Експортувати сеанс та очистити пристрій",
   "@dehydrate": {},
@@ -2390,11 +2390,11 @@
   "@callingPermissions": {},
   "callingAccount": "Обліковий запис для виклику",
   "@callingAccount": {},
-  "callingAccountDetails": "Дозволяє FluffyChat використовувати основний застосунок Android для набору номера.",
+  "callingAccountDetails": "Дозволяє Extera використовувати основний застосунок Android для набору номера.",
   "@callingAccountDetails": {},
   "appearOnTop": "З'являтися зверху",
   "@appearOnTop": {},
-  "appearOnTopDetails": "Дозволяє застосунку показуватися зверху (не потрібно, якщо Fluffychat вже налаштований обліковим записом для викликів)",
+  "appearOnTopDetails": "Дозволяє застосунку показуватися зверху (не потрібно, якщо Extera вже налаштований обліковим записом для викликів)",
   "@appearOnTopDetails": {},
   "newGroup": "Нова група",
   "@newGroup": {},
@@ -2404,7 +2404,7 @@
   "@enterSpace": {},
   "enterRoom": "Увійти в кімнату",
   "@enterRoom": {},
-  "otherCallingPermissions": "Мікрофон, камера та інші дозволи FluffyChat",
+  "otherCallingPermissions": "Мікрофон, камера та інші дозволи Extera",
   "@otherCallingPermissions": {},
   "allSpaces": "Усі простори",
   "@allSpaces": {},
@@ -3125,7 +3125,7 @@
   "@continueText": {},
   "manageAccount": "Керувати обліковим записом",
   "@manageAccount": {},
-  "welcomeText": "Привіт-привіт 👋 Це FluffyChat. Ви можете увійти на будь-який сервер, сумісний із https://matrix.org. А потім спілкуватися з будь-ким. Це величезна децентралізована мережа для обміну повідомленнями!",
+  "welcomeText": "Привіт-привіт 👋 Це Extera. Ви можете увійти на будь-який сервер, сумісний із https://matrix.org. А потім спілкуватися з будь-ким. Це величезна децентралізована мережа для обміну повідомленнями!",
   "@welcomeText": {},
   "blur": "Розмиття:",
   "@blur": {},
@@ -3223,7 +3223,7 @@
   "@open": {},
   "waitingForServer": "Очікування сервера...",
   "@waitingForServer": {},
-  "appIntroduction": "FluffyChat дає змогу спілкуватися з друзями у різних месенджерах. Дізнайтеся більше на https://matrix.org або просто натисніть *Продовжити*.",
+  "appIntroduction": "Extera дає змогу спілкуватися з друзями у різних месенджерах. Дізнайтеся більше на https://matrix.org або просто натисніть *Продовжити*.",
   "@appIntroduction": {},
   "shareKeysWithDescription": "Яким пристроям довіряти, щоб вони могли читати ваші повідомлення в зашифрованих бесідах?",
   "@shareKeysWithDescription": {},

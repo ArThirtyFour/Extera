@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-14 12:41:10.107750",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "Prio",
   "@about": {
     "type": "String",
@@ -815,7 +815,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -987,7 +987,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username} invitis vin al FluffyChat. \n1. Instalu la aplikaĵon FluffyChat: https://fluffychat.im \n2. Registriĝu aŭ salutu \n3. Malfermu la invitan ligilon: {link}",
+  "inviteText": "{username} invitis vin al Extera. \n1. Instalu la aplikaĵon Extera: https://extera.xyz \n2. Registriĝu aŭ salutu \n3. Malfermu la invitan ligilon: {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -1149,7 +1149,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "newMessageInFluffyChat": "Nova mesaĝo en FluffyChat",
+  "newMessageInFluffyChat": "Nova mesaĝo en Extera",
   "@newMessageInFluffyChat": {
     "type": "String",
     "placeholders": {}
@@ -1184,7 +1184,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "noGoogleServicesWarning": "Ŝajnas, ke via telefono ne havas servojn de Google. Tio estas bona decido por via privateco! Por ricevadi pasivajn sciigojn en FluffyChat, ni rekomendas, ke vi uzu la https://microg.org/ aŭ https://unifiedpush.org/.",
+  "noGoogleServicesWarning": "Ŝajnas, ke via telefono ne havas servojn de Google. Tio estas bona decido por via privateco! Por ricevadi pasivajn sciigojn en Extera, ni rekomendas, ke vi uzu la https://microg.org/ aŭ https://unifiedpush.org/.",
   "@noGoogleServicesWarning": {
     "type": "String",
     "placeholders": {}
@@ -1755,7 +1755,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "FluffyChat",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -2078,5 +2078,6 @@
   "homeserver": "Hejmservilo",
   "@homeserver": {},
   "sendOnEnter": "Sendi per eniga klavo",
-  "@sendOnEnter": {}
+  "@sendOnEnter": {},
+  "@@locale": "eo"
 }

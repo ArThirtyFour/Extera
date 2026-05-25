@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "@@last_modified": "2021-08-14 12:41:10.156221",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "حول",
   "@about": {
     "type": "String",
@@ -528,7 +528,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "فلافي-شات",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -650,7 +650,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "دعاك {username} إلى Extera.\n1. قم بزيارة موقع fluffychat.im وقم بتثبيت التطبيق\n2. قم بإنشاءحساب أو تسجيل الدخول\n3. افتح رابط الدعوة:\n {link}",
+  "inviteText": "دعاك {username} إلى Extera.\n1. قم بزيارة موقع extera.xyz وقم بتثبيت التطبيق\n2. قم بإنشاءحساب أو تسجيل الدخول\n3. افتح رابط الدعوة:\n {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -1164,7 +1164,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "فلافي-شات",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -2459,7 +2459,7 @@
   "@callingAccount": {},
   "callingAccountDetails": "يسمح لـ Extera باستخدام تطبيق android Dialer الأصلي.",
   "@callingAccountDetails": {},
-  "appearOnTopDetails": "يسمح للتطبيق بالظهور في الأعلى (ليست هناك حاجة إذا قمت بالفعل بإعداد Fluffychat كحساب اتصال)",
+  "appearOnTopDetails": "يسمح للتطبيق بالظهور في الأعلى (ليست هناك حاجة إذا قمت بالفعل بإعداد Extera كحساب اتصال)",
   "@appearOnTopDetails": {},
   "numChats": "{number} الدردشات",
   "@numChats": {

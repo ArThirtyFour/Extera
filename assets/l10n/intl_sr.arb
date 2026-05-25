@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-14 12:41:09.857024",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "О програму",
   "@about": {
     "type": "String",
@@ -773,7 +773,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -945,7 +945,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username} вас позива у FluffyChat. \n1. Инсталирајте FluffyChat: https://fluffychat.im \n2. Региструјте се или пријавите \n3. Отворите везу позивнице: {link}",
+  "inviteText": "{username} вас позива у Extera. \n1. Инсталирајте Extera: https://extera.xyz \n2. Региструјте се или пријавите \n3. Отворите везу позивнице: {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -1107,7 +1107,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "newMessageInFluffyChat": "Нова порука — FluffyChat",
+  "newMessageInFluffyChat": "Нова порука — Extera",
   "@newMessageInFluffyChat": {
     "type": "String",
     "placeholders": {}
@@ -1142,7 +1142,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "noGoogleServicesWarning": "Чини се да немате Гугл услуге на телефону. То је добра одлука за вашу приватност! Да би се протурале нотификације у FluffyChat, препоручујемо коришћење https://microg.org/ или https://unifiedpush.org/",
+  "noGoogleServicesWarning": "Чини се да немате Гугл услуге на телефону. То је добра одлука за вашу приватност! Да би се протурале нотификације у Extera, препоручујемо коришћење https://microg.org/ или https://unifiedpush.org/",
   "@noGoogleServicesWarning": {
     "type": "String",
     "placeholders": {}
@@ -1678,7 +1678,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "FluffyChat",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -1967,5 +1967,6 @@
   "@yourPublicKey": {
     "type": "String",
     "placeholders": {}
-  }
+  },
+  "@@locale": "sr"
 }

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-14 12:41:09.967351",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "Om",
   "@about": {
     "type": "String",
@@ -657,7 +657,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -824,7 +824,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username} har invitert deg til FluffyChat. \n1. Installer FluffyChat: https://fluffychat.im \n2. Registrer deg eller logg inn \n3. Åpne invitasjonslenken: {link}",
+  "inviteText": "{username} har invitert deg til Extera. \n1. Installer Extera: https://extera.xyz \n2. Registrer deg eller logg inn \n3. Åpne invitasjonslenken: {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -986,7 +986,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "newMessageInFluffyChat": "Ny melding i FluffyChat",
+  "newMessageInFluffyChat": "Ny melding i Extera",
   "@newMessageInFluffyChat": {
     "type": "String",
     "placeholders": {}
@@ -1011,7 +1011,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "noGoogleServicesWarning": "Bruk https://microg.org/ for å få Google-tjenester (uten at det går ut over personvernet) for å få push-merknader i FluffyChat:",
+  "noGoogleServicesWarning": "Bruk https://microg.org/ for å få Google-tjenester (uten at det går ut over personvernet) for å få push-merknader i Extera:",
   "@noGoogleServicesWarning": {
     "type": "String",
     "placeholders": {}
@@ -1477,7 +1477,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "FluffyChat",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -1817,5 +1817,6 @@
     "placeholders": {}
   },
   "notAnImage": "Ikke en bildefil.",
-  "@notAnImage": {}
+  "@notAnImage": {},
+  "@@locale": "nb"
 }

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-14 12:41:09.826673",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "acceptedTheInvitation": "👍 {username} அழைப்பை ஏற்றுக்கொண்டது",
   "@acceptedTheInvitation": {
     "type": "String",
@@ -47,7 +47,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "பஞ்சுபோன்ற",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -436,7 +436,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "பஞ்சுபோன்ற",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -3168,5 +3168,6 @@
   "@sendFile": {
     "type": "String",
     "placeholders": {}
-  }
+  },
+  "@@locale": "ta"
 }

@@ -1,6 +1,6 @@
 {
   "@@locale": "fr",
-  "@@last_modified": "2021-08-14 12:41:10.051787",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "À propos",
   "@about": {
     "type": "String",
@@ -1002,7 +1002,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username} vous a invité·e sur Extera.\n1. Visiter fluffychat.im et installer l'application\n2. Inscrivez-vous ou connectez-vous\n3. Ouvrez le lien d'invitation :\n{link}",
+  "inviteText": "{username} vous a invité·e sur Extera.\n1. Visiter extera.xyz et installer l'application\n2. Inscrivez-vous ou connectez-vous\n3. Ouvrez le lien d'invitation :\n{link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -2400,7 +2400,7 @@
   "@callingAccountDetails": {},
   "appearOnTop": "Apparaître en haut",
   "@appearOnTop": {},
-  "appearOnTopDetails": "Permet à l'application d'apparaître en haut de l'écran (non nécessaire si vous avez déjà configuré Fluffychat comme compte d'appel)",
+  "appearOnTopDetails": "Permet à l'application d'apparaître en haut de l'écran (non nécessaire si vous avez déjà configuré Extera comme compte d'appel)",
   "@appearOnTopDetails": {},
   "otherCallingPermissions": "Microphone, caméra et autres autorisations de Extera",
   "@otherCallingPermissions": {},

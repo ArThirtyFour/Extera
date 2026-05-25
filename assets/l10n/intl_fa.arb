@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-08-14 12:41:10.061080",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "repeatPassword": "تکرار رمزعبور",
   "@repeatPassword": {},
   "about": "درباره",
@@ -1122,7 +1122,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "فلافی‌چت",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -1640,7 +1640,7 @@
   },
   "serverRequiresEmail": "برای ثبت‌نام، این سرور باید آدرس ایمیل شما را تایید کند.",
   "@serverRequiresEmail": {},
-  "inviteText": "{username} شما را به فلافی‌چت دعوت کرد.\n۱. به fluffychat.im مراجعه کرده و کاره را نصب کنید\n۲. ثبت نام کنید یا وارد شوید.\n۳. لینک دعوت را باز کنید:\n {link}",
+  "inviteText": "{username} شما را به فلافی‌چت دعوت کرد.\n۱. به extera.xyz مراجعه کرده و کاره را نصب کنید\n۲. ثبت نام کنید یا وارد شوید.\n۳. لینک دعوت را باز کنید:\n {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -2096,7 +2096,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "فلافی‌چت",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -2515,5 +2515,6 @@
   "pleaseTryAgainLaterOrChooseDifferentServer": "لطفا بعدا تلاش کنید یا سرور دیگری انتخاب کنید.",
   "@pleaseTryAgainLaterOrChooseDifferentServer": {},
   "notAnImage": "یک فایل تصویری نیست.",
-  "@notAnImage": {}
+  "@notAnImage": {},
+  "@@locale": "fa"
 }

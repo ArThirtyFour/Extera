@@ -1,5 +1,6 @@
 {
-  "@@last_modified": "2021-08-14 12:41:09.975135",
+  "@@locale": "ko",
+  "@@last_modified": "2025-06-05 12:38:37.885451",
   "about": "소개",
   "@about": {
     "type": "String",
@@ -143,7 +144,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "fluffychat": "FluffyChat",
+  "fluffychat": "Extera",
   "@fluffychat": {
     "type": "String",
     "placeholders": {}
@@ -844,11 +845,6 @@
       }
     }
   },
-  "ignore": "무시",
-  "@ignore": {
-    "type": "String",
-    "placeholders": {}
-  },
   "identity": "신원",
   "@identity": {
     "type": "String",
@@ -861,11 +857,6 @@
   },
   "howOffensiveIsThisContent": "이 콘텐츠가 얼마나 모욕적인가요?",
   "@howOffensiveIsThisContent": {
-    "type": "String",
-    "placeholders": {}
-  },
-  "hideUnknownEvents": "알 수 없는 이벤트 숨기기",
-  "@hideUnknownEvents": {
     "type": "String",
     "placeholders": {}
   },
@@ -1294,7 +1285,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "newMessageInFluffyChat": "💬 FluffyChat에서 새로운 메시지",
+  "newMessageInFluffyChat": "💬 Extera에서 새로운 메시지",
   "@newMessageInFluffyChat": {
     "type": "String",
     "placeholders": {}
@@ -1332,11 +1323,6 @@
         "type": "int"
       }
     }
-  },
-  "renderRichContent": "풍부한 메시지 콘텐츠 렌더링",
-  "@renderRichContent": {
-    "type": "String",
-    "placeholders": {}
   },
   "unavailable": "사용할 수 없음",
   "@unavailable": {
@@ -1446,7 +1432,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "title": "FluffyChat",
+  "title": "Extera",
   "@title": {
     "description": "Title for the application",
     "type": "String",
@@ -1524,11 +1510,6 @@
         "type": "String"
       }
     }
-  },
-  "ignoredUsers": "무시된 사용자",
-  "@ignoredUsers": {
-    "type": "String",
-    "placeholders": {}
   },
   "pleaseEnter4Digits": "4자리 숫자를 입력하거나 앱 잠금을 사용하지 않도록 하려면 비워두세요.",
   "@pleaseEnter4Digits": {
@@ -1608,7 +1589,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "noGoogleServicesWarning": "이 휴대폰에 Firebase Cloud Messaging 서비스가 없는 것 같습니다. FluffyChat에서 푸시 알림을 받으려면 ntfy 사용을 추천합니다. ntfy 혹은 다른 푸시 알림 제공자를 사용하면 알림을 보안적인 방법으로 받을 수 있습니다. ntfy는 PlayStore와 F-Droid에서 설치 가능합니다.",
+  "noGoogleServicesWarning": "이 휴대폰에 Firebase Cloud Messaging 서비스가 없는 것 같습니다. Extera에서 푸시 알림을 받으려면 ntfy 사용을 추천합니다. ntfy 혹은 다른 푸시 알림 제공자를 사용하면 알림을 보안적인 방법으로 받을 수 있습니다. ntfy는 PlayStore와 F-Droid에서 설치 가능합니다.",
   "@noGoogleServicesWarning": {
     "type": "String",
     "placeholders": {}
@@ -1872,7 +1853,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "inviteText": "{username}님이 당신을 FluffyChat에 초대했습니다.\n1. FluffyChat 설치: https://fluffychat.im \n2. 가입하거나 로그인 \n3. 초대 링크 열기: \n {link}",
+  "inviteText": "{username}님이 당신을 Extera에 초대했습니다.\n1. https://extera.xyz/?utm_medium=invite 에서 앱을 설치하세요\n2. 가입하거나 로그인\n3. 초대 링크 열기:\n {link}",
   "@inviteText": {
     "type": "String",
     "placeholders": {
@@ -2255,7 +2236,7 @@
   "@reportErrorDescription": {},
   "widgetJitsi": "Jitsi Meet",
   "@widgetJitsi": {},
-  "indexedDbErrorLong": "메시지 저장은 기본적으로 사생활 보호 모드에서 사용할 수 없습니다.\n- about:config 로 이동\n- dom.indexedDB.privateBrowsing.enabled 를 true로 설정\n그렇지 않으면 FluffyChat을 실행할 수 없습니다.",
+  "indexedDbErrorLong": "메시지 저장은 기본적으로 사생활 보호 모드에서 사용할 수 없습니다.\n- about:config 로 이동\n- dom.indexedDB.privateBrowsing.enabled 를 true로 설정\n그렇지 않으면 Extera를 실행할 수 없습니다.",
   "@indexedDbErrorLong": {},
   "startFirstChat": "첫 번째 채팅을 시작하기",
   "@startFirstChat": {},
@@ -2313,7 +2294,7 @@
   "@unbanUserDescription": {},
   "youRejectedTheInvitation": "초대를 거부했습니다",
   "@youRejectedTheInvitation": {},
-  "otherCallingPermissions": "마이크, 카메라 그리고 다름 FluffyChat 권한",
+  "otherCallingPermissions": "마이크, 카메라 및 기타 Extera 권한",
   "@otherCallingPermissions": {},
   "messagesStyle": "메세지:",
   "@messagesStyle": {},
@@ -2323,7 +2304,7 @@
   "@newSpaceDescription": {},
   "chatDescription": "채팅 설명",
   "@chatDescription": {},
-  "callingAccountDetails": "FluffyChat이 android 전화앱을 사용 할 수 있도록 허가.",
+  "callingAccountDetails": "Extera가 Android 통화 앱을 사용할 수 있도록 허용합니다.",
   "@callingAccountDetails": {},
   "enterSpace": "스페이스에 입장",
   "@enterSpace": {},
@@ -2399,8 +2380,6 @@
   "@fileIsTooBigForServer": {},
   "callingPermissions": "통화 권한",
   "@callingPermissions": {},
-  "readUpToHere": "여기까지 읽음",
-  "@readUpToHere": {},
   "unlockOldMessages": "오래된 메시지 잠금 해제하기",
   "@unlockOldMessages": {},
   "numChats": "{number}개의 채팅",
@@ -2451,7 +2430,7 @@
       }
     }
   },
-  "appearOnTopDetails": "앱이 상단에 표시되도록 허용 (이미 FluffyChat을 통화 계정으로 설정한 경우에는 필요하지 않음)",
+  "appearOnTopDetails": "앱이 상단에 표시되도록 허용 (이미 Extera를 통화 계정으로 설정한 경우에는 필요하지 않음)",
   "@appearOnTopDetails": {},
   "enterRoom": "방에 입장",
   "@enterRoom": {},
@@ -2642,7 +2621,7 @@
   "@indexedDbErrorTitle": {},
   "storeSecurlyOnThisDevice": "이 기기에 안전하게 저장",
   "@storeSecurlyOnThisDevice": {},
-  "screenSharingDetail": "FluffyChat에 당신의 화면을 공유하는중",
+  "screenSharingDetail": "Extera에 당신의 화면을 공유하는중",
   "@screenSharingDetail": {},
   "blockUsername": "유저 이름 무시",
   "@blockUsername": {},
@@ -3077,7 +3056,7 @@
   },
   "noContactInformationProvided": "서버가 유효한 연락처 정보를 제공하지 않음",
   "@noContactInformationProvided": {},
-  "welcomeText": "안녕하세요 👋 FluffyChat이에요. 당신은 htpps://matrix.org와 호환되는 모든 홈서버를 사용할 수 있어요. 그리고 모두와 대화해보세요. 거대한 분산 대화망이니까요!",
+  "welcomeText": "안녕하세요 👋 Extera입니다. https://matrix.org와 호환되는 모든 홈서버에 로그인하여 누구와도 채팅할 수 있습니다. 거대한 분산 메시징 네트워크입니다!",
   "@welcomeText": {},
   "changeGeneralChatSettings": "일반 채팅 설정 번경하기",
   "@changeGeneralChatSettings": {},
@@ -3201,7 +3180,7 @@
   "@previous": {},
   "newChatRequest": "📩 새 채팅 요청",
   "@newChatRequest": {},
-  "appIntroduction": "FluffyChat는 다른 메신저들을 사용하는 친구들과도 채팅할 수 있습니다. https://matrix.org에 방문하거나 *계속*을 눌러 자세한 정보를 확인하세요.",
+  "appIntroduction": "Extera는 Matrix 네트워크용 클라이언트입니다. https://matrix.org에서 자세히 알아보거나 *계속*을 눌러주세요.",
   "@appIntroduction": {},
   "synchronizingPleaseWaitCounter": " 동기화중… ({percentage}%)",
   "@synchronizingPleaseWaitCounter": {
@@ -3275,5 +3254,611 @@
   "notificationRuleSuppressEditsDescription": "수정된 메시지로부터 오는 알림을 무시합니다.",
   "@notificationRuleSuppressEditsDescription": {},
   "notificationRuleCall": "전화",
-  "@notificationRuleCall": {}
+  "@notificationRuleCall": {},
+  "aboutExample": "안녕하세요! 저는 도쿄에서 왔습니다",
+  "aboutUser": "정보",
+  "acceptAndContinue": "동의하고 계속",
+  "activePoll": "진행 중",
+  "addAnswer": "답변 추가",
+  "addToFavourites": "즐겨찾기에 추가",
+  "additionalVerificationRequired": "추가 인증 필요",
+  "additionalVerificationText": "이 서버는 추가 인증 단계({stageType})가 필요합니다. 브라우저에서 완료해 주세요.",
+  "@additionalVerificationText": {
+    "placeholders": {
+      "stageType": {
+        "type": "String"
+      }
+    }
+  },
+  "allDevices": "모든 기기",
+  "anonymousPoll": "익명",
+  "answer": "답변",
+  "answerCall": "응답",
+  "appIntro": "Extera에 오신 것을 환영합니다. 이것은 [matrix]용 분산 채팅 앱입니다. https://matrix.org에서 자세히 알아보세요.",
+  "approve": "승인",
+  "atLeastTwoAnswersRequired": "최소 두 개의 답변이 필요합니다",
+  "attribution": "출처",
+  "audioMessage": "음성 메시지",
+  "autoLoadMedia": "미리보기",
+  "autoLoadMediaLong": "비활성화하면 미디어를 클릭할 때까지 자동으로 로드되지 않습니다.",
+  "autoMarkUnavailable": "자리 비움 시 자리비움 상태로 설정",
+  "autoMarkUnavailableDescription": "앱이 포커스를 잃으면 자동으로 자리비움 상태로 설정합니다",
+  "avatarBorderRadius": "아바타 모서리 둥글기",
+  "backToCall": "통화로 돌아가기",
+  "backToMainChat": "메인 채팅으로 돌아가기",
+  "callAction": "통화",
+  "callConnected": "연결됨",
+  "callConnecting": "연결 중",
+  "callEnded": "통화 종료됨",
+  "callEnding": "종료 중",
+  "callInviteSent": "초대 전송됨",
+  "callRinging": "벨이 울리는 중",
+  "captcha": "사람입니까?",
+  "captchaFailed": "CAPTCHA 인증에 실패했습니다. 다시 시도해 주세요.",
+  "captchaLoadFailed": "CAPTCHA를 불러올 수 없습니다. {message}",
+  "@captchaLoadFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "changeVote": "재투표",
+  "changeYourBanner": "배너 변경",
+  "changelogButton": "변경 기록",
+  "chatPrivacy": "개인정보 설정",
+  "chatPrivacyDescription": "이 채팅에 대한 개별 개인정보 설정",
+  "chatPrivacyTitle": "채팅 개인정보",
+  "chatThreads": "스레드",
+  "@chatThreads": {},
+  "chatThreadsDescription": "이 방의 모든 스레드 보기",
+  "choicesSelected": "{selected}/{max} 선택됨",
+  "@choicesSelected": {
+    "type": "String",
+    "placeholders": {
+      "selected": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseRingtone": "벨소리 선택",
+  "cleanExif": "EXIF 메타데이터 정리",
+  "@cleanExif": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "cleanExifDescription": "사진 전송 시 EXIF 메타데이터(카메라 모델, 위치, 시간)를 제거합니다.",
+  "@cleanExifDescription": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "clearBanner": "배너 제거",
+  "colorPalette": "색상 팔레트",
+  "commandHint_roomupgrade": "이 방을 지정된 방 버전으로 업그레이드",
+  "completeCaptchaInBrowser": "CAPTCHA 인증이 필요하지만 이 플랫폼의 앱 내에서 표시할 수 없습니다. 브라우저에서 완료해 주세요.",
+  "completeSetup": "설정 완료",
+  "continueOIDC": "싱글 사인온으로 계속",
+  "continueSSO": "SSO로 계속",
+  "copyLink": "링크 복사",
+  "country": "국가",
+  "createNewAccount": "회원가입",
+  "createPoll": "투표 만들기",
+  "createSticker": "스티커 또는 이모지 만들기",
+  "crossVerifiedDevices": "교차 인증된 기기",
+  "crossVerifiedDevicesIfEnabled": "활성화된 경우 교차 인증된 기기",
+  "customReaction": "반응 추가",
+  "deletePushRuleCanNotBeUndone": "이 알림 설정을 삭제하면 되돌릴 수 없습니다.",
+  "deleteWidget": "위젯 제거",
+  "discuss": "토론",
+  "displayNavigationRail": "모바일에서 내비게이션 레일 표시",
+  "displayname": "이름",
+  "displaynameHint": "다른 사람들이 당신을 보는 이름",
+  "doNotSendIfCantClean": "EXIF가 있으면 전송하지 않음",
+  "doNotSendIfCantCleanDescription": "EXIF 메타데이터 정리 중 오류가 발생하면 이미지를 전송하지 않습니다",
+  "doYouWantToBan": "{user}님을 영구 추방",
+  "@doYouWantToBan": {
+    "type": "String",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "doYouWantToKick": "{user}님 추방",
+  "@doYouWantToKick": {
+    "type": "String",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "다운로드 실패",
+  "downloadSuccess": "파일 저장 완료",
+  "downloadUpdateButton": "다운로드",
+  "downloadVideo": "영상 다운로드 ({size})",
+  "@downloadVideo": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadVideoNoSize": "영상 다운로드",
+  "downloads": "다운로드",
+  "@downloads": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "editAbout": "자기소개 수정",
+  "editAboutDescription": "자신에 대해 알릴 수 있습니다. 모든 사람에게 표시됩니다.",
+  "editedAt": "{when}에 수정됨",
+  "@editedAt": {
+    "type": "text",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "emailAddress": "이메일 주소",
+  "emailAlreadyUsed": "이 이메일 주소는 이미 사용 중입니다.",
+  "emailNotAllowed": "이 이메일 주소는 허용되지 않습니다.",
+  "emailVerification": "이메일 인증",
+  "enableAppBarCenterTitle": "방 제목 중앙 정렬",
+  "enableChatFrostedGlass": "반투명 효과",
+  "enableGradient": "말풍선 배경 그라데이션 사용",
+  "enablePeopleTab": "\"사람\" 탭 사용",
+  "enableVideoNotes": "영상 메모 사용",
+  "endPoll": "투표 종료",
+  "endedPoll": "종료됨",
+  "enterNewChat": "새 채팅 시작",
+  "enterVerificationCode": "휴대폰으로 전송된 6자리 코드를 입력하세요.",
+  "errorRecoveringMessage": "메시지 복구 중 오류가 발생했습니다.",
+  "@errorRecoveringMessage": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "errorRecoveringMessageNoAdmin": "이 기능은 Synapse 홈서버에서만 관리자가 사용할 수 있습니다.",
+  "@errorRecoveringMessageNoAdmin": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "errorTranslatingMessage": "메시지 번역 중 오류가 발생했습니다.",
+  "@errorTranslatingMessage": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "favouriteStickers": "즐겨찾기",
+  "featureSwitches": "기능 스위치",
+  "hangUp": "끊기",
+  "heldTheCall": "{user}님이 통화를 보류했습니다.",
+  "@heldTheCall": {
+    "type": "String",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "hideAvatarsInInvites": "초대장에서 아바타 숨기기",
+  "@hideAvatarsInInvites": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "hideAvatarsInInvitesDescription": "초대장에 방 아바타를 표시하지 않습니다",
+  "@hideAvatarsInInvitesDescription": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "holdCall": "보류",
+  "howWouldYouLikeToSignUp": "어떻게 가입하시겠습니까?",
+  "iHaveVerifiedMyEmail": "이메일을 인증했습니다",
+  "ignoreUser": "유저 무시",
+  "imageEditFailed": "이미지 편집 실패",
+  "includeAttribution": "출처 포함",
+  "incomingCall": "수신 전화",
+  "incomingCallsOnLockScreenSubtitle": "잠금 화면에서 수신 전화 표시",
+  "incomingCallsOnLockScreenTitle": "잠금 화면 통화",
+  "individualChatPrivacySettings": "채팅 설정",
+  "individualChatPrivacySettingsDescription": "각 채팅마다 다른 개인정보 설정을 지정합니다.",
+  "invalidEmail": "올바르지 않은 이메일",
+  "invalidPhoneNumber": "올바르지 않은 전화번호입니다. 국가 코드를 포함해 주세요 (예: +44 7911 123456).",
+  "invalidUsername": "올바르지 않은 사용자 이름",
+  "invalidVerificationCode": "올바르지 않은 인증 코드입니다.",
+  "jitsiFeatureFlag": "Jitsi 그룹 통화",
+  "joinRoomByLinkConfirmation": "{room} 방에 참가할까요?",
+  "@joinRoomByLinkConfirmation": {
+    "type": "String",
+    "placeholders": {
+      "room": {
+        "type": "String"
+      }
+    }
+  },
+  "joinRoomShort": "참가",
+  "joinVideoCall": "영상 통화 참가",
+  "joinVoiceCall": "음성 통화 참가",
+  "latexMath": "LaTeX 수식",
+  "listeningTo": "{mediaPlayer} 듣는 중",
+  "@listeningTo": {
+    "placeholders": {
+      "mediaPlayer": {
+        "type": "String"
+      }
+    }
+  },
+  "listeningToSomeTunes": "음악 듣는 중",
+  "live": "라이브",
+  "loadImage": "이미지 불러오기 ({size})",
+  "@loadImage": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "loadImageNoSize": "이미지 불러오기",
+  "loadingMessages": "메시지 불러오는 중",
+  "logInToYourAccount": "Matrix 계정에 로그인하여 채팅을 시작하세요.",
+  "longPressToRecordVideoNote": "길게 눌러 영상 메모 녹음.",
+  "longPressToRecordVoiceMessage": "길게 눌러 음성 메시지 녹음.",
+  "matrixId": "Matrix ID",
+  "maxSelections": "최대 선택",
+  "mentions": "멘션",
+  "messageTranslations": "메시지 번역",
+  "more": "더 보기",
+  "moveDown": "아래로 이동",
+  "moveToDifferentSpace": "다른 스페이스로 이동",
+  "moveUp": "위로 이동",
+  "multipleChoice": "복수 선택",
+  "muteCam": "카메라 음소거",
+  "muteMic": "마이크 음소거",
+  "mutualRooms": "공통 방",
+  "nEdits": "{count}회 수정됨",
+  "@nEdits": {
+    "type": "text",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "nViews": "{count}회 조회",
+  "@nViews": {
+    "type": "text",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "newInvitation": "새 초대",
+  "newMessages": "새 메시지",
+  "@newMessages": {},
+  "newStickerPack": "새 스티커 팩",
+  "newSubSpace": "새 하위 스페이스",
+  "noCustomPrivacySettings": "맞춤 개인정보 설정 없음",
+  "noCustomPrivacySettingsDetails": "맞춤 개인정보 설정이 있는 방이 여기에 표시됩니다. 방 세부 정보 페이지에서 방별 개인정보 옵션을 설정할 수 있습니다.",
+  "noDownloadsYet": "아직 다운로드가 없습니다.",
+  "noMessagesYet": "아직 메시지가 없습니다",
+  "noPolicies": "수락할 특정 정책이 없습니다.",
+  "noSendPermission": "여기에 메시지를 보낼 수 없습니다",
+  "@noSendPermission": {},
+  "noThreadsYet": "아직 스레드가 없습니다",
+  "noThreadsYetLong": "볼 스레드가 없습니다.",
+  "normalUser": "일반 사용자",
+  "notSet": "설정되지 않음",
+  "notSupportedOnThisDevice": "이 기기에서 지원되지 않음",
+  "notificationRuleCallDescription": "통화에 대해 사용자에게 알립니다.",
+  "notificationRuleEncrypted": "암호화됨",
+  "notificationRuleEncryptedDescription": "암호화된 방의 메시지에 대해 사용자에게 알립니다.",
+  "notificationRuleEncryptedRoomOneToOne": "암호화된 1:1 방",
+  "notificationRuleEncryptedRoomOneToOneDescription": "암호화된 1:1 방의 메시지에 대해 사용자에게 알립니다.",
+  "notificationRuleJitsi": "Jitsi",
+  "notificationRuleJitsiDescription": "Jitsi 위젯 이벤트에 대해 사용자에게 알립니다.",
+  "notificationRuleMessage": "메시지",
+  "notificationRuleMessageDescription": "일반 메시지에 대해 사용자에게 알립니다.",
+  "notificationRuleRoomOneToOne": "1:1 방",
+  "notificationRuleRoomOneToOneDescription": "1:1 방의 메시지에 대해 사용자에게 알립니다.",
+  "notificationRuleServerAcl": "서버 ACL 이벤트 무시",
+  "notificationRuleServerAclDescription": "서버 ACL 이벤트에 대한 알림을 무시합니다.",
+  "ongoingCall": "진행 중인 통화",
+  "@ongoingCall": {},
+  "ongoingCallDetail": "{name}님과 통화 중",
+  "@ongoingCallDetail": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "optionalMessage": "(선택) 메시지...",
+  "outgoingCall": "발신 통화",
+  "owner": "소유자",
+  "palette_content": "콘텐츠",
+  "palette_expressive": "표현적",
+  "palette_fidelity": "원색",
+  "palette_fruitSalad": "과일 샐러드",
+  "palette_monochrome": "단색",
+  "palette_neutral": "중립",
+  "palette_rainbow": "무지개",
+  "palette_tonalSpot": "톤 스팟",
+  "palette_vibrant": "선명함",
+  "passwordMinLengthMessage": "비밀번호는 최소 8자 이상이어야 합니다.",
+  "pause": "일시 정지",
+  "peopleOnline": "온라인 - {count}",
+  "@peopleOnline": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "peopleUnavailable": "자리비움 - {count}",
+  "@peopleUnavailable": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "phoneNumber": "전화번호",
+  "phoneNumberAlreadyUsed": "이 전화번호는 이미 사용 중입니다.",
+  "phoneVerification": "전화 인증",
+  "pinCode": "PIN 코드",
+  "playVideo": "영상 재생 ({size})",
+  "@playVideo": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "playVideoNoSize": "영상 재생",
+  "playing": "재생 중",
+  "pleaseCompleteCaptcha": "계속하려면 CAPTCHA를 완료해 주세요.",
+  "pleaseEnterCountryCode": "국가 코드를 입력해 주세요.",
+  "pleaseEnterEmailAddress": "이메일 주소를 입력해 주세요.",
+  "pleaseEnterPassword": "비밀번호를 입력해 주세요.",
+  "pleaseEnterPhoneNumber": "전화번호를 입력해 주세요.",
+  "pleaseEnterQuestion": "질문을 입력해 주세요",
+  "pleaseEnterUsername": "사용자 이름을 입력해 주세요.",
+  "pleaseReviewAndAcceptPolicies": "계속하려면 다음 정책을 검토하고 동의해 주세요:",
+  "pleaseWait": "잠시 기다려 주세요...",
+  "pleaseWaitUntilInvited": "누군가 초대할 때까지 기다려 주세요.",
+  "pollHasBeenEnded": "투표가 종료되었습니다",
+  "pollResults": "투표 결과",
+  "pollType": "투표 유형",
+  "publicPoll": "공개",
+  "pureBlackToggle": "완전 검정",
+  "@pureBlackToggle": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "pushToTalkHotkey": "푸시 투 토크",
+  "pushToTalkHotkeyDescription": "Alt+X를 눌러 마이크 전환",
+  "question": "질문",
+  "readPolicy": "정책 읽기",
+  "readReceipts": "읽음 확인",
+  "recentStickers": "최근",
+  "recordAVideo": "영상 녹화",
+  "recoverMessage": "메시지 복구",
+  "@recoverMessage": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "recoveredMessage": "메시지 복구됨",
+  "@recoveredMessage": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "registerOn": "{homeserver}에 가입",
+  "@registerOn": {
+    "placeholders": {
+      "homeserver": {
+        "type": "String"
+      }
+    }
+  },
+  "registerWithPassword": "비밀번호로 가입",
+  "registrationFailed": "가입할 수 없습니다. {message}",
+  "@registrationFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "removeCallForEveryone": "모든 사람의 통화 삭제",
+  "removeCallFromChat": "채팅에서 통화 삭제",
+  "removeCallFromChatDescription": "모든 구성원의 채팅에서 통화를 삭제하시겠습니까?",
+  "removeFromFavourites": "즐겨찾기에서 제거",
+  "removeFromRecents": "최근에서 제거",
+  "removeFromSpaceDescription": "채팅이 스페이스에서 제거되지만 채팅 목록에는 계속 표시됩니다.",
+  "removeYourBanner": "배너 제거",
+  "requestAVerificationCodeFirst": "먼저 인증 코드를 요청해 주세요.",
+  "requestAVerificationEmailFirst": "먼저 인증 이메일을 요청해 주세요.",
+  "resendCode": "코드 재전송",
+  "resetPrivacy": "기본값으로 초기화",
+  "resume": "재개",
+  "retry": "재시도",
+  "@retry": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "ringtone": "벨소리",
+  "ringtoneDescription": "통화 수신 시 재생할 벨소리를 선택하세요.",
+  "roomAddress": "방 주소",
+  "saveChanges": "변경사항 저장",
+  "screenSharing": "화면 공유",
+  "searchOrEnterHomeserverAddress": "홈서버 주소 검색 또는 입력",
+  "selectPushDistributor": "푸시 배포자 선택",
+  "@selectPushDistributor": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "sendVerificationCode": "인증 코드 전송",
+  "sendVerificationEmail": "인증 이메일 전송",
+  "sendVideoNote": "영상 메모 보내기",
+  "serverRequiresPhone": "이 서버는 가입을 위해 전화번호가 필요합니다.",
+  "setBanner": "배너 업로드",
+  "setCustomPermissionLevel": "맞춤 권한 수준 설정",
+  "setLowPriority": "낮은 우선순위",
+  "setPermissionsLevelDescription": "아래에서 미리 정의된 역할을 선택하거나 0에서 100 사이의 맞춤 권한 수준을 입력하세요.",
+  "settingsStyleMessage1": "라면 속 문어가 사실 오징어라는 사실을 알고 계셨나요?",
+  "settingsStyleMessage2": "무슨 말씀을 하시는 거예요?",
+  "settingsStyleMessage3": "그냥 궁금해서 찾아봤어요.",
+  "setupChatBackup": "키 백업 설정",
+  "setupProfile": "프로필 설정",
+  "shareKeysWith": "키 공유 대상...",
+  "shareKeysWithDescription": "암호화된 채팅에서 메시지를 함께 읽을 수 있도록 신뢰할 기기를 선택하세요.",
+  "showCameraButton": "사진/영상 버튼 표시",
+  "showCameraButtonDesc": "메시지 작성기에 사진/영상 촬영 버튼 표시",
+  "showSpaceRoomsInGlobalList": "다른 방과 함께 스페이스 방 표시",
+  "signIn": "로그인",
+  "signInGreeting": "이미 Matrix 계정이 있으신가요? 다시 오신 것을 환영합니다!",
+  "signInWithLabel": "로그인 방법",
+  "signUpGreeting": "Extera는 분산형입니다. 시작할 서버를 선택하세요.",
+  "singleChoice": "단일 선택",
+  "skipChatBackup": "키 백업 건너뛰기",
+  "skipChatBackupWarning": "키 백업 없이 계속하시겠습니까? 기기를 변경하면 암호화된 메시지에 접근할 수 없게 될 수 있습니다.",
+  "spaceMemberOf": "{spaces}의 스페이스 구성원",
+  "@spaceMemberOf": {
+    "type": "String",
+    "placeholders": {
+      "spaces": {
+        "type": "String"
+      }
+    }
+  },
+  "spaceMemberOfCanKnock": "{spaces}의 스페이스 구성원이 참가 요청 가능",
+  "@spaceMemberOfCanKnock": {
+    "type": "String",
+    "placeholders": {
+      "spaces": {
+        "type": "String"
+      }
+    }
+  },
+  "startVideoCall": "영상 통화 시작",
+  "startVoiceCall": "음성 통화 시작",
+  "startedAPoll": "{senderName}님이 투표를 시작했습니다",
+  "@startedAPoll": {
+    "type": "String",
+    "placeholders": {
+      "senderName": {
+        "type": "String"
+      }
+    }
+  },
+  "stickerPackName": "스티커 팩 이름",
+  "stickerPackNameAlreadyExists": "해당 이름의 스티커 팩이 이미 있습니다",
+  "stickerScale": "스티커 크기",
+  "switchCamera": "카메라 전환",
+  "switchSpeaker": "스피커 전환",
+  "systemFont": "시스템 폰트 사용",
+  "systemRingtone": "시스템 벨소리",
+  "takeAPhoto": "사진 찍기",
+  "tapToSwitchToVideo": "탭하여 영상 메모로 전환",
+  "tapToSwitchToVoice": "탭하여 음성 메시지로 전환",
+  "termsOfService": "서비스 약관",
+  "theProcessWasCanceled": "프로세스가 취소되었습니다.",
+  "totalVotes": "총 투표수: {count}",
+  "@totalVotes": {
+    "type": "String",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "translate": "번역",
+  "translateMessage": "메시지 번역",
+  "@translateMessage": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "translatedMessage": "번역된 메시지",
+  "@translatedMessage": {
+    "type": "String",
+    "placeholders": {}
+  },
+  "translatedWith": "{engine}으로 번역됨. 참고용입니다.",
+  "@translatedWith": {
+    "placeholder": {
+      "engine": {
+        "type": "String"
+      }
+    }
+  },
+  "translating": "번역 중...",
+  "translationDisabledInE2e": "클라우드 번역은 개인정보 보호를 위해 암호화된 방에서 비활성화됩니다. 특정 단어를 선택하고 시스템 컨텍스트 메뉴를 사용하여 지원되는 앱으로 번역하세요.",
+  "unknownPushRule": "알 수 없는 푸시 규칙 '{rule}'",
+  "@unknownPushRule": {
+    "type": "String",
+    "placeholders": {
+      "rule": {
+        "type": "String"
+      }
+    }
+  },
+  "unsetLowPriority": "낮은 우선순위 해제",
+  "updateAvailable": "Extera {version}을(를) 다운로드할 준비가 되었습니다! 새 버전에는 추가 기능, 수정 사항 등이 포함되어 있습니다.",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateAvailableTitle": "업데이트 가능",
+  "updateCheckSubtitle": "시작할 때마다 Extera의 새 버전이 있는지 확인합니다.",
+  "updateCheckTitle": "업데이트 확인",
+  "useAsEmoji": "이모지",
+  "useAsSticker": "스티커",
+  "useDifferentEmail": "다른 이메일 사용",
+  "useDifferentNumber": "다른 번호 사용",
+  "useLegacyAppBar": "레거시 검색창",
+  "useLegacyNavBar": "레거시 내비게이션 바",
+  "useTwemoji": "Twemoji 사용",
+  "userSpecificNotificationSettings": "사용자별 알림 설정",
+  "usernameAlreadyTaken": "사용자 이름이 이미 사용 중입니다.",
+  "verification": "인증",
+  "verificationCode": "인증 코드",
+  "verificationCodeSent": "인증 메시지를 보냈습니다. 휴대폰을 확인한 후 아래 버튼을 눌러주세요.",
+  "verificationCodeSent2": "인증 코드가 휴대폰 번호로 전송되었습니다. 아래에 입력해 주세요.",
+  "verificationEmailSent": "인증 이메일이 전송되었습니다. 받은 편지함을 확인하고 링크를 클릭한 후 아래 버튼을 눌러 계속하세요.",
+  "verifiedDevicesOnly": "인증된 기기만",
+  "verifyEmail": "이메일 인증",
+  "verifyPhone": "전화 인증",
+  "videoNote": "영상 메모",
+  "videoNotes": "영상 메모",
+  "vote": "투표",
+  "voteCount": "{count, plural, =1{투표 {count}} other{투표 {count}개}}",
+  "@voteCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "welcome": "환영합니다!",
+  "widget": "위젯",
+  "widgetCreatorUser": "추가한 사람",
+  "widgetType": "위젯 유형",
+  "widgets": "위젯",
+  "widgetsDescription": "이 방에 맞춤 위젯 추가",
+  "youHaveKnocked": "참가 요청을 보냈습니다",
+  "youHeldTheCall": "통화를 보류했습니다.",
+  "yourAccountWasCreated": "계정이 생성되었습니다. 시작하려면 프로필을 설정하세요."
 }
