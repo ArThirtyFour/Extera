@@ -132,9 +132,7 @@ class ChatEventList extends StatelessWidget {
         SliverPadding(
           key: _centerKey,
           padding: EdgeInsets.only(
-            top: AppSettings.enableChatFrostedGlass.value
-                ? MediaQuery.of(context).padding.top + 16
-                : 16,
+            top: MediaQuery.of(context).padding.top + 16,
             left: horizontalPadding,
             right: horizontalPadding,
           ),
