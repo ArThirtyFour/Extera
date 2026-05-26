@@ -80,8 +80,8 @@ Before building on Windows, install the following:
 * **[OpenSSL](https://slproweb.com/products/Win32OpenSSL.html)**
 * **[Flutter SDK](https://docs.flutter.dev/get-started/install/windows)**
 > [!IMPORTANT]
-> 
-- APT (Debian based)
+> You must run build as admin and without VPN in Russia you can't build because one is libs can't be download
+
 ## License
 
 This project is licensed under the [AGPL-3.0 License](LICENSE). See the LICENSE file for details.
