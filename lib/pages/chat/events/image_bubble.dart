@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -41,7 +43,7 @@ class ImageBubble extends StatelessWidget {
     this.thumbnailOnly = true,
     this.width = 400,
     this.imageWidth,
-    this.height = 300,
+    this.height = 400,
     this.animated = false,
     this.onTap,
     this.borderRadius,
@@ -55,6 +57,15 @@ class ImageBubble extends StatelessWidget {
   });
 
   double get _effectiveImageWidth => imageWidth ?? width;
+  double get _effectiveImageHeight {
+    final infoMap = event.infoMap;
+    // final imageWidth = infoMap['w'] as int?;
+    final imageHeight = infoMap['h'] as int?;
+
+    if (imageHeight == null) return 400.0;
+
+    return min(400, imageHeight.toDouble());
+  }
 
   double get _aspectRatio {
     // Get image dimensions from event metadata
@@ -67,7 +78,7 @@ class ImageBubble extends StatelessWidget {
         imageWidth > 0 &&
         imageHeight > 0) {
       // Return aspect ratio (width / height)
-      return imageWidth / imageHeight;
+      return (imageWidth / imageHeight).clamp(0.3, 16);
     }
 
     // Fallback to square aspect ratio if metadata is not available
@@ -175,43 +186,38 @@ class ImageBubble extends StatelessWidget {
         topRight: Radius.zero,
       );
     }
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       spacing: 8,
       children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: width),
-          child: AspectRatio(
-            aspectRatio: _aspectRatio,
-            child: Container(
-              decoration: BoxDecoration(
-                color: event.messageType == MessageTypes.Sticker
-                    ? Colors.transparent
-                    : theme.colorScheme.surfaceContainerHighest,
-                borderRadius: borderRadius,
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => _onTap(context),
-                  child: Hero(
-                    tag: event.eventId,
-                    child: loadMedia
-                        ? MxcImage(
-                            event: event,
-                            width: _effectiveImageWidth,
-                            fit: fit,
-                            animated: animated,
-                            isThumbnail: thumbnailOnly,
-                            placeholder:
-                                event.messageType == MessageTypes.Sticker
-                                ? null
-                                : _buildPlaceholder,
-                          )
-                        : _buildUnloaded(context),
-                  ),
+        Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest,
+            borderRadius: borderRadius,
+          ),
+          clipBehavior: Clip.hardEdge,
+          width: width,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: width, maxHeight: height),
+            child: AspectRatio(
+              aspectRatio: _aspectRatio,
+              child: InkWell(
+                onTap: () => _onTap(context),
+                child: Hero(
+                  tag: event.eventId,
+                  child: loadMedia
+                      ? MxcImage(
+                          event: event,
+                          width: _effectiveImageWidth,
+                          height: _effectiveImageHeight,
+                          fit: fit,
+                          animated: animated,
+                          isThumbnail: thumbnailOnly,
+                          placeholder: event.messageType == MessageTypes.Sticker
+                              ? null
+                              : _buildPlaceholder,
+                        )
+                      : _buildUnloaded(context),
                 ),
               ),
             ),

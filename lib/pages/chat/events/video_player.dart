@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -57,11 +59,31 @@ class EventVideoPlayer extends StatelessWidget {
         : event.fileDescription!
               .replaceAll('<', '&lt;')
               .replaceAll('>', '&gt;');
+
+    final maxSize = 384.0;
+
     final infoMap = event.content.tryGetMap<String, Object?>('info');
-    final videoWidth = infoMap?.tryGet<int>('w') ?? 400;
-    final videoHeight = infoMap?.tryGet<int>('h') ?? 300;
-    const height = 300.0;
-    final width = videoWidth * (height / videoHeight);
+    final w = infoMap?.tryGet<int>('w');
+    final h = infoMap?.tryGet<int>('h');
+    final hasDescription = event.fileDescription != null;
+    const minBubbleWidth = 180.0;
+    // const height = 300.0;
+    var width = maxSize;
+    if (w != null && h != null) {
+      if (w > h) {
+        width = maxSize;
+      } else {
+        width = max(32, maxSize * (w / h));
+      }
+    }
+
+    final bubbleWidth = hasDescription ? max(minBubbleWidth, width) : width;
+
+    var aspectRatio = 1.0;
+
+    if (w != null && h != null && w > 0 && h > 0) {
+      aspectRatio = w / h;
+    }
 
     final sizeInt = infoMap?.tryGet<num>('size');
 
@@ -96,84 +118,88 @@ class EventVideoPlayer extends StatelessWidget {
             borderRadius: borderRadius,
             side: BorderSide(color: theme.dividerColor),
           ),
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: Stack(
-              children: [
-                if (event.hasThumbnail && loadThumbnail)
-                  MxcImage(
-                    event: event,
-                    uri: event.thumbnailMxcUrl,
-                    isThumbnail: true,
-                    width: width,
-                    height: height,
-                    fit: BoxFit.cover,
-                    placeholder: (context) => BlurHash(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: bubbleWidth),
+            child: AspectRatio(
+              aspectRatio: aspectRatio,
+              child: Stack(
+                children: [
+                  if (event.hasThumbnail && loadThumbnail)
+                    MxcImage(
+                      event: event,
+                      uri: event.thumbnailMxcUrl,
+                      isThumbnail: true,
+                      width: bubbleWidth,
+                      // height: width * aspectRatio,
+                      fit: BoxFit.cover,
+                      placeholder: (context) => LayoutBuilder(
+                        builder: (context, constraints) => BlurHash(
+                          blurhash: blurHash,
+                          width: constraints.maxWidth,
+                          height: constraints.maxHeight,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  else
+                    BlurHash(
                       blurhash: blurHash,
-                      width: width,
-                      height: height,
+                      width: bubbleWidth,
+                      height: bubbleWidth * aspectRatio,
                       fit: BoxFit.cover,
                     ),
-                  )
-                else
-                  BlurHash(
-                    blurhash: blurHash,
-                    width: width,
-                    height: height,
-                    fit: BoxFit.cover,
-                  ),
-                Center(
-                  // child: CircleAvatar(
-                  //   child: supportsVideoPlayer
-                  //       ? const Icon(Icons.play_arrow_outlined)
-                  //       : const Icon(Icons.file_download_outlined),
-                  // ),
-                  child: FilledButton.tonal(
-                    onPressed: () => supportsVideoPlayer
-                        ? showDialog(
-                            context: context,
-                            useRootNavigator: false,
-                            builder: (_) => ImageViewer(
-                              event,
-                              timeline: timeline,
-                              outerContext: context,
-                            ),
-                          )
-                        : event.saveFile(context),
-                    child: Row(
-                      mainAxisSize: .min,
-                      children: [
-                        supportsVideoPlayer
-                            ? const Icon(Icons.play_arrow_outlined)
-                            : const Icon(Icons.file_download_outlined),
-                        const SizedBox(width: 12),
-                        Text(
+                  Center(
+                    // child: CircleAvatar(
+                    //   child: supportsVideoPlayer
+                    //       ? const Icon(Icons.play_arrow_outlined)
+                    //       : const Icon(Icons.file_download_outlined),
+                    // ),
+                    child: FilledButton.tonal(
+                      onPressed: () => supportsVideoPlayer
+                          ? showDialog(
+                              context: context,
+                              useRootNavigator: false,
+                              builder: (_) => ImageViewer(
+                                event,
+                                timeline: timeline,
+                                outerContext: context,
+                              ),
+                            )
+                          : event.saveFile(context),
+                      child: Row(
+                        mainAxisSize: .min,
+                        children: [
                           supportsVideoPlayer
-                              ? sizeInt == null
-                                    ? L10n.of(context).playVideoNoSize
-                                    : sizeInt.sizeString
-                              : sizeInt == null
-                              ? L10n.of(context).downloadVideoNoSize
-                              : sizeInt.sizeString,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                if (duration != null)
-                  Positioned(
-                    bottom: 8,
-                    left: 16,
-                    child: Text(
-                      '${duration.inMinutes.toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        backgroundColor: Colors.black.withAlpha(32),
+                              ? const Icon(Icons.play_arrow_outlined)
+                              : const Icon(Icons.file_download_outlined),
+                          const SizedBox(width: 12),
+                          Text(
+                            supportsVideoPlayer
+                                ? sizeInt == null
+                                      ? L10n.of(context).playVideoNoSize
+                                      : sizeInt.sizeString
+                                : sizeInt == null
+                                ? L10n.of(context).downloadVideoNoSize
+                                : sizeInt.sizeString,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-              ],
+                  if (duration != null)
+                    Positioned(
+                      bottom: 8,
+                      left: 16,
+                      child: Text(
+                        '${duration.inMinutes.toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          backgroundColor: Colors.black.withAlpha(32),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

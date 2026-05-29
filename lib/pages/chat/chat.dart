@@ -618,7 +618,7 @@ class ChatController extends State<ChatPageWithRoom>
       );
     } catch (e, s) {
       Logs().w('Unable to load timeline on event ID $eventContextId', e, s);
-      if (!mounted) return;
+      // if (!mounted) return;
       timeline = await room.getTimeline(
         onUpdate: updateView,
         onNewEvent: _onNewEvent,
