@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:file_picker/file_picker.dart';
@@ -19,6 +20,7 @@ Future<List<XFile>> selectFiles(
         compressionQuality: 0,
         allowMultiple: allowMultiple,
         type: type,
+        withData: kIsWeb,
       ),
     ),
   );
