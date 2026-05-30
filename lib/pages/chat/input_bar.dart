@@ -132,7 +132,7 @@ class InputBar extends StatelessWidget {
       // aside of emote packs, also propose normal (tm) unicode emojis
       final matchingUnicodeEmojis = _allEmojis
           .where(
-            (emoji) => emoji.emoji.name.toLowerCase().contains(emoteSearch),
+            (emoji) => emoji.searchTerms.any((term) => term.contains(emoteSearch)),
           )
           .toList();
 
