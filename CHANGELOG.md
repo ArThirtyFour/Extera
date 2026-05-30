@@ -1,3 +1,9 @@
+## Extera 26.2.6
+- Message composer improvements
+- Chat encryption settings page design improvements
+- "New chat" FAB redesign
+- Translations
+
 ## Extera 26.2.5
 - Korean translations
 - Locale fixes
