@@ -1,3 +1,6 @@
+## Extera 26.2.61
+- Fix inserting mentions
+
 ## Extera 26.2.6
 - Message composer improvements
 - Chat encryption settings page design improvements

@@ -180,7 +180,7 @@ class InputBar extends StatelessWidget {
           ret.add({
             'type': 'user',
             'mxid': user.id,
-            'mention': user.mention,
+            'mention': user.id,
             'displayname': user.displayName,
             'avatar_url': user.avatarUrl?.toString(),
           });
@@ -329,6 +329,11 @@ class InputBar extends StatelessWidget {
           client: client,
         ),
         title: Text(suggestion['displayname'] ?? suggestion['mxid']!),
+        subtitle:
+            suggestion.containsKey('displayname') &&
+                suggestion['displayname'] != suggestion['mxid']!
+            ? Text(suggestion['mxid']!)
+            : null,
       );
     }
     return const SizedBox.shrink();
@@ -387,7 +392,7 @@ class InputBar extends StatelessWidget {
       insertText = '${suggestion['mention']!} ';
       startText = replaceText.replaceAllMapped(
         RegExp(r'(?<=\s|^)@([^ \[\]]+)$', unicode: true),
-        (Match m) => '${m[1]}$insertText',
+        (Match m) => insertText,
       );
     }
     if (suggestion['type'] == 'room') {
