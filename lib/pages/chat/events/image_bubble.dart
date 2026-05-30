@@ -43,7 +43,7 @@ class ImageBubble extends StatelessWidget {
     this.thumbnailOnly = true,
     this.width = 400,
     this.imageWidth,
-    this.height = 400,
+    this.height = 512,
     this.animated = false,
     this.onTap,
     this.borderRadius,
@@ -62,9 +62,9 @@ class ImageBubble extends StatelessWidget {
     // final imageWidth = infoMap['w'] as int?;
     final imageHeight = infoMap['h'] as int?;
 
-    if (imageHeight == null) return 400.0;
+    if (imageHeight == null) return 512.0;
 
-    return min(400, imageHeight.toDouble());
+    return min(512, imageHeight.toDouble());
   }
 
   double get _aspectRatio {

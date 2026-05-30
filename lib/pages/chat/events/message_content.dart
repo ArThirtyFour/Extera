@@ -137,7 +137,7 @@ class MessageContent extends StatelessWidget {
             final maxSize = event.messageType == MessageTypes.Sticker
                 ? 128.0 * AppSettings.stickerScale.value
                 : event.messageType == MessageTypes.Image
-                ? 384.0
+                ? 512.0
                 : 256.0;
             final w = event.content
                 .tryGetMap<String, Object?>('info')
