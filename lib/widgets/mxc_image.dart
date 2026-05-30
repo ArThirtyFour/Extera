@@ -55,13 +55,10 @@ class _MxcImageState extends State<MxcImage> {
   Uint8List? _currentData;
   bool _isLoading = false;
 
-  // FIX: Track retry attempts to prevent infinite loops
+  // Track retry attempts to prevent infinite loops
   int _retryCount = 0;
   static const int _maxRetries = 3;
 
-  /// Derive a cache key from the widget properties so that event-based and
-  /// URI-based images also participate in the in-memory LRU cache even when
-  /// no explicit [MxcImage.cacheKey] is provided.
   String? get _effectiveCacheKey {
     if (widget.cacheKey != null) return widget.cacheKey;
     if (widget.event != null) {
@@ -95,7 +92,6 @@ class _MxcImageState extends State<MxcImage> {
     if (oldWidget.uri != widget.uri ||
         oldWidget.event != widget.event ||
         oldWidget.cacheKey != widget.cacheKey) {
-      // Reset retry count on widget update
       _retryCount = 0;
 
       final cached = _getFromCache();
@@ -119,7 +115,6 @@ class _MxcImageState extends State<MxcImage> {
     if (key != null) {
       final data = _imageDataCache.remove(key);
       if (data != null) {
-        // Re-insert to mark as most recently used
         _imageDataCache[key] = data;
       }
       return data;
@@ -130,10 +125,9 @@ class _MxcImageState extends State<MxcImage> {
   void _saveToCache(Uint8List data) {
     final key = _effectiveCacheKey;
     if (key != null) {
-      // Move to end (most recently used) if already exists
       _imageDataCache.remove(key);
       _imageDataCache[key] = data;
-      // Evict oldest entries if over capacity
+
       while (_imageDataCache.length > _maxCacheSize) {
         _imageDataCache.remove(_imageDataCache.keys.first);
       }
@@ -143,13 +137,20 @@ class _MxcImageState extends State<MxcImage> {
   Future<void> _load() async {
     if (_isLoading || !mounted) return;
 
-    // Check if we've exceeded max retries
     if (_retryCount >= _maxRetries) {
       Logs().w(
         'MxcImage failed to load after $_maxRetries attempts: ${widget.uri}',
       );
       return;
     }
+
+    final originalUri = widget.uri;
+    final originalEvent = widget.event;
+    final originalCacheKey = widget.cacheKey;
+    final originalIsThumbnail = widget.isThumbnail;
+    final originalAnimated = widget.animated;
+    final originalWidth = widget.width;
+    final originalHeight = widget.height;
 
     setState(() {
       _isLoading = true;
@@ -160,18 +161,18 @@ class _MxcImageState extends State<MxcImage> {
           widget.client ??
           widget.event?.room.client ??
           Matrix.of(context).client;
-      final uri = widget.uri;
-      final event = widget.event;
+      final uri = originalUri;
+      final event = originalEvent;
 
       Uint8List? loadedBytes;
 
       if (uri != null) {
         final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-        final realWidth = widget.width != null
-            ? widget.width! * devicePixelRatio
+        final realWidth = originalWidth != null
+            ? originalWidth * devicePixelRatio
             : null;
-        final realHeight = widget.height != null
-            ? widget.height! * devicePixelRatio
+        final realHeight = originalHeight != null
+            ? originalHeight * devicePixelRatio
             : null;
 
         loadedBytes = await client.downloadMxcCached(
@@ -179,12 +180,12 @@ class _MxcImageState extends State<MxcImage> {
           width: realWidth,
           height: realHeight,
           thumbnailMethod: widget.thumbnailMethod,
-          isThumbnail: widget.isThumbnail,
-          animated: widget.animated,
+          isThumbnail: originalIsThumbnail,
+          animated: originalAnimated,
         );
       } else if (event != null) {
         final data = await event.downloadAndDecryptAttachment(
-          getThumbnail: widget.isThumbnail,
+          getThumbnail: originalIsThumbnail,
         );
         if (data.detectFileType is MatrixImageFile) {
           loadedBytes = data.bytes;
@@ -193,12 +194,18 @@ class _MxcImageState extends State<MxcImage> {
 
       if (!mounted) return;
 
+      if (originalUri != widget.uri ||
+          originalEvent != widget.event ||
+          originalCacheKey != widget.cacheKey) {
+        return;
+      }
+
       if (loadedBytes != null && loadedBytes.isNotEmpty) {
         _saveToCache(loadedBytes);
         setState(() {
           _currentData = loadedBytes;
           _isLoading = false;
-          _retryCount = 0; // Success! Reset retries.
+          _retryCount = 0;
         });
       } else {
         _scheduleRetry();
@@ -210,8 +217,6 @@ class _MxcImageState extends State<MxcImage> {
       if (mounted) {
         setState(() => _isLoading = false);
       }
-      // Depending on the error (e.g. 404), you might NOT want to retry here.
-      // If you do want to retry generic errors, call _scheduleRetry() instead.
     }
   }
 
@@ -261,7 +266,6 @@ class _MxcImageState extends State<MxcImage> {
   Widget build(BuildContext context) {
     final data = _currentData;
 
-    // If we have no data and have given up retrying, show error
     if (data == null || data.isEmpty) {
       if (_retryCount >= _maxRetries && !_isLoading) {
         return _buildError(context);
@@ -272,6 +276,16 @@ class _MxcImageState extends State<MxcImage> {
         child: _buildPlaceholder(context),
       );
     }
+
+    final repaintKey = ValueKey(
+      [
+        _effectiveCacheKey ?? widget.uri,
+        widget.width,
+        widget.height,
+        widget.isThumbnail,
+        widget.fit,
+      ],
+    );
 
     final imageWidget = Image.memory(
       data,
@@ -288,10 +302,12 @@ class _MxcImageState extends State<MxcImage> {
       },
     );
 
-    return ClipRRect(
-      key: ValueKey(_effectiveCacheKey ?? widget.uri),
-      borderRadius: widget.borderRadius,
-      child: imageWidget,
+    return RepaintBoundary(
+      key: repaintKey,
+      child: ClipRRect(
+        borderRadius: widget.borderRadius,
+        child: imageWidget,
+      ),
     );
   }
 }
