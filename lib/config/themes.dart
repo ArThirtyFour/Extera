@@ -88,6 +88,8 @@ abstract class FluffyThemes {
           : AppSettings.uiFont.value,
       fontFamilyFallback: twemoji == true
           ? ['Twemoji Mozilla', ...AppSettings.fallbackFonts.value.split(',')]
+          : AppSettings.fallbackFonts.value.isEmpty
+          ? null
           : AppSettings.fallbackFonts.value.split(','),
       dividerColor: brightness == Brightness.dark
           ? colorScheme.surfaceContainerHighest
