@@ -13,7 +13,7 @@ void showProfile({
   bool noProfileWarning = false,
 }) {
   final url = Uri(
-    path: '/user/${profile.userId}',
+    path: '/user/${Uri.encodeComponent(profile.userId)}',
     queryParameters: <String, dynamic>{
       'display_name': profile.displayName,
       'avatar_uri': profile.avatarUrl?.toString(),
