@@ -126,6 +126,9 @@ class ChatController extends State<ChatPageWithRoom>
       sendingClient.getRoomById(roomId)?.threads[threadRootEventId] ??
       widget.room.threads[threadRootEventId];
 
+  bool _useBubbleLayout = true;
+  bool get useBubbleLayout => _useBubbleLayout;
+
   late Client sendingClient;
 
   Timeline? timeline;
@@ -502,6 +505,7 @@ class ChatController extends State<ChatPageWithRoom>
       AppSettings.displayChatDetailsColumn.value,
     );
 
+    _useBubbleLayout = AppSettings.messageStyle.value == 'bubbles';
     sendingClient = Matrix.of(context).client;
     readMarkerEventId = room.hasNewMessages ? room.fullyRead : '';
     WidgetsBinding.instance.addObserver(this);

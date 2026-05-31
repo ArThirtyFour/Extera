@@ -75,6 +75,7 @@ class ChatEventList extends StatelessWidget {
             event,
             animateIn: animateIn,
             thread: thread,
+            useBubbleLayout: controller.useBubbleLayout,
             singleSelected:
                 controller.selectedEvents.length == 1 &&
                 controller.selectedEvents.first.eventId == event.eventId,

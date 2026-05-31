@@ -18,19 +18,9 @@ import 'package:extera_next/widgets/future_loading_dialog.dart';
 import 'package:extera_next/widgets/theme_builder.dart';
 import 'settings_style_view.dart';
 
-/// Maximum dimension (width or height) for wallpaper images.
-/// 1920px is sufficient for virtually all mobile/tablet screens while
-/// keeping file size manageable.
 const int _wallpaperMaxDimension = 1920;
-
-/// JPEG quality for wallpaper compression (0–100).
 const int _wallpaperJpegQuality = 85;
 
-/// Compresses [rawBytes] of an image down to at most [_wallpaperMaxDimension]
-/// on the longest side and re-encodes as JPEG at [_wallpaperJpegQuality].
-///
-/// Returns the compressed JPEG bytes, or the original bytes if compression
-/// fails or the platform is unsupported.
 Future<Uint8List> _compressWallpaperBytes(Uint8List rawBytes) async {
   try {
     await native.init();
@@ -46,8 +36,8 @@ Future<Uint8List> _compressWallpaperBytes(Uint8List rawBytes) async {
       rgbaData.lengthInBytes,
     );
 
-    var width = frame.image.width;
-    var height = frame.image.height;
+    final width = frame.image.width;
+    final height = frame.image.height;
 
     frame.image.dispose();
     codec.dispose();
@@ -90,13 +80,10 @@ class SettingsStyle extends StatefulWidget {
 
 class SettingsStyleController extends State<SettingsStyle> {
   void setChatColor(Color? color) async {
-    // AppConfig.colorSchemeSeed = color;
     ThemeController.of(context).setPrimaryColor(color);
   }
 
   String? _wallpaperPath;
-
-  /// The current local wallpaper path (null when no wallpaper is set).
   String? get wallpaperPath => _wallpaperPath;
 
   @override
@@ -285,6 +272,14 @@ class SettingsStyleController extends State<SettingsStyle> {
   void changeStickerScale(double d) {
     AppSettings.stickerScale.setItem(d);
     setState(() {});
+  }
+
+  String get messageStyle => AppSettings.messageStyle.value;
+
+  void setMessageStyle(String value) {
+    setState(() {
+      AppSettings.messageStyle.setItem(value);
+    });
   }
 
   @override

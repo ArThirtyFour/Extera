@@ -24,6 +24,7 @@ enum AppSettings<T> {
   neurogateTokenExpiry<String>('xyz.extera.neurogateTokenExpiryDate', ''),
   selectedAccount<String>('xyz.extera.selectedAccount', ''),
   uiFont<String>('xyz.extera.uiFont', ''),
+  messageStyle<String>('xyz.extera.messageStyle', 'bubbles'),
   fallbackFonts<String>('xyz.extera.fallbackFonts', ''),
   enablePeopleTab<bool>('xyz.extera.enablePeopleTab', true),
   autoLoadMedia<bool>('xyz.extera.autoLoadMedia', true),

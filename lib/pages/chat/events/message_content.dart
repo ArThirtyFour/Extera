@@ -36,6 +36,7 @@ class MessageContent extends StatelessWidget {
   final BorderRadius borderRadius;
   final Timeline timeline;
   final bool selectable;
+  final bool useBubbleLayout;
 
   final bool loadMedia;
   final void Function()? onLoadMedia;
@@ -52,6 +53,7 @@ class MessageContent extends StatelessWidget {
     required this.textColor,
     required this.linkColor,
     required this.borderRadius,
+    this.useBubbleLayout = true,
     this.selectable = false,
     this.loadMedia = false,
     this.onLoadMedia,
@@ -230,7 +232,10 @@ class MessageContent extends StatelessWidget {
                 html = '* $html';
               }
               return Padding(
-                padding: const .symmetric(horizontal: 16, vertical: 2),
+                padding: .symmetric(
+                  horizontal: useBubbleLayout ? 16 : 0,
+                  vertical: 2,
+                ),
                 child: HtmlMessage(
                   html: html,
                   textColor: textColor,
@@ -357,7 +362,10 @@ class MessageContent extends StatelessWidget {
             );
             final textScaler = MediaQuery.textScalerOf(context);
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+              padding: .symmetric(
+                horizontal: useBubbleLayout ? 16 : 0,
+                vertical: 2,
+              ),
               child: selectable
                   ? SelectableText.rich(richSpan, textScaler: textScaler)
                   : Text.rich(richSpan, textScaler: textScaler),

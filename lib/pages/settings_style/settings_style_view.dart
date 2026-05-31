@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:extera_next/pages/chat/events/message.dart';
+import 'package:extera_next/utils/dummy_timeline.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
@@ -12,7 +14,6 @@ import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/events/state_message.dart';
 import 'package:extera_next/utils/color_value.dart';
 import 'package:extera_next/utils/platform_infos.dart';
-import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
@@ -267,149 +268,113 @@ class SettingsStyleView extends StatelessWidget {
                                             stateKey: client.userID!,
                                           ),
                                         ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                              left:
-                                                  12 + 12 + Avatar.defaultSize,
-                                              right: 12,
-                                              top: hasWallpaper ? 12 : 0,
-                                              bottom: 12,
-                                            ),
-                                            child: DecoratedBox(
-                                              decoration: BoxDecoration(
-                                                color: theme.bubbleColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                      AppConfig.borderRadius,
-                                                    ),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 16,
-                                                      vertical: 8,
-                                                    ),
-                                                child: Text(
-                                                  L10n.of(
-                                                    context,
-                                                  ).settingsStyleMessage1,
-                                                  style: TextStyle(
-                                                    color: theme.onBubbleColor,
-                                                    fontSize:
-                                                        AppSettings
-                                                            .messageFontSize
-                                                            .value *
-                                                        AppSettings
-                                                            .fontSizeFactor
-                                                            .value,
-                                                  ),
-                                                ),
-                                              ),
+                                        Message(
+                                          Event(
+                                            eventId: 'style_dummy_1',
+                                            content: {
+                                              'msgtype': 'm.text',
+                                              'body': L10n.of(context).settingsStyleMessage1,
+                                              'format': 'org.matrix.custom.html',
+                                              'formatted_body': L10n.of(context).settingsStyleMessage1,
+                                            },
+                                            originServerTs: DateTime.now(),
+                                            senderId: client.userID!,
+                                            status: .sent,
+                                            type: EventTypes.Message,
+                                            room: Room(
+                                              id: '!style_dummy',
+                                              client: client,
                                             ),
                                           ),
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            const Avatar(name: "K"),
-                                            Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                  right: 12,
-                                                  left: 12,
-                                                  top: hasWallpaper ? 12 : 0,
-                                                  bottom: 12,
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    Material(
-                                                      color: theme
-                                                          .colorScheme
-                                                          .surfaceContainerHigh,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            AppConfig
-                                                                .borderRadius,
-                                                          ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets.symmetric(
-                                                              horizontal: 16,
-                                                              vertical: 8,
-                                                            ),
-                                                        child: Text(
-                                                          L10n.of(
-                                                            context,
-                                                          ).settingsStyleMessage2,
-                                                          style: TextStyle(
-                                                            color: theme
-                                                                .colorScheme
-                                                                .onSurface,
-                                                            fontSize:
-                                                                AppSettings
-                                                                    .messageFontSize
-                                                                    .value *
-                                                                AppSettings
-                                                                    .fontSizeFactor
-                                                                    .value,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+                                          onInfoTab: (_) {},
+                                          onMention: () {},
+                                          onSelect: (_, _) {},
+                                          onSwipe: (_) {},
+                                          scrollToEventId: (_, _) => {},
+                                          timeline: DummyTimeline(),
+                                          animateIn: false,
+                                          displayReadMarker: false,
+                                          highlightMarker: false,
+                                          longPressSelect: false,
+                                          selected: false,
+                                          wallpaperMode: false,
+                                          colors: [
+                                            theme.secondaryBubbleColor,
+                                            theme.bubbleColor,
                                           ],
+                                          useBubbleLayout: controller.messageStyle == 'bubbles',
                                         ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                              left:
-                                                  12 + 12 + Avatar.defaultSize,
-                                              right: 12,
-                                              top: hasWallpaper ? 12 : 0,
-                                              bottom: 12,
-                                            ),
-                                            child: DecoratedBox(
-                                              decoration: BoxDecoration(
-                                                color: theme.bubbleColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                      AppConfig.borderRadius,
-                                                    ),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 16,
-                                                      vertical: 8,
-                                                    ),
-                                                child: Text(
-                                                  L10n.of(
-                                                    context,
-                                                  ).settingsStyleMessage3,
-                                                  style: TextStyle(
-                                                    color: theme.onBubbleColor,
-                                                    fontSize:
-                                                        AppSettings
-                                                            .messageFontSize
-                                                            .value *
-                                                        AppSettings
-                                                            .fontSizeFactor
-                                                            .value,
-                                                  ),
-                                                ),
-                                              ),
+                                        Message(
+                                          Event(
+                                            eventId: 'style_dummy_2',
+                                            content: {
+                                              'msgtype': 'm.text',
+                                              'body': L10n.of(context).settingsStyleMessage2,
+                                              'format': 'org.matrix.custom.html',
+                                              'formatted_body': L10n.of(context).settingsStyleMessage2,
+                                            },
+                                            originServerTs: DateTime.now(),
+                                            senderId: '@y:example.com',
+                                            status: .sent,
+                                            type: EventTypes.Message,
+                                            room: Room(
+                                              id: '!style_dummy',
+                                              client: client,
                                             ),
                                           ),
+                                          onInfoTab: (_) {},
+                                          onMention: () {},
+                                          onSelect: (_, _) {},
+                                          onSwipe: (_) {},
+                                          scrollToEventId: (_, _) => {},
+                                          timeline: DummyTimeline(),
+                                          animateIn: false,
+                                          displayReadMarker: false,
+                                          highlightMarker: false,
+                                          longPressSelect: false,
+                                          selected: false,
+                                          wallpaperMode: false,
+                                          colors: [
+                                            theme.secondaryBubbleColor,
+                                            theme.bubbleColor,
+                                          ],
+                                          useBubbleLayout: controller.messageStyle == 'bubbles',
+                                        ),
+                                        Message(
+                                          Event(
+                                            eventId: 'style_dummy_3',
+                                            content: {
+                                              'msgtype': 'm.text',
+                                              'body': L10n.of(context).settingsStyleMessage3,
+                                              'format': 'org.matrix.custom.html',
+                                              'formatted_body': L10n.of(context).settingsStyleMessage3,
+                                            },
+                                            originServerTs: DateTime.now(),
+                                            senderId: client.userID!,
+                                            status: .sent,
+                                            type: EventTypes.Message,
+                                            room: Room(
+                                              id: '!style_dummy',
+                                              client: client,
+                                            ),
+                                          ),
+                                          onInfoTab: (_) {},
+                                          onMention: () {},
+                                          onSelect: (_, _) {},
+                                          onSwipe: (_) {},
+                                          scrollToEventId: (_, _) => {},
+                                          timeline: DummyTimeline(),
+                                          animateIn: false,
+                                          displayReadMarker: false,
+                                          highlightMarker: false,
+                                          longPressSelect: false,
+                                          selected: false,
+                                          wallpaperMode: false,
+                                          colors: [
+                                            theme.secondaryBubbleColor,
+                                            theme.bubbleColor,
+                                          ],
+                                          useBubbleLayout: controller.messageStyle == 'bubbles',
                                         ),
                                       ],
                                     ),
@@ -419,6 +384,54 @@ class SettingsStyleView extends StatelessWidget {
                             ],
                           ),
                         ),
+                        ListTile(
+                          title: Text(
+                            L10n.of(context).messageLayout,
+                            style: TextStyle(
+                              color: theme.colorScheme.secondary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 16,
+                            left: 32,
+                            right: 32,
+                          ),
+                          child: RadioGroup<String>(
+                            onChanged: (value) {
+                              if (value != null) {
+                                controller.setMessageStyle(value);
+                              }
+                            },
+                            groupValue: controller.messageStyle,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: Align(
+                                    alignment: .center,
+                                    child: _LabeledRadio<String>(
+                                      label: L10n.of(context).bubblesLayout,
+                                      value: 'bubbles',
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Align(
+                                    alignment: .center,
+                                    child: _LabeledRadio<String>(
+                                      label: L10n.of(context).modernLayout,
+                                      value: 'modern',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const ListDivider(),
                         SettingsSwitchListTile.adaptive(
                           title: L10n.of(context).enableGradient,
                           setting: AppSettings.enableGradient,
@@ -436,6 +449,7 @@ class SettingsStyleView extends StatelessWidget {
                             setting: AppSettings.twemojiFont,
                           ),
                         ],
+                        const ListDivider(),
                         const SizedBox(height: 8),
                         ListTile(
                           title: TextButton.icon(
@@ -578,6 +592,33 @@ class SettingsStyleView extends StatelessWidget {
               const SizedBox(height: 8),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LabeledRadio<T> extends StatelessWidget {
+  const _LabeledRadio({required this.label, required this.value});
+
+  final String label;
+  final T value;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        RadioGroup.maybeOf<T>(context)?.onChanged(value);
+      },
+      borderRadius: BorderRadius.circular(AppConfig.borderRadius),
+      child: Padding(
+        padding: const .only(right: 12),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Radio<T>(value: value),
+            Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
+          ],
         ),
       ),
     );
