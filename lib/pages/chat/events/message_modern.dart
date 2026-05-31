@@ -122,7 +122,12 @@ class _MessageModernState extends State<MessageModern> {
       return await widget.event.fetchSenderUser();
     }
     final cachedProfile = await client.getUserProfile(client.userID!);
-    return User(client.userID!, room: widget.event.room, avatarUrl: cachedProfile.avatarUrl?.toString(), displayName: cachedProfile.displayname);
+    return User(
+      client.userID!,
+      room: widget.event.room,
+      avatarUrl: cachedProfile.avatarUrl?.toString(),
+      displayName: cachedProfile.displayname,
+    );
   }
 
   void _initReplyFuture() {
@@ -194,18 +199,18 @@ class _MessageModernState extends State<MessageModern> {
         widget.nextEvent!.senderId == event.senderId &&
         !displayTime;
 
-    final previousEventSameSender =
-        widget.previousEvent != null &&
-        {
-          EventTypes.Message,
-          EventTypes.Sticker,
-          EventTypes.Encrypted,
-          PollEvents.PollStart,
-        }.contains(widget.previousEvent!.type) &&
-        widget.previousEvent!.senderId == event.senderId &&
-        widget.previousEvent!.originServerTs.sameEnvironment(
-          event.originServerTs,
-        );
+    // final previousEventSameSender =
+    //     widget.previousEvent != null &&
+    //     {
+    //       EventTypes.Message,
+    //       EventTypes.Sticker,
+    //       EventTypes.Encrypted,
+    //       PollEvents.PollStart,
+    //     }.contains(widget.previousEvent!.type) &&
+    //     widget.previousEvent!.senderId == event.senderId &&
+    //     widget.previousEvent!.originServerTs.sameEnvironment(
+    //       event.originServerTs,
+    //     );
 
     final displayEvent = event.getDisplayEvent(timeline);
 
@@ -303,7 +308,7 @@ class _MessageModernState extends State<MessageModern> {
                         onChanged: (_) => widget.onSelect(event, null),
                       ),
                     )
-                  else if (previousEventSameSender)
+                  else if (nextEventSameSender)
                     const SizedBox(width: Avatar.defaultSize)
                   else
                     Avatar(
@@ -325,7 +330,7 @@ class _MessageModernState extends State<MessageModern> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (!previousEventSameSender)
+                        if (!nextEventSameSender)
                           Row(
                             children: [
                               Text(
@@ -361,13 +366,11 @@ class _MessageModernState extends State<MessageModern> {
                                 FutureBuilder<Event?>(
                                   future: _replyEventFuture,
                                   builder: (BuildContext context, snapshot) {
-                                    final replyEvent =
-                                        snapshot.hasData
+                                    final replyEvent = snapshot.hasData
                                         ? snapshot.data!
                                         : Event(
                                             eventId:
-                                                event
-                                                    .inReplyToEventId() ??
+                                                event.inReplyToEventId() ??
                                                 '\$fake_event_id',
                                             content: {
                                               'msgtype': 'm.text',
@@ -380,18 +383,14 @@ class _MessageModernState extends State<MessageModern> {
                                             originServerTs: DateTime.now(),
                                           );
                                     return Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 4,
-                                      ),
+                                      padding: const EdgeInsets.only(bottom: 4),
                                       child: Material(
                                         color: Colors.transparent,
                                         child: InkWell(
-                                          borderRadius: ReplyContent.borderRadius,
+                                          borderRadius:
+                                              ReplyContent.borderRadius,
                                           onTap: () =>
-                                              _scrollToEvent(
-                                                replyEvent,
-                                                event,
-                                              ),
+                                              _scrollToEvent(replyEvent, event),
                                           child: AbsorbPointer(
                                             child: ReplyContent(
                                               replyEvent,
@@ -419,10 +418,9 @@ class _MessageModernState extends State<MessageModern> {
                                 },
                                 useBubbleLayout: false,
                                 borderRadius: BorderRadius.zero,
-                                selectable:
-                                    PlatformInfos.isMobile
-                                        ? widget.longPressSelect
-                                        : true,
+                                selectable: PlatformInfos.isMobile
+                                    ? widget.longPressSelect
+                                    : true,
                               ),
                             ],
                           ),
@@ -459,7 +457,14 @@ class _MessageModernState extends State<MessageModern> {
                                   const SizedBox(width: 6),
                                   Text(
                                     widget.thread!.lastEvent != null
-                                        ? widget.thread!.lastEvent!.text.length > 32 ? "${widget.thread!.lastEvent!.text.substring(0, 32)}..." : widget.thread!.lastEvent!.text
+                                        ? widget
+                                                      .thread!
+                                                      .lastEvent!
+                                                      .text
+                                                      .length >
+                                                  32
+                                              ? "${widget.thread!.lastEvent!.text.substring(0, 32)}..."
+                                              : widget.thread!.lastEvent!.text
                                         : 'Thread',
                                     style: TextStyle(
                                       color: theme.colorScheme.onSurfaceVariant,
