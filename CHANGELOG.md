@@ -1,3 +1,7 @@
+## Extera 26.2.7
+- Modern message layout
+- Bugfixes
+
 ## Extera 26.2.61
 - Fix inserting mentions
 
