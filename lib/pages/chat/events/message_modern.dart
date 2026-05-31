@@ -292,7 +292,7 @@ class _MessageModernState extends State<MessageModern> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: nextEventSameSender ? 1.0 : 4.0,
+                vertical: nextEventSameSender ? 1.0 : 8.0,
                 horizontal: 8.0,
               ),
               child: Row(
