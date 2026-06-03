@@ -43,6 +43,8 @@ async function batchTranslate(amount) {
                     role: 'system',
                     content: `You are a professional linguist, specialized in translating User Interfaces.
 
+You are translating UI strings for project 'Extera', a chat client app for the 'Matrix' protocol.
+
 You will be provided a JSON list of ${k.length} string keys. Each key has ${humanMadeLocalizations.length} values in different languages.
 Based on provided translations, you need to translate each string into ${TARGET_LANGUAGE_NAME ?? `language, which two-letter code is ${TARGET_LANGUAGE}`}.
 
