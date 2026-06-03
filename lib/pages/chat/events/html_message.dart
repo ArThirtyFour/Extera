@@ -313,7 +313,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
                   ),
                   style: linkStyle,
                 ),
-                style: const TextStyle(height: 1.25),
+                style: const TextStyle(height: 1.2),
               ),
             ),
           ),
@@ -711,20 +711,18 @@ class MatrixPill extends StatelessWidget {
             TextSpan(
               style: TextStyle(
                 color: color,
-                decorationColor: color,
-                decoration: .underline,
+                decoration: .none,
                 fontSize: fontSize,
-                height: 1.25,
+                height: 1.2,
               ),
               children: [
                 TextSpan(
                   text: name,
                   style: TextStyle(
                     color: color,
-                    decorationColor: color,
-                    decoration: .underline,
+                    decoration: .none,
                     fontSize: fontSize,
-                    height: 1.25,
+                    height: 1.2,
                   ),
                 ),
                 if (withEventLink)
