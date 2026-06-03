@@ -4,7 +4,7 @@ project(fluffychat LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
-set(BINARY_NAME "fluffychat")
+set(BINARY_NAME "extera")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
@@ -30,7 +30,7 @@ set(CMAKE_C_FLAGS_PROFILE "${CMAKE_C_FLAGS_RELEASE}")
 set(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS_RELEASE}")
 
 # Use Unicode for all projects.
-add_definitions(-DUNICODE -D_UNICODE)
+add_definitions(-DUNICODE -D_UNICODE -D_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS)
 
 # Compilation settings that should be applied to most targets.
 #
@@ -99,3 +99,14 @@ install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
 install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
   CONFIGURATIONS Profile;Release
   COMPONENT Runtime)
+
+# Ensure libsqlcipher.dll exists alongside sqlite3.dll
+install(CODE "
+  if(EXISTS \"${CMAKE_INSTALL_PREFIX}/sqlite3.dll\")
+    file(COPY_FILE
+      \"${CMAKE_INSTALL_PREFIX}/sqlite3.dll\"
+      \"${CMAKE_INSTALL_PREFIX}/libsqlcipher.dll\"
+    )
+  endif()
+" COMPONENT Runtime)
+target_compile_options(${BINARY_NAME} PRIVATE /W0)

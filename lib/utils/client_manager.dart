@@ -176,6 +176,11 @@ abstract class ClientManager {
       settings: const InitializationSettings(
         android: AndroidInitializationSettings('notifications_icon'),
         iOS: DarwinInitializationSettings(),
+        windows: WindowsInitializationSettings(
+          appName: 'Extera',
+          appUserModelId: 'im.extera.app',
+          guid: 'a8b5c6d7-e8f9-4a0b-b1c2-d3e4f5a6b7c8',
+        ),
       ),
     );
 
@@ -191,6 +196,8 @@ abstract class ClientManager {
           priority: Priority.max,
         ),
         iOS: DarwinNotificationDetails(sound: 'notification.caf'),
+        windows: WindowsNotificationDetails(
+        ),
       ),
     );
   }
