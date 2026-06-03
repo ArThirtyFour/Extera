@@ -80,7 +80,8 @@ Before building on Windows, install the following:
 * **[OpenSSL](https://slproweb.com/products/Win32OpenSSL.html)**
 * **[Flutter SDK](https://docs.flutter.dev/get-started/install/windows)**
 > [!IMPORTANT]
-> You must run build as admin and without VPN in Russia you can't build because one is libs can't be download
+> 1. Make sure to run build as admin.
+> 2. If you are in Russia, you won't be able to download some dependencies, what will result in build failure. Use helper programs which 'alter your internet traffic'.
 
 ## License
 
