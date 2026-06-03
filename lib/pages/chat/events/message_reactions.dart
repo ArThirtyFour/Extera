@@ -162,6 +162,7 @@ class _Reaction extends StatelessWidget {
     return InkWell(
       onTap: () => onTap != null ? onTap!() : null,
       onLongPress: () => onLongPress != null ? onLongPress!() : null,
+      onSecondaryTap: () => onLongPress != null ? onLongPress!() : null, // It is better to make it a seperate option
       borderRadius: BorderRadius.circular(AppConfig.borderRadius / 2),
       child: Container(
         decoration: BoxDecoration(
