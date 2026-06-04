@@ -1,3 +1,6 @@
+## Extera 26.2.81
+- Fix new message bubbles layout issue
+
 ## Extera 26.2.8
 - Add another version of bubble message layout (old one still available)
 - Add status row to modern message layout
