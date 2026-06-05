@@ -127,19 +127,12 @@ class HtmlMessage extends StatefulWidget {
 }
 
 class _HtmlMessageState extends State<HtmlMessage> {
-  /// Tracks the open/closed state of \<details> elements by their index.
   final Map<int, bool> _detailsOpenState = {};
-
-  /// Tracks the revealed/hidden state of spoiler <span> elements by their index.
   final Map<int, bool> _spoilerRevealedState = {};
 
-  /// Counter used during rendering to assign stable indices to \<details> elements.
   int _detailsCounter = 0;
-
-  /// Counter used during rendering to assign stable indices to spoiler elements.
   int _spoilerCounter = 0;
 
-  // Convenience accessors for widget properties
   String get html => widget.html;
   Room get room => widget.room;
   Color get textColor => widget.textColor;
@@ -386,10 +379,10 @@ class _HtmlMessageState extends State<HtmlMessage> {
                       'md',
                   theme: themeMap['shades-of-purple']!,
                   selectable: true,
-                  showCopyButton: !isInline,
+                  showCopyButton: true,
                   padding: EdgeInsets.symmetric(
                     horizontal: 8,
-                    vertical: isInline ? 0 : 8,
+                    vertical: 0,
                   ),
                   textStyle: GoogleFonts.robotoMono(fontSize: fontSize),
                 ),
