@@ -179,11 +179,26 @@ class _MessageBubbleState extends State<MessageBubble> {
         return hasDescription ? max(minBubbleWidth, imageWidth) : imageWidth;
 
       case MessageTypes.Video:
+        final maxSize = 384.0;
+
         final infoMap = event.content.tryGetMap<String, Object?>('info');
-        final videoWidth = infoMap?.tryGet<int>('w') ?? 400;
-        final videoHeight = infoMap?.tryGet<int>('h') ?? 300;
-        const height = 300.0;
-        return videoWidth * (height / videoHeight);
+        final w = infoMap?.tryGet<int>('w');
+        final h = infoMap?.tryGet<int>('h');
+        final hasDescription = event.fileDescription != null;
+        const minBubbleWidth = 180.0;
+        // const height = 300.0;
+        var width = maxSize;
+        if (w != null && h != null) {
+          if (w > h) {
+            width = maxSize;
+          } else {
+            width = max(32, maxSize * (w / h));
+          }
+        }
+
+        final bubbleWidth = hasDescription ? max(minBubbleWidth, width) : width;
+
+        return bubbleWidth;
 
       default:
         return null;

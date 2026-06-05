@@ -1405,7 +1405,7 @@ packages:
       path: "../matrix-dart-sdk"
       relative: true
     source: path
-    version: "7.1.0"
+    version: "7.2.2"
   meta:
     dependency: transitive
     description:

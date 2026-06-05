@@ -767,7 +767,7 @@ class LatexSpan extends StatelessWidget {
         style: TextStyle(color: color, fontSize: fontSize),
       ),
       onErrorFallback: (text) {
-        return "$text (LaTeX Error)";
+        return Text(text);
       },
     );
   }
