@@ -254,7 +254,9 @@ class ChatController extends State<ChatPageWithRoom>
 
     final events = timeline!.events
         .filterByThreaded(thread != null)
-        .filterByVisibleInGui();
+        .filterByVisibleInGui(
+          threadId: thread?.rootEvent.eventId,
+        );
 
     _cachedFilteredEvents = events;
 
@@ -639,7 +641,7 @@ class ChatController extends State<ChatPageWithRoom>
         onNewEvent: _onNewEvent,
         eventContextId: eventContextId,
       );
-      Logs().v("Thread timeline loaded");
+      Logs().v("Thread timeline loaded ${timeline?.events.length}");
     } catch (e, s) {
       Logs().w(
         'Unable to load timeline on event ID $eventContextId (in thread)',
