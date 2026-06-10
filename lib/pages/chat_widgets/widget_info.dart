@@ -14,9 +14,7 @@ class WidgetInfo extends StatelessWidget {
 
   void onOpenTap(BuildContext context) async {
     final uri = await widget.buildWidgetUrl();
-
     if (uri.scheme != 'https') return;
-
     UrlLauncher(context, uri.toString()).launchUrl();
   }
 
