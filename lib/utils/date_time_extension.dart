@@ -1,3 +1,4 @@
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -26,6 +27,15 @@ extension DateTimeExtension on DateTime {
   /// environment.
   bool sameEnvironment(DateTime prevTime) =>
       difference(prevTime) < const Duration(hours: 1);
+
+  String localizedMessageTime(BuildContext context) =>
+      AppSettings.showSeconds.value ? localizedTimeOfDaySeconds(context) : localizedTimeOfDay(context);
+
+  String localizedTimeOfDaySeconds(BuildContext context) =>
+      (MediaQuery.alwaysUse24HourFormatOf(context) ||
+          L10n.of(context).alwaysUse24HourFormat == 'true')
+      ? DateFormat('HH:mm:ss', L10n.of(context).localeName).format(this)
+      : DateFormat('h:mm:ss a', L10n.of(context).localeName).format(this);
 
   /// Returns a simple time String.
   String localizedTimeOfDay(BuildContext context) =>
