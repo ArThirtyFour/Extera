@@ -12,6 +12,10 @@ class PermissionsListTile extends StatelessWidget {
   final void Function(int? level)? onChanged;
   final bool canEdit;
 
+  /// Optional pre-resolved display name. If non-null it is shown verbatim
+  /// instead of looking up a localized string for [category]+[permissionKey].
+  final String? displayName;
+
   const PermissionsListTile({
     super.key,
     required this.permissionKey,
@@ -19,9 +23,12 @@ class PermissionsListTile extends StatelessWidget {
     this.category,
     required this.onChanged,
     required this.canEdit,
+    this.displayName,
   });
 
   String getLocalizedPowerLevelString(BuildContext context) {
+    final displayName = this.displayName;
+    if (displayName != null) return displayName;
     if (category == null) {
       switch (permissionKey) {
         case 'users_default':
@@ -72,51 +79,194 @@ class PermissionsListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-    final color = permission >= 100
-        ? Colors.orangeAccent
+    final tier = permission >= 100
+        ? _LevelTier.admin
         : permission >= 50
-        ? Colors.blueAccent
-        : Colors.greenAccent;
+        ? _LevelTier.moderator
+        : _LevelTier.user;
+    final tierColor = switch (tier) {
+      .admin => Colors.orangeAccent,
+      .moderator => Colors.blueAccent,
+      .user => Colors.greenAccent,
+    };
+    final tierLabel = switch (tier) {
+      .admin => L10n.of(context).adminLevel(permission),
+      .moderator => L10n.of(context).moderatorLevel(permission),
+      .user => L10n.of(context).userLevel(permission),
+    };
+
     return ListTile(
       title: Text(
         getLocalizedPowerLevelString(context),
         style: theme.textTheme.titleSmall,
       ),
-      trailing: Material(
-        color: color.withAlpha(32),
-        borderRadius: BorderRadius.circular(AppConfig.borderRadius / 2),
-        child: DropdownButton<int>(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          borderRadius: BorderRadius.circular(AppConfig.borderRadius / 2),
-          underline: const SizedBox.shrink(),
-          onChanged: canEdit ? onChanged : null,
-          value: permission,
-          items: [
-            DropdownMenuItem(
-              value: permission < 50 ? permission : 0,
-              child: Text(
-                L10n.of(context).userLevel(permission < 50 ? permission : 0),
-              ),
+      trailing: MenuAnchor(
+        alignmentOffset: const Offset(0, 4),
+        style: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(
+            colorScheme.surfaceContainer,
+          ),
+          surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
+          elevation: const WidgetStatePropertyAll(2),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppConfig.borderRadius),
             ),
-            DropdownMenuItem(
-              value: permission < 100 && permission >= 50 ? permission : 50,
-              child: Text(
-                L10n.of(context).moderatorLevel(
-                  permission < 100 && permission >= 50 ? permission : 50,
-                ),
-              ),
+          ),
+          padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(vertical: 4),
+          ),
+        ),
+        menuChildren: [
+          _buildMenuItem(
+            context,
+            label: L10n.of(
+              context,
+            ).userLevel(permission < 50 ? permission : 0),
+            value: permission < 50 ? permission : 0,
+            selected: tier == _LevelTier.user,
+            accent: Colors.greenAccent,
+          ),
+          _buildMenuItem(
+            context,
+            label: L10n.of(context).moderatorLevel(
+              permission < 100 && permission >= 50 ? permission : 50,
             ),
-            DropdownMenuItem(
-              value: permission >= 100 ? permission : 100,
-              child: Text(
-                L10n.of(
-                  context,
-                ).adminLevel(permission >= 100 ? permission : 100),
-              ),
+            value: permission < 100 && permission >= 50 ? permission : 50,
+            selected: tier == _LevelTier.moderator,
+            accent: Colors.blueAccent,
+          ),
+          _buildMenuItem(
+            context,
+            label: L10n.of(
+              context,
+            ).adminLevel(permission >= 100 ? permission : 100),
+            value: permission >= 100 ? permission : 100,
+            selected: tier == _LevelTier.admin,
+            accent: Colors.orangeAccent,
+          ),
+          const Divider(height: 8),
+          _buildMenuItem(
+            context,
+            label: L10n.of(context).custom,
+            value: null,
+            selected: false,
+            accent: colorScheme.primary,
+            leading: const Icon(Icons.tune_outlined, size: 18),
+          ),
+        ],
+        builder: (context, controller, _) {
+          return _MenuTriggerChip(
+            label: tierLabel,
+            color: tierColor,
+            enabled: canEdit,
+            onTap: () {
+              if (controller.isOpen) {
+                controller.close();
+              } else {
+                controller.open();
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(
+    BuildContext context, {
+    required String label,
+    required int? value,
+    required bool selected,
+    required Color accent,
+    Widget? leading,
+  }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return MenuItemButton(
+      onPressed: canEdit ? () => onChanged?.call(value) : null,
+      leadingIcon:
+          leading ??
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              color: accent,
+              shape: BoxShape.circle,
             ),
-            DropdownMenuItem(value: null, child: Text(L10n.of(context).custom)),
-          ],
+          ),
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(
+          selected
+              ? colorScheme.secondaryContainer
+              : Colors.transparent,
+        ),
+        foregroundColor: WidgetStatePropertyAll(
+          selected
+              ? colorScheme.onSecondaryContainer
+              : colorScheme.onSurface,
+        ),
+        padding: const WidgetStatePropertyAll(
+          EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        ),
+      ),
+      child: Text(label),
+    );
+  }
+}
+
+/// Internal classification of the current power level used to pick colors and
+/// the label shown on the trigger chip.
+enum _LevelTier { user, moderator, admin }
+
+/// The trailing trigger for the M3 menu. Looks like a small tonal chip with a
+/// trailing dropdown arrow, matching the rest of the page's surface treatment.
+class _MenuTriggerChip extends StatelessWidget {
+  final String label;
+  final Color color;
+  final bool enabled;
+  final VoidCallback onTap;
+
+  const _MenuTriggerChip({
+    required this.label,
+    required this.color,
+    required this.enabled,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final radius = BorderRadius.circular(AppConfig.borderRadius / 2);
+    final background = enabled
+        ? color.withAlpha(32)
+        : theme.colorScheme.surfaceContainerHighest;
+    final foreground = enabled
+        ? theme.colorScheme.onSurface
+        : theme.colorScheme.onSurfaceVariant;
+
+    return Material(
+      color: background,
+      borderRadius: radius,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        borderRadius: radius,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                label,
+                style: theme.textTheme.labelLarge?.copyWith(color: foreground),
+              ),
+              const SizedBox(width: 4),
+              Icon(Icons.arrow_drop_down, size: 20, color: foreground),
+            ],
+          ),
         ),
       ),
     );

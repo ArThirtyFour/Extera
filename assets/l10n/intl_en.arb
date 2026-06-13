@@ -943,7 +943,7 @@
     "type": "String",
     "placeholders": {}
   },
-  "emoteSettings": "Emote Settings",
+  "emoteSettings": "Emote settings",
   "@emoteSettings": {
     "type": "String",
     "placeholders": {}
@@ -3233,11 +3233,11 @@
     }
   },
   "changeGeneralChatSettings": "Change general chat settings",
-  "inviteOtherUsers": "Invite other users to this chat",
+  "inviteOtherUsers": "Invite other users",
   "changeTheChatPermissions": "Change the chat permissions",
-  "changeTheVisibilityOfChatHistory": "Change the visibility of the chat history",
+  "changeTheVisibilityOfChatHistory": "Change history visibility",
   "changeTheCanonicalRoomAlias": "Change the main public chat address",
-  "sendRoomNotifications": "Send a @room notifications",
+  "sendRoomNotifications": "Ping @room",
   "changeTheDescriptionOfTheGroup": "Change the description of the chat",
   "chatPermissionsDescription": "Define which power level is necessary for certain actions in this chat. The power levels 0, 50 and 100 are usually representing users, moderators and admins, but any gradation is possible.",
   "updateInstalled": "🎉 Update {version} installed!",
@@ -3789,5 +3789,48 @@
   "messageLayout": "Message layout",
   "bubblesLayout": "New Bubbles",
   "legacyBubblesLayout": "Bubbles",
-  "modernLayout": "Modern"
+  "modernLayout": "Modern",
+  "sendStickers": "Send stickers",
+  "sendReactions": "Send reactions",
+  "pinMessages": "Pin messages",
+  "otherMessageEvents": "Other message events",
+  "startOrJoinCalls": "Start or join calls",
+  "moderation": "Moderation",
+  "kickUsers": "Kick users",
+  "banUsers": "Ban users",
+  "redactMessages": "Redact any messages",
+  "redactOwnMessages": "Redact own messages",
+  "roomMetadata": "Room metadata",
+  "editRoomName": "Edit room name",
+  "editRoomTopic": "Edit room topic",
+  "roomSettings": "Room settings",
+  "editWidgets": "Edit widgets",
+  "editRoomEmotes": "Edit emote packs",
+  "editPermissions": "Edit permissions",
+  "editJoinRules": "Edit join rules",
+  "upgradeRoom": "Upgrade the room",
+  "editOtherRoomSettings": "Edit other settings",
+  "other": "Other",
+  "powerLevelMustBeANumber": "Must be a number",
+  "cannotExceedPowerLevel": "Cannot exceed your power level ({powerLevel})",
+  "@cannotExceedPowerLevel": {
+    "placeholders": {
+        "powerLevel": {
+            "type": "int",
+            "example": "100"
+        }
+    }
+  },
+  "maxPowerLevel": "Maximum: {powerLevel}",
+  "@maxPowerLevel": {
+    "placeholders": {
+        "powerLevel": {
+            "type": "int",
+            "example": "100"
+        }
+    }
+  },
+  "member": "Member",
+  "powerLevel": "Power level",
+  "apply": "Apply"
 }

@@ -38,6 +38,7 @@ class ChatPermissionsSettingsController extends State<ChatPermissionsSettings> {
     newLevel ??= await showPermissionChooser(
       context,
       currentLevel: currentLevel,
+      maxLevel: room.ownPowerLevel.level,
     );
     if (newLevel == null) return;
     final content = Map<String, dynamic>.from(
