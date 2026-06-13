@@ -100,7 +100,6 @@ class PermissionsListTile extends StatelessWidget {
     return ListTile(
       title: Text(
         getLocalizedPowerLevelString(context),
-        style: theme.textTheme.titleSmall,
       ),
       trailing: MenuAnchor(
         alignmentOffset: const Offset(0, 4),
@@ -217,12 +216,7 @@ class PermissionsListTile extends StatelessWidget {
   }
 }
 
-/// Internal classification of the current power level used to pick colors and
-/// the label shown on the trigger chip.
 enum _LevelTier { user, moderator, admin }
-
-/// The trailing trigger for the M3 menu. Looks like a small tonal chip with a
-/// trailing dropdown arrow, matching the rest of the page's surface treatment.
 class _MenuTriggerChip extends StatelessWidget {
   final String label;
   final Color color;
