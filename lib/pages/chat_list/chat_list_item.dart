@@ -307,8 +307,12 @@ class ChatListItem extends StatelessWidget {
                                     lastEvent!.receipts
                                             .where(
                                               (receipt) =>
-                                                  receipt.user.id !=
-                                                  client.userID!,
+                                                  room.directChatMatrixID ==
+                                                      null
+                                                  ? receipt.user.id !=
+                                                        client.userID!
+                                                  : receipt.user.id ==
+                                                        room.directChatMatrixID,
                                             )
                                             .isNotEmpty
                                         ? Icons.done_all
