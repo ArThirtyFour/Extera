@@ -473,14 +473,11 @@ class SettingsStyleView extends StatelessWidget {
                           setting: AppSettings.showSeconds,
                           onChanged: controller.toggleShowSeconds,
                         ),
-                        if (!PlatformInfos.isMobile ||
-                            AppSettings.twemojiFont.value) ...[
-                          const ListDivider(),
-                          SettingsSwitchListTile.adaptive(
-                            title: L10n.of(context).useTwemoji,
-                            setting: AppSettings.twemojiFont,
-                          ),
-                        ],
+                        const ListDivider(),
+                        SettingsSwitchListTile.adaptive(
+                          title: L10n.of(context).useTwemoji,
+                          setting: AppSettings.twemojiFont,
+                        ),
                         const ListDivider(),
                         const SizedBox(height: 8),
                         ListTile(

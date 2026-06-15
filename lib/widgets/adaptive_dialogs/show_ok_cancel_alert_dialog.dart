@@ -32,7 +32,7 @@ Future<OkCancelResult?> showOkCancelAlertDialog({
               textScaleFactor: MediaQuery.textScalerOf(context).scale(1),
               linkStyle: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
-                decorationColor: Theme.of(context).colorScheme.primary,
+                decoration: .none,
               ),
               options: const LinkifyOptions(humanize: false),
               onOpen: (url) => UrlLauncher(context, url.url).launchUrl(),

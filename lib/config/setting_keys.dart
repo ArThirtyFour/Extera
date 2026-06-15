@@ -25,7 +25,7 @@ enum AppSettings<T> {
   selectedAccount<String>('xyz.extera.selectedAccount', ''),
   uiFont<String>('xyz.extera.uiFont', ''),
   messageStyle<String>('xyz.extera.messageStyle', 'bubbles'),
-  fallbackFonts<String>('xyz.extera.fallbackFonts', ''),
+  fallbackFonts<String>('xyz.extera.fallbackFonts', 'Roboto,SystemFont,sans-serif'),
   enablePeopleTab<bool>('xyz.extera.enablePeopleTab', true),
   autoLoadMedia<bool>('xyz.extera.autoLoadMedia', true),
   showCameraButton<bool>('xyz.extera.cameraButton', true),

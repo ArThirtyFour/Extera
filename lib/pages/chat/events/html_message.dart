@@ -380,10 +380,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
                   theme: themeMap['shades-of-purple']!,
                   selectable: true,
                   showCopyButton: true,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 0,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                   textStyle: GoogleFonts.robotoMono(fontSize: fontSize),
                 ),
               );
@@ -398,6 +395,11 @@ class _HtmlMessageState extends State<HtmlMessage> {
         const defaultDimension = 64.0;
         var actualWidth = width ?? height ?? defaultDimension;
         var actualHeight = height ?? width ?? defaultDimension;
+
+        if (node.attributes.containsKey('data-mx-emoticon')) {
+          actualWidth *= AppSettings.fontSizeFactor.value;
+          actualHeight *= AppSettings.fontSizeFactor.value;
+        }
 
         final ratio = actualWidth / actualHeight;
         if (actualHeight > 256) {
