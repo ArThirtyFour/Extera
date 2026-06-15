@@ -1,3 +1,4 @@
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
@@ -132,7 +133,11 @@ class ChatListItem extends StatelessWidget {
                                     AppConfig.borderRadius / 4,
                                   )
                                 : null,
-                            mxContent: room.avatar,
+                            mxContent:
+                                room.membership != .invite ||
+                                    !AppSettings.hideAvatarsInInvites.value
+                                ? room.avatar
+                                : null,
                             size: space != null
                                 ? Avatar.defaultSize * 0.75
                                 : Avatar.defaultSize,
