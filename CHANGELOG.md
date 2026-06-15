@@ -1,3 +1,11 @@
+## Extera 26.3.0
+- Set custom fonts for UI, code blocks (monospace) and chat messages.
+- Added an option to show seconds in message timestamps (@CherretGit)
+- Extend frosted glass effect option to navigation bar
+- Disable bubble gradient by default
+- Include ISRG X2 certificate for older Android versions
+- Fixed hide avatars in invites option
+
 ## Extera 26.2.9
 - Redact & Reply to reactions.
 - Update chat permissions settings page.
