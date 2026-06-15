@@ -299,6 +299,13 @@ class SettingsStyleController extends State<SettingsStyle> {
     });
   }
 
+  bool get showSeconds => AppSettings.showSeconds.value;
+  
+  void toggleShowSeconds(bool value) {
+    AppSettings.showSeconds.setItem(value);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) => SettingsStyleView(this);
 }

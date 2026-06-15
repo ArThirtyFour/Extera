@@ -467,6 +467,12 @@ class SettingsStyleView extends StatelessWidget {
                           title: L10n.of(context).enableChatFrostedGlass,
                           setting: AppSettings.enableChatFrostedGlass,
                         ),
+                        const ListDivider(),
+                        SettingsSwitchListTile.adaptive(
+                          title: L10n.of(context).showSeconds,
+                          setting: AppSettings.showSeconds,
+                          onChanged: controller.toggleShowSeconds,
+                        ),
                         if (!PlatformInfos.isMobile ||
                             AppSettings.twemojiFont.value) ...[
                           const ListDivider(),
