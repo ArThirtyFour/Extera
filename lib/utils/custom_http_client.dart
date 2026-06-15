@@ -5,21 +5,20 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
 import 'package:extera_next/config/isrg_x1.dart';
+import 'package:extera_next/config/isrg_x2.dart';
 import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 
 class CustomHttpClient {
-  static HttpClient? customHttpClient(String? cert) {
+  static HttpClient? customHttpClient() {
     if (PlatformInfos.isWeb) return null;
 
     final context = SecurityContext.defaultContext;
 
     if (PlatformInfos.isAndroid) {
       try {
-        if (cert != null) {
-          final bytes = utf8.encode(cert);
-          context.setTrustedCertificatesBytes(bytes);
-        }
+        context.setTrustedCertificatesBytes(utf8.encode(ISRG_X1));
+        context.setTrustedCertificatesBytes(utf8.encode(ISRG_X2));
       } on TlsException catch (e) {
         if (e.osError != null &&
             e.osError!.message.contains('CERT_ALREADY_IN_HASH_TABLE')) {
@@ -40,5 +39,5 @@ class CustomHttpClient {
     return client;
   }
 
-  static http.Client createHTTPClient() => IOClient(customHttpClient(ISRG_X1));
+  static http.Client createHTTPClient() => IOClient(customHttpClient());
 }
