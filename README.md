@@ -77,6 +77,7 @@ Before building on Windows, install the following:
 * **[Visual Studio Build Tools 2026](https://visualstudio.microsoft.com/downloads/#visual-studio-2022-tools)** (or newer) with the **"Desktop development with C++"** workload — provides MSVC compiler and Windows SDK.
 * **[CMake](https://cmake.org/download/)**
 * **[Rust](https://rustup.rs)** (`rustup`) 
+* **[NASM](https://www.nasm.us/) 
 * **[OpenSSL](https://slproweb.com/products/Win32OpenSSL.html)**
 * **[Flutter SDK](https://docs.flutter.dev/get-started/install/windows)**
 > [!IMPORTANT]
