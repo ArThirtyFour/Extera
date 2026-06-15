@@ -32,7 +32,7 @@
 	"cleanExif": "EXIFを削除",
 	"cleanExifDescription": "送信前に画像からEXIFメタデータ（カメラモデル、位置情報、時刻）を削除します。",
 	"@@locale": "ja",
-	"@@last_modified": "2026-06-13T01:28:40.522Z",
+	"@@last_modified": "2026-06-15T22:27:21.606Z",
 	"doNotSendIfCantClean": "クリーンできない画像を送信しない",
 	"doNotSendIfCantCleanDescription": "EXIFメタデータを削除できない場合、画像を送信しません",
 	"repeatPassword": "パスワードを再入力",
@@ -3828,5 +3828,13 @@
 				"example": "100"
 			}
 		}
-	}
+	},
+	"showSeconds": "秒を表示",
+	"fonts": "フォント",
+	"uiFont": "UIフォント",
+	"monospaceFont": "等幅フォント",
+	"uiFontFallback": "UIフォントのフォールバック",
+	"monospaceFontFallback": "等幅フォントのフォールバック",
+	"chatFont": "チャットフォント",
+	"chatFontFallback": "チャットフォントのフォールバック"
 }

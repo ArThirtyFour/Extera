@@ -1,5 +1,6 @@
 ## Extera 26.3.0
-- Set custom fonts for UI, code blocks (monospace) and chat messages.
+- Renamed "Feature switches" to "Labs".
+- Set custom fonts for UI, code blocks (monospace) and chat messages. ("Labs" option)
 - Added an option to show seconds in message timestamps (@CherretGit)
 - Extend frosted glass effect option to navigation bar
 - Disable bubble gradient by default

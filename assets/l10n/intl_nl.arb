@@ -1,6 +1,6 @@
 {
 	"@@locale": "nl",
-	"@@last_modified": "2026-06-13T01:28:11.326Z",
+	"@@last_modified": "2026-06-15T22:28:19.552Z",
 	"@choicesSelected": {
 		"type": "String",
 		"placeholders": {
@@ -3828,5 +3828,13 @@
 				"example": "100"
 			}
 		}
-	}
+	},
+	"showSeconds": "Seconden weergeven",
+	"fonts": "Lettertypen",
+	"uiFont": "Interface-lettertype",
+	"monospaceFont": "Monospaced lettertype",
+	"uiFontFallback": "Reserve-interfacelettertypen",
+	"monospaceFontFallback": "Reserve-monospaced lettertypen",
+	"chatFont": "Chatlettertype",
+	"chatFontFallback": "Reserve-chatlettertypen"
 }
