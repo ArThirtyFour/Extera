@@ -281,8 +281,16 @@ class SettingsSecurityView extends StatelessWidget {
                               leading: const Icon(Icons.verified_user_outlined),
                               subtitle: SelectableText(
                                 publicMasterKey.beautified,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: 'RobotoMono',
+                                  fontFamilyFallback: [
+                                    'RobotoMono',
+                                    'Roboto Mono',
+                                    'monospace',
+                                    ...AppSettings.fallbackFonts.value.split(
+                                      ',',
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -295,7 +303,15 @@ class SettingsSecurityView extends StatelessWidget {
                               Matrix.of(
                                 context,
                               ).client.fingerprintKey.beautified,
-                              style: const TextStyle(fontFamily: 'RobotoMono'),
+                              style: TextStyle(
+                                fontFamily: 'RobotoMono',
+                                fontFamilyFallback: [
+                                  'RobotoMono',
+                                  'Roboto Mono',
+                                  'monospace',
+                                  ...AppSettings.fallbackFonts.value.split(','),
+                                ],
+                              ),
                             ),
                           ),
                           const ListDivider(),
