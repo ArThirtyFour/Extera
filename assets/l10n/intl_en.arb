@@ -3547,7 +3547,7 @@
   },
   "showSpaceRoomsInGlobalList": "Show rooms from spaces alongside other rooms",
   "newInvitation": "New invitation",
-  "featureSwitches": "Feature switches",
+  "featureSwitches": "Labs",
   "useLegacyAppBar": "Legacy search bar",
   "useLegacyNavBar": "Legacy navigation bar",
   "appIntro": "Welcome to Extera. This is a decentralised chat app for [matrix]. Learn more at https://matrix.org/",
@@ -3833,5 +3833,12 @@
   "member": "Member",
   "powerLevel": "Power level",
   "apply": "Apply",
-  "showSeconds": "Show seconds"
+  "showSeconds": "Show seconds",
+  "fonts": "Fonts",
+  "uiFont": "UI font",
+  "monospaceFont": "Monospace font",
+  "uiFontFallback": "Fallback UI fonts",
+  "monospaceFontFallback": "Fallback monospace fonts",
+  "chatFont": "Chat font",
+  "chatFontFallback": "Fallback chat fonts"
 }

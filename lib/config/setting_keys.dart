@@ -23,9 +23,17 @@ enum AppSettings<T> {
   neurogateToken<String>('xyz.extera.neurogateToken', ''),
   neurogateTokenExpiry<String>('xyz.extera.neurogateTokenExpiryDate', ''),
   selectedAccount<String>('xyz.extera.selectedAccount', ''),
-  uiFont<String>('xyz.extera.uiFont', ''),
   messageStyle<String>('xyz.extera.messageStyle', 'bubbles'),
+  
+  uiFont<String>('xyz.extera.uiFont', ''),
   fallbackFonts<String>('xyz.extera.fallbackFonts', 'Roboto,SystemFont,sans-serif'),
+
+  monospaceFont<String>('xyz.extera.monospaceFont', 'Roboto Mono'),
+  monospaceFallbackFonts<String>('xyz.extera.monospaceFallbackFonts', 'Roboto Mono,monospace,SystemFont,sans-serif'),
+
+  chatFont<String>('xyz.extera.chatFont', ''),
+  chatFallbackFonts<String>('xyz.extera.chatFallbackFonts', 'Roboto,SystemFont,sans-serif'),
+
   enablePeopleTab<bool>('xyz.extera.enablePeopleTab', true),
   autoLoadMedia<bool>('xyz.extera.autoLoadMedia', true),
   showCameraButton<bool>('xyz.extera.cameraButton', true),

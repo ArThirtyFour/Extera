@@ -1,3 +1,4 @@
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -40,7 +41,12 @@ class ErrorReporter {
           child: SingleChildScrollView(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 14, fontFamily: 'RobotoMono'),
+              style: TextStyle(
+                fontSize: 14,
+                fontFamily: AppSettings.monospaceFont.value,
+                fontFamilyFallback: AppSettings.monospaceFallbackFonts.value
+                    .split(','),
+              ),
             ),
           ),
         ),

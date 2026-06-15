@@ -263,6 +263,11 @@ class MessageContent extends StatelessWidget {
                         AppSettings.fontSizeFactor.value *
                         AppSettings.messageFontSize.value,
                     decoration: .none,
+                    fontFamily: AppSettings.chatFont.value.isNotEmpty
+                        ? AppSettings.chatFont.value
+                        : null,
+                    fontFamilyFallback: AppSettings.chatFallbackFonts.value
+                        .split(','),
                   ),
                   onOpen: (url) => UrlLauncher(context, url.url).launchUrl(),
                   onCopy: () {
@@ -347,11 +352,23 @@ class MessageContent extends StatelessWidget {
               color: textColor,
               fontSize: bigEmotes ? fontSize * 5 : fontSize,
               decoration: event.redacted ? TextDecoration.lineThrough : null,
+              fontFamily: AppSettings.chatFont.value.isNotEmpty
+                  ? AppSettings.chatFont.value
+                  : null,
+              fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(
+                ',',
+              ),
             );
             final messageLinkStyle = TextStyle(
               color: linkColor,
               fontSize: fontSize,
               decoration: .none,
+              fontFamily: AppSettings.chatFont.value.isNotEmpty
+                  ? AppSettings.chatFont.value
+                  : null,
+              fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(
+                ',',
+              ),
             );
             final spanChildren = <InlineSpan>[
               ...?buildTextSpanChildren(

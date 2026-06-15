@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -211,7 +211,11 @@ class BootstrapDialogState extends State<BootstrapDialog> {
                   minLines: 2,
                   maxLines: 4,
                   readOnly: true,
-                  style: const TextStyle(fontFamily: 'RobotoMono'),
+                  style: TextStyle(
+                    fontFamily: AppSettings.monospaceFont.value,
+                    fontFamilyFallback: AppSettings.monospaceFallbackFonts.value
+                        .split(','),
+                  ),
                   controller: TextEditingController(text: key),
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(16),
@@ -335,8 +339,14 @@ class BootstrapDialogState extends State<BootstrapDialog> {
                           ? null
                           : [AutofillHints.password],
                       controller: _recoveryKeyTextEditingController,
-                      style: const TextStyle(fontFamily: 'RobotoMono'),
-                      keyboardType: TextInputType.visiblePassword,
+                      style: TextStyle(
+                        fontFamily: AppSettings.monospaceFont.value,
+                        fontFamilyFallback: AppSettings
+                            .monospaceFallbackFonts
+                            .value
+                            .split(','),
+                      ),
+                      keyboardType: .visiblePassword,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(16),
                         hintStyle: TextStyle(

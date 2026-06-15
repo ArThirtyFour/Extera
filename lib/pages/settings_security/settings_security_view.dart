@@ -282,15 +282,11 @@ class SettingsSecurityView extends StatelessWidget {
                               subtitle: SelectableText(
                                 publicMasterKey.beautified,
                                 style: TextStyle(
-                                  fontFamily: 'RobotoMono',
-                                  fontFamilyFallback: [
-                                    'RobotoMono',
-                                    'Roboto Mono',
-                                    'monospace',
-                                    ...AppSettings.fallbackFonts.value.split(
-                                      ',',
-                                    ),
-                                  ],
+                                  fontFamily: AppSettings.monospaceFont.value,
+                                  fontFamilyFallback: AppSettings
+                                      .monospaceFallbackFonts
+                                      .value
+                                      .split(','),
                                 ),
                               ),
                             ),
@@ -304,13 +300,11 @@ class SettingsSecurityView extends StatelessWidget {
                                 context,
                               ).client.fingerprintKey.beautified,
                               style: TextStyle(
-                                fontFamily: 'RobotoMono',
-                                fontFamilyFallback: [
-                                  'RobotoMono',
-                                  'Roboto Mono',
-                                  'monospace',
-                                  ...AppSettings.fallbackFonts.value.split(','),
-                                ],
+                                fontFamily: AppSettings.monospaceFont.value,
+                                fontFamilyFallback: AppSettings
+                                    .monospaceFallbackFonts
+                                    .value
+                                    .split(','),
                               ),
                             ),
                           ),

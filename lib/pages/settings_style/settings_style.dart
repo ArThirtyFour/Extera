@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:extera_next/pages/chat/events/message.dart';
+import 'package:extera_next/widgets/adaptive_dialogs/show_text_input_dialog.dart';
+import 'package:extera_next/widgets/adaptive_dialogs/show_list_choose_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
@@ -92,6 +94,81 @@ class SettingsStyleController extends State<SettingsStyle> {
     super.initState();
     _loadWallpaperConfig();
     _loadMessageStyleSetting();
+  }
+
+  void editUIFont() async {
+    final newFont = await showTextInputDialog(
+      context: context,
+      title: L10n.of(context).uiFont,
+      maxLines: 1,
+      initialText: AppSettings.uiFont.value,
+    );
+    if (newFont == null) {
+      return;
+    }
+    AppSettings.uiFont.setItem(newFont);
+  }
+
+  void editMonospaceFont() async {
+    final newFont = await showTextInputDialog(
+      context: context,
+      title: L10n.of(context).monospaceFont,
+      maxLines: 1,
+      initialText: AppSettings.monospaceFont.value,
+    );
+    if (newFont == null) {
+      return;
+    }
+    AppSettings.monospaceFont.setItem(newFont);
+  }
+
+  void editChatFont() async {
+    final newFont = await showTextInputDialog(
+      context: context,
+      title: L10n.of(context).chatFont,
+      maxLines: 1,
+      initialText: AppSettings.chatFont.value,
+    );
+    if (newFont == null) {
+      return;
+    }
+    AppSettings.chatFont.setItem(newFont);
+  }
+
+  void editUIFallbackFonts() async {
+    final newFonts = await showListChooseDialog(
+      context: context,
+      title: L10n.of(context).uiFontFallback,
+      initialItems: AppSettings.fallbackFonts.value.split(','),
+    );
+    if (newFonts == null) {
+      return;
+    }
+    AppSettings.fallbackFonts.setItem(newFonts.join(','));
+  }
+
+  void editMonospaceFallbackFonts() async {
+    final newFonts = await showListChooseDialog(
+      context: context,
+      title: L10n.of(context).monospaceFontFallback,
+      initialItems: AppSettings.monospaceFallbackFonts.value.split(','),
+    );
+    if (newFonts == null) {
+      return;
+    }
+    AppSettings.monospaceFallbackFonts.setItem(newFonts.join(','));
+  }
+
+  void editChatFallbackFonts() async {
+    final newFonts = await showListChooseDialog(
+      context: context,
+      title: L10n.of(context).chatFontFallback,
+      initialItems: AppSettings.chatFallbackFonts.value.split(','),
+    );
+    if (newFonts == null) {
+      return;
+    }
+    AppSettings.chatFallbackFonts.setItem(newFonts.join(','));
   }
 
   void _loadMessageStyleSetting() {
@@ -300,7 +377,7 @@ class SettingsStyleController extends State<SettingsStyle> {
   }
 
   bool get showSeconds => AppSettings.showSeconds.value;
-  
+
   void toggleShowSeconds(bool value) {
     AppSettings.showSeconds.setItem(value);
     setState(() {});

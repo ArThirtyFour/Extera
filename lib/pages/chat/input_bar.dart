@@ -132,7 +132,8 @@ class InputBar extends StatelessWidget {
       // aside of emote packs, also propose normal (tm) unicode emojis
       final matchingUnicodeEmojis = _allEmojis
           .where(
-            (emoji) => emoji.searchTerms.any((term) => term.contains(emoteSearch)),
+            (emoji) =>
+                emoji.searchTerms.any((term) => term.contains(emoteSearch)),
           )
           .toList();
 
@@ -248,7 +249,11 @@ class InputBar extends StatelessWidget {
           onTap: () => onSelected(suggestion),
           title: Text(
             commandExample(command),
-            style: const TextStyle(fontFamily: 'RobotoMono'),
+            style: TextStyle(
+              fontFamily: AppSettings.monospaceFont.value,
+              fontFamilyFallback: AppSettings.monospaceFallbackFonts.value
+                  .split(','),
+            ),
           ),
           subtitle: Text(
             hint,

@@ -170,7 +170,13 @@ class _AvatarVisuals extends StatelessWidget {
         fallbackLetters,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontFamily: 'RobotoMono',
+          fontFamily: AppSettings.monospaceFont.value,
+          fontFamilyFallback: AppSettings.twemojiFont.value
+              ? [
+                  'Twemoji Mozilla',
+                  ...AppSettings.monospaceFallbackFonts.value.split(','),
+                ]
+              : AppSettings.monospaceFallbackFonts.value.split(','),
           color: textColor ?? Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: (size / 2.5).roundToDouble(),

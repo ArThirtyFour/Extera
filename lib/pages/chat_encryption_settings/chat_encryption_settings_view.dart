@@ -187,8 +187,13 @@ class ChatEncryptionSettingsView extends StatelessWidget {
                                                       context,
                                                     ).unknownEncryptionAlgorithm,
                                                 style: TextStyle(
-                                                  fontFamily: 'RobotoMono',
-                                                  fontFamilyFallback: ['RobotoMono', 'Roboto Mono', 'monospace', ...AppSettings.fallbackFonts.value.split(',')],
+                                                  fontFamily: AppSettings
+                                                      .monospaceFont
+                                                      .value,
+                                                  fontFamilyFallback: AppSettings
+                                                      .monospaceFallbackFonts
+                                                      .value
+                                                      .split(','),
                                                   color: theme
                                                       .colorScheme
                                                       .secondary,

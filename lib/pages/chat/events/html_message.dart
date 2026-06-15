@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:collection/collection.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:highlight_selectable/highlight_selectable.dart';
 import 'package:highlight_selectable/theme_map.dart';
 import 'package:html/dom.dart' as dom;
@@ -243,6 +242,13 @@ class _HtmlMessageState extends State<HtmlMessage> {
           : _buildLinkifySpan(context, text: text);
     }
 
+    final textStyle = TextStyle(
+      fontFamily: AppSettings.chatFont.value.isNotEmpty
+          ? AppSettings.chatFont.value
+          : null,
+      fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(','),
+    );
+
     switch (node.localName) {
       case 'br':
         return const TextSpan(text: '\n');
@@ -330,7 +336,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
                     ),
                   ..._renderWithLineBreaks(node.nodes, context, depth: depth),
                 ],
-                style: TextStyle(fontSize: fontSize, color: textColor),
+                style: textStyle,
               ),
             ),
           ),
@@ -350,7 +356,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
                   depth: depth,
                 ),
               ),
-              style: TextStyle(fontSize: fontSize, color: textColor),
+              style: textStyle,
             ),
           ),
         );
@@ -359,10 +365,18 @@ class _HtmlMessageState extends State<HtmlMessage> {
         return isInline
             ? TextSpan(
                 text: node.text,
-                style: GoogleFonts.robotoMono(
-                  fontSize: fontSize,
-                  backgroundColor: const Color(0xff2d2b57),
-                  color: const Color(0xffe3dfff),
+                style: TextStyle(
+                  fontFamily: AppSettings.monospaceFont.value.isNotEmpty
+                      ? AppSettings.monospaceFont.value
+                      : null,
+                  fontFamilyFallback: AppSettings.twemojiFont.value
+                      ? [
+                          'Twemoji Mozilla',
+                          ...AppSettings.monospaceFallbackFonts.value.split(
+                            ',',
+                          ),
+                        ]
+                      : AppSettings.monospaceFallbackFonts.value.split(','),
                 ),
               )
             : WidgetSpan(
@@ -381,13 +395,25 @@ class _HtmlMessageState extends State<HtmlMessage> {
                   selectable: true,
                   showCopyButton: true,
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                  textStyle: GoogleFonts.robotoMono(fontSize: fontSize),
+                  textStyle: TextStyle(
+                    fontFamily: AppSettings.monospaceFont.value.isNotEmpty
+                        ? AppSettings.monospaceFont.value
+                        : null,
+                    fontFamilyFallback: AppSettings.twemojiFont.value
+                        ? [
+                            'Twemoji Mozilla',
+                            ...AppSettings.monospaceFallbackFonts.value.split(
+                              ',',
+                            ),
+                          ]
+                        : AppSettings.monospaceFallbackFonts.value.split(','),
+                  ),
                 ),
               );
       case 'img':
         final mxcUrl = Uri.tryParse(node.attributes['src'] ?? '');
         if (mxcUrl == null || mxcUrl.scheme != 'mxc') {
-          return TextSpan(text: node.attributes['alt']);
+          return TextSpan(text: node.attributes['alt'], style: textStyle);
         }
 
         final width = double.tryParse(node.attributes['width'] ?? '');
@@ -459,15 +485,10 @@ class _HtmlMessageState extends State<HtmlMessage> {
                                     depth: depth,
                                   ),
                                   style: cell.localName == 'th'
-                                      ? const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        )
-                                      : null,
+                                      ? textStyle.copyWith(fontWeight: .bold)
+                                      : textStyle,
                                 ),
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: textColor,
-                                ),
+                                style: textStyle,
                               ),
                             ),
                           )
@@ -487,6 +508,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
       case 'caption':
         return TextSpan(
           children: _renderWithLineBreaks(node.nodes, context, depth: depth),
+          style: textStyle,
         );
       case 'hr':
         return const WidgetSpan(child: Divider());
@@ -521,7 +543,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
                     ..._renderWithLineBreaks(node.nodes, context, depth: depth),
                 ],
               ),
-              style: TextStyle(fontSize: fontSize, color: textColor),
+              style: textStyle,
             ),
           ),
         );
@@ -586,9 +608,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
                   depth: depth,
                 ),
               ),
-              style: TextStyle(
-                fontSize: fontSize,
-                color: textColor,
+              style: textStyle.copyWith(
                 backgroundColor: isRevealed ? null : textColor,
               ),
             ),
@@ -597,35 +617,46 @@ class _HtmlMessageState extends State<HtmlMessage> {
       block:
       default:
         return TextSpan(
-          style: switch (node.localName) {
-            'body' => TextStyle(fontSize: fontSize, color: textColor),
-            'a' => linkStyle,
-            'strong' => const TextStyle(fontWeight: FontWeight.bold),
-            'em' || 'i' => const TextStyle(fontStyle: FontStyle.italic),
-            'del' || 's' || 'strikethrough' => TextStyle(
-              decoration: TextDecoration.lineThrough,
-              decorationColor: textColor,
-            ),
-            'u' => const TextStyle(decoration: TextDecoration.underline),
-            'h1' => TextStyle(fontSize: fontSize * 1.6, height: 2),
-            'h2' => TextStyle(fontSize: fontSize * 1.5, height: 2),
-            'h3' => TextStyle(fontSize: fontSize * 1.4, height: 2),
-            'h4' => TextStyle(fontSize: fontSize * 1.3, height: 1.75),
-            'h5' => TextStyle(fontSize: fontSize * 1.2, height: 1.75),
-            'h6' => TextStyle(fontSize: fontSize * 1.1, height: 1.5),
-            'span' => TextStyle(
-              color:
-                  node.attributes['color']?.hexToColor ??
-                  node.attributes['data-mx-color']?.hexToColor ??
-                  textColor,
-              backgroundColor: node.attributes['data-mx-bg-color']?.hexToColor,
-            ),
-            'sup' => const TextStyle(
-              fontFeatures: [FontFeature.superscripts()],
-            ),
-            'sub' => const TextStyle(fontFeatures: [FontFeature.subscripts()]),
-            _ => null,
-          },
+          style:
+              switch (node.localName) {
+                'body' => TextStyle(fontSize: fontSize, color: textColor),
+                'a' => linkStyle,
+                'strong' => const TextStyle(fontWeight: FontWeight.bold),
+                'em' || 'i' => const TextStyle(fontStyle: FontStyle.italic),
+                'del' || 's' || 'strikethrough' => TextStyle(
+                  decoration: TextDecoration.lineThrough,
+                  decorationColor: textColor,
+                ),
+                'u' => const TextStyle(decoration: TextDecoration.underline),
+                'h1' => TextStyle(fontSize: fontSize * 1.6, height: 2),
+                'h2' => TextStyle(fontSize: fontSize * 1.5, height: 2),
+                'h3' => TextStyle(fontSize: fontSize * 1.4, height: 2),
+                'h4' => TextStyle(fontSize: fontSize * 1.3, height: 1.75),
+                'h5' => TextStyle(fontSize: fontSize * 1.2, height: 1.75),
+                'h6' => TextStyle(fontSize: fontSize * 1.1, height: 1.5),
+                'span' => TextStyle(
+                  color:
+                      node.attributes['color']?.hexToColor ??
+                      node.attributes['data-mx-color']?.hexToColor ??
+                      textColor,
+                  backgroundColor:
+                      node.attributes['data-mx-bg-color']?.hexToColor,
+                ),
+                'sup' => const TextStyle(
+                  fontFeatures: [FontFeature.superscripts()],
+                ),
+                'sub' => const TextStyle(
+                  fontFeatures: [FontFeature.subscripts()],
+                ),
+                _ => null,
+              }?.copyWith(
+                fontFamily: AppSettings.chatFont.value.isNotEmpty
+                    ? AppSettings.chatFont.value
+                    : null,
+                fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(
+                  ',',
+                ),
+              ),
           children: _renderWithLineBreaks(node.nodes, context, depth: depth),
         );
     }
@@ -691,6 +722,17 @@ class MatrixPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = TextStyle(
+      color: color,
+      decoration: .none,
+      fontSize: fontSize,
+      height: 1.2,
+      fontFamily: AppSettings.chatFont.value.isNotEmpty
+          ? AppSettings.chatFont.value
+          : null,
+      fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(','),
+    );
+
     return InkWell(
       splashColor: Colors.transparent,
       onTap: UrlLauncher(outerContext, uri).launchUrl,
@@ -704,22 +746,9 @@ class MatrixPill extends StatelessWidget {
               ),
             ),
             TextSpan(
-              style: TextStyle(
-                color: color,
-                decoration: .none,
-                fontSize: fontSize,
-                height: 1.2,
-              ),
+              style: style,
               children: [
-                TextSpan(
-                  text: name,
-                  style: TextStyle(
-                    color: color,
-                    decoration: .none,
-                    fontSize: fontSize,
-                    height: 1.2,
-                  ),
-                ),
+                TextSpan(text: name, style: style),
                 if (withEventLink)
                   WidgetSpan(
                     baseline: TextBaseline.alphabetic,
