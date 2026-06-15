@@ -10,6 +10,7 @@ import 'package:extera_next/pages/chat_encryption_settings/chat_encryption_setti
 import 'package:extera_next/utils/beautify_string_extension.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:extera_next/widgets/list_divider.dart';
+import 'package:extera_next/config/setting_keys.dart';
 
 class ChatEncryptionSettingsView extends StatelessWidget {
   final ChatEncryptionSettingsController controller;
@@ -187,6 +188,7 @@ class ChatEncryptionSettingsView extends StatelessWidget {
                                                     ).unknownEncryptionAlgorithm,
                                                 style: TextStyle(
                                                   fontFamily: 'RobotoMono',
+                                                  fontFamilyFallback: ['RobotoMono', 'Roboto Mono', 'monospace', ...AppSettings.fallbackFonts.value.split(',')],
                                                   color: theme
                                                       .colorScheme
                                                       .secondary,
