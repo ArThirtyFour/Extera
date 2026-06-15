@@ -33,6 +33,7 @@ import 'package:extera_next/pages/chat/vote_results_dialog.dart';
 import 'package:extera_next/pages/chat_details/chat_details.dart';
 import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/utils/clipboard_utils.dart';
+import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/error_reporter.dart';
 import 'package:extera_next/utils/file_selector.dart';
 import 'package:extera_next/utils/loading_snackbar_extension.dart';
@@ -42,7 +43,6 @@ import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/synapse_admin_extension.dart';
 import 'package:extera_next/utils/neurogate.dart';
 import 'package:extera_next/utils/other_party_can_receive.dart';
-import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/privacy_options.dart';
 import 'package:extera_next/utils/room_status_extension.dart';
 import 'package:extera_next/utils/show_scaffold_dialog.dart';
@@ -887,36 +887,27 @@ class ChatController extends State<ChatPageWithRoom>
   }
 
   void sendImageFromClipBoard(Uint8List? image) async {
+    Uint8List? pastedImage;
     if (PlatformInfos.isLinux) {
-      final pastedImage = await getImageFromClipboardLinux();
-      if (pastedImage == null) return;
-      await showAdaptiveDialog(
-        context: context,
-        builder: (c) => SendFileDialog(
-          files: [
-            XFile.fromData(
-              pastedImage,
-              mimeType: 'image/png',
-              // name: 'clipboard_image.png',
-            ),
-          ],
-          room: room,
-          thread: thread,
-          outerContext: context,
-          replyEvent: replyEvent,
-          onClearReply: () {
-            replyEvent = null;
-          },
-        ),
-      );
-      return;
+      pastedImage = await getImageFromClipboardLinux();
+    } else if (PlatformInfos.isWindows) {
+      pastedImage = await getImageFromClipboardWindows();
+    } else if (PlatformInfos.isMacOS) {
+      pastedImage = await getImageFromClipboardMacOS();
+    } else {
+      pastedImage = image;
     }
-    if (image == null) return;
+    if (pastedImage == null) return;
     await showAdaptiveDialog(
       context: context,
       useRootNavigator: false,
       builder: (c) => SendFileDialog(
-        files: [XFile.fromData(image)],
+        files: [
+          XFile.fromData(
+            pastedImage!,
+            mimeType: 'image/png',
+          ),
+        ],
         room: room,
         thread: thread,
         outerContext: context,
