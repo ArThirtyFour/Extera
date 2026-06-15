@@ -456,7 +456,7 @@ class SettingsView extends StatelessWidget {
                             leading: CircleAvatar(
                               backgroundColor: theme.colorScheme.primary,
                               child: Icon(
-                                Icons.toggle_on_outlined,
+                                Icons.science_outlined,
                                 color: theme.colorScheme.onPrimary,
                               ),
                             ),

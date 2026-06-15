@@ -3647,7 +3647,7 @@
   },
   "showSpaceRoomsInGlobalList": "Показывать комнаты из пространств среди всего списка",
   "newInvitation": "Новое приглашение",
-  "featureSwitches": "Возможности",
+  "featureSwitches": "Эксперименты",
   "useLegacyAppBar": "Старое поле поиска",
   "useLegacyNavBar": "Старая панель навигации",
   "appIntro": "Привет, это Extera. Это децентрализованный мессенджер на протоколе [matrix]. Узнайте больше на https://matrix.org/",

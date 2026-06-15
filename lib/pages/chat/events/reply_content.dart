@@ -43,6 +43,15 @@ class ReplyContent extends StatelessWidget {
         ? theme.colorScheme.tertiaryContainer
         : theme.colorScheme.tertiary;
 
+    final textStyle = TextStyle(
+      fontSize: fontSize,
+      color: textColor ?? color,
+      fontFamily: AppSettings.chatFont.value.isNotEmpty
+          ? AppSettings.chatFont.value
+          : null,
+      fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(','),
+    );
+
     return Row(
       mainAxisSize: .min,
       spacing: 2,
@@ -93,10 +102,7 @@ class ReplyContent extends StatelessWidget {
                       .first,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: TextStyle(
-                    color: textColor ?? color,
-                    fontSize: fontSize,
-                  ),
+                  style: textStyle,
                 ),
               ],
             ),
