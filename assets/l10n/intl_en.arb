@@ -3832,5 +3832,6 @@
   },
   "member": "Member",
   "powerLevel": "Power level",
-  "apply": "Apply"
+  "apply": "Apply",
+  "showSeconds": "Show seconds"
 }
