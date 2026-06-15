@@ -122,7 +122,7 @@ enum AppSettings<T> {
     false,
   ),
   enableSoftLogout<bool>('enableSoftLogout', false),
-  enableGradient<bool>('enableGradient', true),
+  enableGradient<bool>('enableGradient', false),
   pushNotificationsGatewayUrl<String>(
     'pushNotificationsGatewayUrl',
     'https://push.fluffychat.im/_matrix/push/v1/notify',
