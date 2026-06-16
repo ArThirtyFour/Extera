@@ -138,13 +138,15 @@ class _HtmlMessageState extends State<HtmlMessage> {
   void Function(LinkableElement) get onOpen => widget.onOpen;
 
   TextStyle get _baseTextStyle => TextStyle(
-        fontSize: fontSize,
-        color: textColor,
-        fontFamily: AppSettings.chatFont.value.isNotEmpty
-            ? AppSettings.chatFont.value
-            : null,
-        fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(','),
-      );
+    fontSize: fontSize,
+    color: textColor,
+    fontFamily: AppSettings.chatFont.value.isNotEmpty
+        ? AppSettings.chatFont.value
+        : null,
+    fontFamilyFallback: AppSettings.twemojiFont.value
+        ? ['Twemoji Mozilla', ...AppSettings.chatFallbackFonts.value.split(',')]
+        : AppSettings.chatFallbackFonts.value.split(','),
+  );
 
   // to fix issue 7
   TextSpan _buildLinkifySpan(
@@ -392,7 +394,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
                   showCopyButton: true,
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                   textStyle: TextStyle(
-                    fontFamily: AppSettings.monospaceFallbackFonts.value,
+                    fontFamily: AppSettings.monospaceFont.value,
                     fontFamilyFallback: AppSettings.twemojiFont.value
                         ? [
                             'Twemoji Mozilla',
@@ -538,7 +540,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
                     ..._renderWithLineBreaks(node.nodes, context, depth: depth),
                 ],
               ),
-                style: _baseTextStyle,
+              style: _baseTextStyle,
             ),
           ),
         );
@@ -622,12 +624,30 @@ class _HtmlMessageState extends State<HtmlMessage> {
               decorationColor: textColor,
             ),
             'u' => const TextStyle(decoration: TextDecoration.underline),
-            'h1' => _baseTextStyle.copyWith(fontSize: fontSize * 1.6, height: 2),
-            'h2' => _baseTextStyle.copyWith(fontSize: fontSize * 1.5, height: 2),
-            'h3' => _baseTextStyle.copyWith(fontSize: fontSize * 1.4, height: 2),
-            'h4' => _baseTextStyle.copyWith(fontSize: fontSize * 1.3, height: 1.75),
-            'h5' => _baseTextStyle.copyWith(fontSize: fontSize * 1.2, height: 1.75),
-            'h6' => _baseTextStyle.copyWith(fontSize: fontSize * 1.1, height: 1.5),
+            'h1' => _baseTextStyle.copyWith(
+              fontSize: fontSize * 1.6,
+              height: 2,
+            ),
+            'h2' => _baseTextStyle.copyWith(
+              fontSize: fontSize * 1.5,
+              height: 2,
+            ),
+            'h3' => _baseTextStyle.copyWith(
+              fontSize: fontSize * 1.4,
+              height: 2,
+            ),
+            'h4' => _baseTextStyle.copyWith(
+              fontSize: fontSize * 1.3,
+              height: 1.75,
+            ),
+            'h5' => _baseTextStyle.copyWith(
+              fontSize: fontSize * 1.2,
+              height: 1.75,
+            ),
+            'h6' => _baseTextStyle.copyWith(
+              fontSize: fontSize * 1.1,
+              height: 1.5,
+            ),
             'span' => TextStyle(
               color:
                   node.attributes['color']?.hexToColor ??
@@ -727,8 +747,12 @@ class MatrixPill extends StatelessWidget {
                 fontFamily: AppSettings.chatFont.value.isNotEmpty
                     ? AppSettings.chatFont.value
                     : null,
-                fontFamilyFallback:
-                    AppSettings.chatFallbackFonts.value.split(','),
+                fontFamilyFallback: AppSettings.twemojiFont.value
+                    ? [
+                        'Twemoji Mozilla',
+                        ...AppSettings.chatFallbackFonts.value.split(','),
+                      ]
+                    : AppSettings.chatFallbackFonts.value.split(','),
               ),
               children: [
                 TextSpan(
@@ -741,8 +765,12 @@ class MatrixPill extends StatelessWidget {
                     fontFamily: AppSettings.chatFont.value.isNotEmpty
                         ? AppSettings.chatFont.value
                         : null,
-                    fontFamilyFallback:
-                        AppSettings.chatFallbackFonts.value.split(','),
+                    fontFamilyFallback: AppSettings.twemojiFont.value
+                        ? [
+                            'Twemoji Mozilla',
+                            ...AppSettings.chatFallbackFonts.value.split(','),
+                          ]
+                        : AppSettings.chatFallbackFonts.value.split(','),
                   ),
                 ),
                 if (withEventLink)
@@ -790,7 +818,12 @@ class LatexSpan extends StatelessWidget {
           fontFamily: AppSettings.chatFont.value.isNotEmpty
               ? AppSettings.chatFont.value
               : null,
-          fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(','),
+          fontFamilyFallback: AppSettings.twemojiFont.value
+              ? [
+                  'Twemoji Mozilla',
+                  ...AppSettings.chatFallbackFonts.value.split(','),
+                ]
+              : AppSettings.chatFallbackFonts.value.split(','),
         ),
       ),
       onErrorFallback: (text) {

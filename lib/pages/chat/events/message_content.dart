@@ -266,8 +266,12 @@ class MessageContent extends StatelessWidget {
                     fontFamily: AppSettings.chatFont.value.isNotEmpty
                         ? AppSettings.chatFont.value
                         : null,
-                    fontFamilyFallback: AppSettings.chatFallbackFonts.value
-                        .split(','),
+                    fontFamilyFallback: AppSettings.twemojiFont.value
+                        ? [
+                            'Twemoji Mozilla',
+                            ...AppSettings.chatFallbackFonts.value.split(','),
+                          ]
+                        : AppSettings.chatFallbackFonts.value.split(','),
                   ),
                   onOpen: (url) => UrlLauncher(context, url.url).launchUrl(),
                   onCopy: () {
@@ -355,9 +359,12 @@ class MessageContent extends StatelessWidget {
               fontFamily: AppSettings.chatFont.value.isNotEmpty
                   ? AppSettings.chatFont.value
                   : null,
-              fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(
-                ',',
-              ),
+              fontFamilyFallback: AppSettings.twemojiFont.value
+                  ? [
+                      'Twemoji Mozilla',
+                      ...AppSettings.chatFallbackFonts.value.split(','),
+                    ]
+                  : AppSettings.chatFallbackFonts.value.split(','),
             );
             final messageLinkStyle = TextStyle(
               color: linkColor,
@@ -366,9 +373,12 @@ class MessageContent extends StatelessWidget {
               fontFamily: AppSettings.chatFont.value.isNotEmpty
                   ? AppSettings.chatFont.value
                   : null,
-              fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(
-                ',',
-              ),
+              fontFamilyFallback: AppSettings.twemojiFont.value
+                  ? [
+                      'Twemoji Mozilla',
+                      ...AppSettings.chatFallbackFonts.value.split(','),
+                    ]
+                  : AppSettings.chatFallbackFonts.value.split(','),
             );
             final spanChildren = <InlineSpan>[
               ...?buildTextSpanChildren(

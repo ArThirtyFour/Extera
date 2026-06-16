@@ -147,7 +147,7 @@ flutter:
   fonts:
     - family: 'Twemoji Mozilla'
       fonts:
-        - asset: assets/font/Twemoji.v0.7.0.ttf
+        - asset: assets/font/Twemoji.ttf
 
 msix_config:
   display_name: Extera Next
