@@ -28,7 +28,7 @@ enum AppSettings<T> {
   uiFont<String>('xyz.extera.uiFont', ''),
   fallbackFonts<String>('xyz.extera.fallbackFonts', 'Roboto,SystemFont,sans-serif'),
 
-  monospaceFont<String>('xyz.extera.monospaceFont', 'Roboto Mono'),
+  monospaceFont<String>('xyz.extera.monospaceFont', 'monospace'),
   monospaceFallbackFonts<String>('xyz.extera.monospaceFallbackFonts', 'Roboto Mono,monospace,SystemFont,sans-serif'),
 
   chatFont<String>('xyz.extera.chatFont', ''),

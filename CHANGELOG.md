@@ -1,3 +1,6 @@
+## Extera 26.3.01
+- Fix fonts related issues.
+
 ## Extera 26.3.0
 - Renamed "Feature switches" to "Labs".
 - Set custom fonts for UI, code blocks (monospace) and chat messages. ("Labs" option)
@@ -18,7 +21,7 @@
 ## Extera 26.2.82
 - Fix error dialog when rendering invalid LaTeX
 - Fix error dialog sometimes appearing when following a message link
-- Remove links underline (for real this time)
+- Remove links underline (for rGoogleFeal this time)
 - Make inline LaTeX syntax not appear when '$' sign is inside links
 
 ## Extera 26.2.81

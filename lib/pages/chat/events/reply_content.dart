@@ -49,7 +49,12 @@ class ReplyContent extends StatelessWidget {
       fontFamily: AppSettings.chatFont.value.isNotEmpty
           ? AppSettings.chatFont.value
           : null,
-      fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(','),
+      fontFamilyFallback: AppSettings.twemojiFont.value
+          ? [
+              'Twemoji Mozilla',
+              ...AppSettings.chatFallbackFonts.value.split(','),
+            ]
+          : AppSettings.chatFallbackFonts.value.split(','),
     );
 
     return Row(
