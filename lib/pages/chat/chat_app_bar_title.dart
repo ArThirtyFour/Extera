@@ -29,6 +29,7 @@ class ChatAppBarTitle extends StatelessWidget {
       );
     }
     final centerTitle = AppSettings.enableAppBarCenterTitle.value;
+
     return InkWell(
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,

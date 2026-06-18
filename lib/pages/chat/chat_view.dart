@@ -395,6 +395,11 @@ class _ChatViewState extends State<ChatView> {
                   ? Colors.transparent
                   : null,
               elevation: AppSettings.enableChatFrostedGlass.value ? 0 : null,
+              shape: FluffyThemes.isColumnMode(context)
+                  ? Border(
+                      bottom: BorderSide(color: theme.dividerColor, width: 1),
+                    )
+                  : null,
               scrolledUnderElevation: AppSettings.enableChatFrostedGlass.value
                   ? 0
                   : null,

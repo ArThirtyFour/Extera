@@ -74,7 +74,13 @@ abstract class FluffyThemes {
       background: extraDarkColors['background'],
       dynamicSchemeVariant: variant ?? DynamicSchemeVariant.tonalSpot,
     );
+
+    final dividerColor = brightness == Brightness.dark
+        ? colorScheme.surfaceContainerHighest
+        : colorScheme.surfaceContainer;
+
     final isColumnMode = FluffyThemes.isColumnMode(context);
+
     return ThemeData(
       visualDensity: VisualDensity.standard,
       useMaterial3: true,
@@ -91,9 +97,7 @@ abstract class FluffyThemes {
           : AppSettings.fallbackFonts.value.isEmpty
           ? null
           : AppSettings.fallbackFonts.value.split(','),
-      dividerColor: brightness == Brightness.dark
-          ? colorScheme.surfaceContainerHighest
-          : colorScheme.surfaceContainer,
+      dividerColor: dividerColor,
       popupMenuTheme: PopupMenuThemeData(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadius),
@@ -125,9 +129,6 @@ abstract class FluffyThemes {
       ),
       appBarTheme: AppBarTheme(
         toolbarHeight: isColumnMode ? 72 : 56,
-        shadowColor: isColumnMode
-            ? colorScheme.surfaceContainer.withAlpha(128)
-            : null,
         surfaceTintColor: isColumnMode ? colorScheme.surface : null,
         backgroundColor: isColumnMode ? colorScheme.surface : null,
         actionsPadding: isColumnMode
