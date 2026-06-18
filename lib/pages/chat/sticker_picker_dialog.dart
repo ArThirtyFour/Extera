@@ -669,6 +669,7 @@ class _StickerTile extends StatelessWidget {
         key: ValueKey(image.url.toString()),
         onTap: onTap,
         onLongPress: onLongPress,
+        onSecondaryTap: onLongPress,
         child: AbsorbPointer(
           absorbing: true,
           child: MxcImage(
