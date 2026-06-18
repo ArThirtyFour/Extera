@@ -104,8 +104,8 @@ class _AudioRecordingInputRow extends StatelessWidget {
           IconButton(
             style: IconButton.styleFrom(
               disabledBackgroundColor: theme.bubbleColor.withAlpha(128),
-              backgroundColor: theme.bubbleColor,
-              foregroundColor: theme.onBubbleColor,
+              // backgroundColor: theme.bubbleColor,
+              foregroundColor: theme.colorScheme.onPrimaryContainer,
             ),
             tooltip: L10n.of(context).sendAudio,
             icon: state.isSending

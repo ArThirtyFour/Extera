@@ -143,7 +143,7 @@ class ChatController extends State<ChatPageWithRoom>
 
   /// Tracks the actual rendered height of the floating input bar so the
   /// message list can reserve the correct amount of bottom padding.
-  final ValueNotifier<double> inputBarHeight = ValueNotifier<double>(80);
+  final ValueNotifier<double> inputBarHeight = ValueNotifier<double>(88);
 
   late final FocusNode inputFocus;
 

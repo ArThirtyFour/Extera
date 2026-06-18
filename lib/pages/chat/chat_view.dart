@@ -552,13 +552,13 @@ class _ChatViewState extends State<ChatView> {
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom: 0,
+                    bottom: 8,
                     child: _MeasureSize(
                       onChange: (size) {
                         final oldHeight = controller.inputBarHeight.value;
                         final newHeight = size.height;
                         if (oldHeight == newHeight) return;
-                        controller.inputBarHeight.value = newHeight;
+                        controller.inputBarHeight.value = newHeight + 8;
 
                         // Keep the list scrolled to the bottom if we were already
                         // there, otherwise the newly‑added input bar would cover a
@@ -674,8 +674,13 @@ class _ChatViewState extends State<ChatView> {
                                               color: theme
                                                   .colorScheme
                                                   .surfaceContainerHigh,
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(24),
+                                                side: BorderSide(
+                                                  color: theme.dividerColor,
+                                                ),
+                                              ),
                                               child: inputChild,
                                             );
                                     })()

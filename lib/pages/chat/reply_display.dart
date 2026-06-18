@@ -27,7 +27,7 @@ class ReplyDisplay extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Padding(
-            padding: const .symmetric(horizontal: 8),
+            padding: const .symmetric(horizontal: 12),
             child: IconButton(
               tooltip: L10n.of(context).close,
               icon: const Icon(Icons.close),
@@ -50,7 +50,7 @@ class ReplyDisplay extends StatelessWidget {
           ),
           if (controller.replyEvent != null && controller.editEvent == null)
             Padding(
-              padding: const .symmetric(horizontal: 8),
+              padding: const .symmetric(horizontal: 12),
               child: IconButton(
                 tooltip: L10n.of(context).mention,
                 icon: controller.replyMention

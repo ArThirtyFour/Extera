@@ -20,7 +20,7 @@ import 'input_bar.dart';
 class ChatInputRow extends StatelessWidget {
   final ChatController controller;
 
-  static const double height = 48.0;
+  static const double height = 56.0;
 
   const ChatInputRow(this.controller, {super.key});
 
@@ -123,7 +123,9 @@ class ChatInputRow extends StatelessWidget {
                     height: height,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppConfig.borderRadius),
+                      borderRadius: BorderRadius.circular(
+                        AppConfig.borderRadius,
+                      ),
                     ),
                     clipBehavior: Clip.hardEdge,
                     child: PopupMenuButton<String>(
@@ -288,43 +290,40 @@ class ChatInputRow extends StatelessWidget {
                       child: _ChatAccountPicker(controller),
                     ),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0.0),
-                      child: ChatPasteShortcut(
-                        onPaste: () {
-                          controller.sendImageFromClipBoard(null);
-                        },
-                        child: InputBar(
-                          room: controller.room,
-                          minLines: 1,
-                          maxLines: 8,
-                          autofocus: !PlatformInfos.isMobile,
-                          keyboardType: TextInputType.multiline,
-                          textInputAction:
-                              AppSettings.sendOnEnter.value &&
-                                  PlatformInfos.isMobile
-                              ? TextInputAction.send
-                              : null,
-                          onSubmitted: controller.onInputBarSubmitted,
-                          onSubmitImage: controller.sendImageFromClipBoard,
-                          focusNode: controller.inputFocus,
-                          controller: controller.sendController,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.only(
-                              left: 6.0,
-                              right: 6.0,
-                              bottom: 6.0,
-                              top: 3.0,
-                            ),
-                            counter: const SizedBox.shrink(),
-                            hintText: L10n.of(context).writeAMessage,
-                            hintMaxLines: 1,
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            filled: false,
+                    child: ChatPasteShortcut(
+                      onPaste: () {
+                        controller.sendImageFromClipBoard(null);
+                      },
+                      child: InputBar(
+                        room: controller.room,
+                        minLines: 1,
+                        maxLines: 8,
+                        autofocus: !PlatformInfos.isMobile,
+                        keyboardType: TextInputType.multiline,
+                        textInputAction:
+                            AppSettings.sendOnEnter.value &&
+                                PlatformInfos.isMobile
+                            ? TextInputAction.send
+                            : null,
+                        onSubmitted: controller.onInputBarSubmitted,
+                        onSubmitImage: controller.sendImageFromClipBoard,
+                        focusNode: controller.inputFocus,
+                        controller: controller.sendController,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(
+                            left: 6.0,
+                            right: 6.0,
+                            bottom: 10.0,
+                            top: 0.0,
                           ),
-                          onChanged: controller.onInputBarChanged,
+                          counter: const SizedBox.shrink(),
+                          hintText: L10n.of(context).writeAMessage,
+                          hintMaxLines: 1,
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          filled: false,
                         ),
+                        onChanged: controller.onInputBarChanged,
                       ),
                     ),
                   ),
@@ -412,26 +411,25 @@ class ChatInputRow extends StatelessWidget {
                               }
                             },
                             style: IconButton.styleFrom(
-                              backgroundColor: theme.bubbleColor,
-                              foregroundColor: theme.onBubbleColor,
+                              foregroundColor: theme.colorScheme.onPrimaryContainer,
                             ),
                             icon: Icon(
                               recordingViewModel.recordingMode ==
                                       RecordingMode.video
-                                  ? Icons.camera_alt_outlined
-                                  : Icons.mic_none_outlined,
+                                  ? Icons.camera_alt
+                                  : Icons.mic,
                             ),
                           )
                         : IconButton(
                             tooltip: L10n.of(context).send,
                             onPressed: controller.send,
                             style: IconButton.styleFrom(
-                              backgroundColor: theme.bubbleColor,
-                              foregroundColor: theme.onBubbleColor,
+                              foregroundColor: theme.colorScheme.onPrimaryContainer,
                             ),
-                            icon: const Icon(Icons.send_outlined),
+                            icon: const Icon(Icons.send),
                           ),
                   ),
+                  const SizedBox(width: 4),
                 ],
         );
       },
