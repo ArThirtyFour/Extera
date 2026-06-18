@@ -1,3 +1,4 @@
+import 'package:extera_next/utils/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -148,6 +149,8 @@ class _MessageContextMenuState extends State<MessageContextMenu> {
           )
           .whereType<String>(),
     );
+
+    final content = event.content;
 
     return Material(
       elevation: 8.0,
@@ -462,6 +465,18 @@ class _MessageContextMenuState extends State<MessageContextMenu> {
                                 controller.discussAction(
                                   threadRootEvent: event,
                                 );
+                              },
+                            ),
+                            const ListDivider(),
+                          ],
+                          if (content.containsKey('external_url') &&
+                              !event.redacted) ...[
+                            _buildMenuItem(
+                              event: event,
+                              icon: Icons.open_in_new,
+                              label: L10n.of(context).openMessageSource,
+                              onPressed: () {
+                                UrlLauncher(context, content.tryGet<String>('external_url')).launchUrl();
                               },
                             ),
                             const ListDivider(),

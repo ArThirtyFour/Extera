@@ -3912,5 +3912,6 @@
   "uiFontFallback": "Дополнительные шрифты интерфейса",
   "monospaceFontFallback": "Дополнительные моноширинные шрифты",
   "chatFont": "Шрифт чата",
-  "chatFontFallback": "Дополнительные шрифты чата"
+  "chatFontFallback": "Дополнительные шрифты чата",
+  "openMessageSource": "Исходное сообщение"
 }

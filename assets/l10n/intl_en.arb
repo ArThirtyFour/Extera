@@ -3840,5 +3840,6 @@
   "uiFontFallback": "Fallback UI fonts",
   "monospaceFontFallback": "Fallback monospace fonts",
   "chatFont": "Chat font",
-  "chatFontFallback": "Fallback chat fonts"
+  "chatFontFallback": "Fallback chat fonts",
+  "openMessageSource": "Remote message"
 }
