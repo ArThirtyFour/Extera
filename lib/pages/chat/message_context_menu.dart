@@ -122,11 +122,11 @@ class _MessageContextMenuState extends State<MessageContextMenu> {
     final borderRadius = BorderRadius.circular(AppConfig.borderRadius);
     final imagePacks = controller.room.getImagePacks(ImagePackUsage.emoticon);
 
-    final recentEmojis = client.recentEmojis.entries
+    final recentEmojisAll = client.recentEmojis.entries
         .sortedByCompare((element) => element.value, (a, b) => b - a)
         .map((entry) => entry.key)
-        .take(5)
         .toList();
+    final recentEmojis = recentEmojisAll.take(5).toList();
 
     final receipts = room
         .getReceipts(timeline!, eventId: event.eventId)
@@ -275,7 +275,7 @@ class _MessageContextMenuState extends State<MessageContextMenu> {
                                                     emoji.standardEmoji!.char,
                                               ),
                                           onBackspacePressed: () {},
-                                          recentEmojis: recentEmojis.map((
+                                          recentEmojis: recentEmojisAll.map((
                                             recent,
                                           ) {
                                             // MXC custom emoji
