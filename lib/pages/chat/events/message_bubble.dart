@@ -544,7 +544,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                       ),
                     ),
                   ),
-                if (ownMessage && event.type == EventTypes.Sticker)
+                if (ownMessage && !event.redacted && event.type == EventTypes.Sticker)
                   Flexible(child: replyDisplay),
                 Expanded(
                   child: Column(
@@ -833,7 +833,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                     ],
                   ),
                 ),
-                if (!ownMessage && event.type == EventTypes.Sticker)
+                if (!ownMessage && !event.redacted && event.type == EventTypes.Sticker)
                   Flexible(child: replyDisplay),
               ],
             ),
