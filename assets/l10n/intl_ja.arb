@@ -32,7 +32,7 @@
 	"cleanExif": "EXIFを削除",
 	"cleanExifDescription": "送信前に画像からEXIFメタデータ（カメラモデル、位置情報、時刻）を削除します。",
 	"@@locale": "ja",
-	"@@last_modified": "2026-06-15T22:27:21.606Z",
+	"@@last_modified": "2026-06-19T20:19:43.224Z",
 	"doNotSendIfCantClean": "クリーンできない画像を送信しない",
 	"doNotSendIfCantCleanDescription": "EXIFメタデータを削除できない場合、画像を送信しません",
 	"repeatPassword": "パスワードを再入力",
@@ -3836,5 +3836,6 @@
 	"uiFontFallback": "UIフォントのフォールバック",
 	"monospaceFontFallback": "等幅フォントのフォールバック",
 	"chatFont": "チャットフォント",
-	"chatFontFallback": "チャットフォントのフォールバック"
+	"chatFontFallback": "チャットフォントのフォールバック",
+	"openMessageSource": "メッセージのソース"
 }

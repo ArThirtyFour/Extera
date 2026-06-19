@@ -1,6 +1,6 @@
 {
 	"@@locale": "nl",
-	"@@last_modified": "2026-06-15T22:28:19.552Z",
+	"@@last_modified": "2026-06-19T20:19:30.795Z",
 	"@choicesSelected": {
 		"type": "String",
 		"placeholders": {
@@ -3836,5 +3836,6 @@
 	"uiFontFallback": "Reserve-interfacelettertypen",
 	"monospaceFontFallback": "Reserve-monospaced lettertypen",
 	"chatFont": "Chatlettertype",
-	"chatFontFallback": "Reserve-chatlettertypen"
+	"chatFontFallback": "Reserve-chatlettertypen",
+	"openMessageSource": "Berichtbron"
 }
