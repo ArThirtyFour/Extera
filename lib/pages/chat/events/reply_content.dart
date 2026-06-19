@@ -46,8 +46,12 @@ class ReplyContent extends StatelessWidget {
     final textStyle = TextStyle(
       fontSize: fontSize,
       color: textColor ?? color,
-      fontFamily: AppSettings.chatFont.value.isNotEmpty
-          ? AppSettings.chatFont.value
+      fontFamily: AppSettings.systemFont.value
+          ? 'SystemFont'
+          : AppSettings.chatFont.value.isNotEmpty
+          ? AppSettings.systemFont.value
+                ? 'SystemFont'
+                : AppSettings.chatFont.value
           : null,
       fontFamilyFallback: AppSettings.twemojiFont.value
           ? [

@@ -148,6 +148,15 @@ flutter:
     - family: 'Twemoji Mozilla'
       fonts:
         - asset: assets/font/Twemoji.ttf
+    - family: 'Roboto'
+      fonts:
+        - asset: assets/font/RobotoVariable.ttf
+          style: normal
+        - asset: assets/font/RobotoItalicVariable.ttf
+          style: italic
+    - family: 'Roboto Mono'
+      fonts:
+        - asset: assets/font/RobotoMonoVariable.ttf
 
 msix_config:
   display_name: Extera Next

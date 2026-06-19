@@ -263,8 +263,12 @@ class MessageContent extends StatelessWidget {
                         AppSettings.fontSizeFactor.value *
                         AppSettings.messageFontSize.value,
                     decoration: .none,
-                    fontFamily: AppSettings.chatFont.value.isNotEmpty
-                        ? AppSettings.chatFont.value
+                    fontFamily: AppSettings.systemFont.value
+                        ? 'SystemFont'
+                        : AppSettings.chatFont.value.isNotEmpty
+                        ? AppSettings.systemFont.value
+                              ? 'SystemFont'
+                              : AppSettings.chatFont.value
                         : null,
                     fontFamilyFallback: AppSettings.twemojiFont.value
                         ? [
@@ -356,8 +360,12 @@ class MessageContent extends StatelessWidget {
               color: textColor,
               fontSize: bigEmotes ? fontSize * 5 : fontSize,
               decoration: event.redacted ? TextDecoration.lineThrough : null,
-              fontFamily: AppSettings.chatFont.value.isNotEmpty
-                  ? AppSettings.chatFont.value
+              fontFamily: AppSettings.systemFont.value
+                  ? 'SystemFont'
+                  : AppSettings.chatFont.value.isNotEmpty
+                  ? AppSettings.systemFont.value
+                        ? 'SystemFont'
+                        : AppSettings.chatFont.value
                   : null,
               fontFamilyFallback: AppSettings.twemojiFont.value
                   ? [
@@ -370,8 +378,12 @@ class MessageContent extends StatelessWidget {
               color: linkColor,
               fontSize: fontSize,
               decoration: .none,
-              fontFamily: AppSettings.chatFont.value.isNotEmpty
-                  ? AppSettings.chatFont.value
+              fontFamily: AppSettings.systemFont.value
+                  ? 'SystemFont'
+                  : AppSettings.chatFont.value.isNotEmpty
+                  ? AppSettings.systemFont.value
+                        ? 'SystemFont'
+                        : AppSettings.chatFont.value
                   : null,
               fontFamilyFallback: AppSettings.twemojiFont.value
                   ? [

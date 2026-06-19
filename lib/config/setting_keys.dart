@@ -25,13 +25,13 @@ enum AppSettings<T> {
   selectedAccount<String>('xyz.extera.selectedAccount', ''),
   messageStyle<String>('xyz.extera.messageStyle', 'bubbles'),
   
-  uiFont<String>('xyz.extera.uiFont', ''),
+  uiFont<String>('xyz.extera.uiFont', 'Roboto'),
   fallbackFonts<String>('xyz.extera.fallbackFonts', 'Roboto,SystemFont,sans-serif'),
 
-  monospaceFont<String>('xyz.extera.monospaceFont', 'monospace'),
+  monospaceFont<String>('xyz.extera.monospaceFont', 'Roboto Mono'),
   monospaceFallbackFonts<String>('xyz.extera.monospaceFallbackFonts', 'Roboto Mono,monospace,SystemFont,sans-serif'),
 
-  chatFont<String>('xyz.extera.chatFont', ''),
+  chatFont<String>('xyz.extera.chatFont', 'Roboto'),
   chatFallbackFonts<String>('xyz.extera.chatFallbackFonts', 'Roboto,SystemFont,sans-serif'),
 
   enablePeopleTab<bool>('xyz.extera.enablePeopleTab', true),

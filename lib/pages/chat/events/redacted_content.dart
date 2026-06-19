@@ -35,8 +35,12 @@ class EventRedactedContent extends StatelessWidget {
         final textStyle = TextStyle(
           color: textColor.withAlpha(128),
           fontSize: fontSize,
-          fontFamily: AppSettings.chatFont.value.isNotEmpty
-              ? AppSettings.chatFont.value
+          fontFamily: AppSettings.systemFont.value
+              ? 'SystemFont'
+              : AppSettings.chatFont.value.isNotEmpty
+              ? AppSettings.systemFont.value
+                    ? 'SystemFont'
+                    : AppSettings.chatFont.value
               : null,
           fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(','),
         );
@@ -50,7 +54,7 @@ class EventRedactedContent extends StatelessWidget {
                   child: Icon(
                     Icons.close,
                     color: textColor.withAlpha(128),
-                    size: 21 * AppSettings.fontSizeFactor.value
+                    size: 21 * AppSettings.fontSizeFactor.value,
                   ),
                 ),
                 WidgetSpan(child: const SizedBox(width: 4)),

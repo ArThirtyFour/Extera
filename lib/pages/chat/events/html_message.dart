@@ -140,8 +140,12 @@ class _HtmlMessageState extends State<HtmlMessage> {
   TextStyle get _baseTextStyle => TextStyle(
     fontSize: fontSize,
     color: textColor,
-    fontFamily: AppSettings.chatFont.value.isNotEmpty
-        ? AppSettings.chatFont.value
+    fontFamily: AppSettings.systemFont.value
+        ? 'SystemFont'
+        : AppSettings.chatFont.value.isNotEmpty
+        ? AppSettings.systemFont.value
+              ? 'SystemFont'
+              : AppSettings.chatFont.value
         : null,
     fontFamilyFallback: AppSettings.twemojiFont.value
         ? ['Twemoji Mozilla', ...AppSettings.chatFallbackFonts.value.split(',')]
@@ -744,8 +748,12 @@ class MatrixPill extends StatelessWidget {
                 decoration: .none,
                 fontSize: fontSize,
                 height: 1.2,
-                fontFamily: AppSettings.chatFont.value.isNotEmpty
-                    ? AppSettings.chatFont.value
+                fontFamily: AppSettings.systemFont.value
+                    ? 'SystemFont'
+                    : AppSettings.chatFont.value.isNotEmpty
+                    ? AppSettings.systemFont.value
+                          ? 'SystemFont'
+                          : AppSettings.chatFont.value
                     : null,
                 fontFamilyFallback: AppSettings.twemojiFont.value
                     ? [
@@ -762,8 +770,12 @@ class MatrixPill extends StatelessWidget {
                     decoration: .none,
                     fontSize: fontSize,
                     height: 1.2,
-                    fontFamily: AppSettings.chatFont.value.isNotEmpty
-                        ? AppSettings.chatFont.value
+                    fontFamily: AppSettings.systemFont.value
+                        ? 'SystemFont'
+                        : AppSettings.chatFont.value.isNotEmpty
+                        ? AppSettings.systemFont.value
+                              ? 'SystemFont'
+                              : AppSettings.chatFont.value
                         : null,
                     fontFamilyFallback: AppSettings.twemojiFont.value
                         ? [
@@ -815,8 +827,12 @@ class LatexSpan extends StatelessWidget {
         style: TextStyle(
           color: color,
           fontSize: fontSize,
-          fontFamily: AppSettings.chatFont.value.isNotEmpty
-              ? AppSettings.chatFont.value
+          fontFamily: AppSettings.systemFont.value
+              ? 'SystemFont'
+              : AppSettings.chatFont.value.isNotEmpty
+              ? AppSettings.systemFont.value
+                    ? 'SystemFont'
+                    : AppSettings.chatFont.value
               : null,
           fontFamilyFallback: AppSettings.twemojiFont.value
               ? [
