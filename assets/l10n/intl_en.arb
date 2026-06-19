@@ -2888,7 +2888,7 @@
   },
   "pleaseEnterANumber": "Please enter a number greater than 0",
   "@pleaseEnterANumber": {},
-  "archiveRoomDescription": "The chat will be moved to the archive. Other users will be able to see that you have left the chat.",
+  "archiveRoomDescription": "Are you sure that you want to leave this room? Other users will be able to see that you have left the chat.",
   "@archiveRoomDescription": {},
   "roomUpgradeDescription": "The chat will then be recreated with the new room version. All participants will be notified that they need to switch to the new chat. You can find out more about room versions at https://spec.matrix.org/latest/rooms/",
   "@roomUpgradeDescription": {},

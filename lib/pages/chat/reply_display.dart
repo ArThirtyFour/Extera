@@ -1,3 +1,4 @@
+import 'package:extera_next/pages/chat/chat_input_row.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
@@ -23,11 +24,13 @@ class ReplyDisplay extends StatelessWidget {
           ? ReplyDisplay.height
           : 0,
       clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(),
+      decoration: const BoxDecoration(),
       child: Row(
         children: <Widget>[
-          Padding(
-            padding: const .symmetric(horizontal: 12),
+          const SizedBox(width: 4),
+          SizedBox(
+            width: ChatInputRow.height,
+            height: ChatInputRow.height,
             child: IconButton(
               tooltip: L10n.of(context).close,
               icon: const Icon(Icons.close),
@@ -49,8 +52,9 @@ class ReplyDisplay extends StatelessWidget {
                   ),
           ),
           if (controller.replyEvent != null && controller.editEvent == null)
-            Padding(
-              padding: const .symmetric(horizontal: 12),
+            SizedBox(
+              width: ChatInputRow.height,
+              height: ChatInputRow.height,
               child: IconButton(
                 tooltip: L10n.of(context).mention,
                 icon: controller.replyMention
@@ -61,6 +65,7 @@ class ReplyDisplay extends StatelessWidget {
                 },
               ),
             ),
+          const SizedBox(width: 4),
         ],
       ),
     );

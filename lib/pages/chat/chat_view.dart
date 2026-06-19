@@ -608,13 +608,10 @@ class _ChatViewState extends State<ChatView> {
                                                 controller.goToNewRoomAction,
                                           ))
                                   : controller.room.canSendDefaultMessages &&
-                                        controller.room.membership ==
-                                            Membership.join &&
-                                        !controller.showThreadRoots
+                                        controller.room.membership == .join
                                   ? (() {
                                       final inputChild =
-                                          controller.room.isAbandonedDMRoom ==
-                                              true
+                                          controller.room.isAbandonedDMRoom
                                           ? Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
