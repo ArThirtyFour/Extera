@@ -3841,5 +3841,6 @@
   "monospaceFontFallback": "Fallback monospace fonts",
   "chatFont": "Chat font",
   "chatFontFallback": "Fallback chat fonts",
-  "openMessageSource": "Remote message"
+  "openMessageSource": "Remote message",
+  "showProfileSource": "Profile data"
 }

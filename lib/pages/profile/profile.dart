@@ -1,3 +1,5 @@
+import 'package:extera_next/pages/profile/profile_source_data_dialog.dart';
+import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -27,6 +29,7 @@ class ProfilePage extends StatefulWidget {
 class ProfileController extends State<ProfilePage> {
   String? about;
   Map<String, dynamic>? richPresenceData;
+  Map<String, dynamic>? profileData;
   Uri? bannerUrl;
 
   bool isQuerying = false;
@@ -39,6 +42,7 @@ class ProfileController extends State<ProfilePage> {
       widget.profile.userId,
       maxCacheAge: const Duration(seconds: 1),
     );
+    profileData = profile.toJson();
     if (profile.additionalProperties[AppConfig.aboutProfileField] is String &&
         profile.additionalProperties[AppConfig.aboutProfileField]
                 .toString()
@@ -163,6 +167,16 @@ class ProfileController extends State<ProfilePage> {
     }
 
     context.go('/rooms/${room.id}');
+  }
+
+  void showProfileData() async {
+    print(profileData);
+    if (profileData == null) return;
+    await showAdaptiveBottomSheet(
+      context: context,
+      builder: (context) => ProfileSourceDataDialog(profileData!),
+      useRootNavigator: false,
+    );
   }
 
   bool get showCallButton {

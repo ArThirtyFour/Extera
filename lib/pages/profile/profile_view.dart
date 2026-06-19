@@ -388,6 +388,34 @@ class ProfileView extends StatelessWidget {
                       ],
                     ),
                   ),
+
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: PopupMenuButton(
+                      icon: const Icon(Icons.more_vert),
+                      onSelected: (value) {
+                        switch (value) {
+                          case 'show_profile_source':
+                            controller.showProfileData();
+                            break;
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 'show_profile_source',
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.code),
+                              const SizedBox(width: 12),
+                              Text(L10n.of(context).showProfileSource),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
