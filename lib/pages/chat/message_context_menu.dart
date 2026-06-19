@@ -476,7 +476,10 @@ class _MessageContextMenuState extends State<MessageContextMenu> {
                               icon: Icons.open_in_new,
                               label: L10n.of(context).openMessageSource,
                               onPressed: () {
-                                UrlLauncher(context, content.tryGet<String>('external_url')).launchUrl();
+                                UrlLauncher(
+                                  context,
+                                  content.tryGet<String>('external_url'),
+                                ).launchUrl();
                               },
                             ),
                             const ListDivider(),
@@ -589,7 +592,7 @@ class _MessageContextMenuState extends State<MessageContextMenu> {
                               ),
                             const ListDivider(),
                           ],
-                          if (!event.redacted) ...[
+                          if (!event.redacted && event.type == EventTypes.Message) ...[
                             _buildMenuItem(
                               event: event,
                               icon: Icons.forward_outlined,
@@ -645,7 +648,8 @@ class _MessageContextMenuState extends State<MessageContextMenu> {
                           ],
                           if (!room.encrypted &&
                               AppSettings.messageTranslation.value &&
-                              !event.redacted) ...[
+                              !event.redacted &&
+                              event.type == EventTypes.Message) ...[
                             _buildMenuItem(
                               event: event,
                               icon: Icons.translate,

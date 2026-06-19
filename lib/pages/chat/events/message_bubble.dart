@@ -232,12 +232,12 @@ class _MessageBubbleState extends State<MessageBubble> {
       if (event.type == EventTypes.RoomCreate) {
         return RoomCreationStateEvent(event: event);
       }
-      return StateMessage(event);
+      return StateMessage(event, controller: widget.chatController);
     }
 
     if (event.type == EventTypes.Message &&
         event.messageType == EventTypes.KeyVerificationRequest) {
-      return StateMessage(event);
+      return StateMessage(event, controller: widget.chatController);
     }
 
     final client = Matrix.of(context).client;
