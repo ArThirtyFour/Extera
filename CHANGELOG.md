@@ -1,3 +1,14 @@
+## Extera 26.3.1
+- Fix fonts related issues (again)
+- Add message menus for state events (replying, reacting, discussing, viewing source...)
+- Show reactions for state events
+- Update design for message composer
+- Feature: show raw profile fields
+- Update navbar icons
+- Feature: Option to show external bridged message
+- Fix: Show all recent emojis in reaction picker
+- UX: Right clicking on sticker shows sticker info.
+
 ## Extera 26.3.01
 - Fix fonts related issues.
 
