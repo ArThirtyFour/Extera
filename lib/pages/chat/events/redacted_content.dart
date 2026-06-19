@@ -1,3 +1,4 @@
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
@@ -31,13 +32,31 @@ class EventRedactedContent extends StatelessWidget {
             ? L10n.of(context).redactedBy(redactedBy)
             : L10n.of(context).redactedByBecause(redactedBy, reason);
 
+        final textStyle = TextStyle(
+          color: textColor.withAlpha(128),
+          fontSize: fontSize,
+          fontFamily: AppSettings.chatFont.value.isNotEmpty
+              ? AppSettings.chatFont.value
+              : null,
+          fontFamilyFallback: AppSettings.chatFallbackFonts.value.split(','),
+        );
+
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text(
-            '🗑️  $label',
-            style: TextStyle(
-              color: textColor.withAlpha(128),
-              fontSize: fontSize,
+          child: Text.rich(
+            TextSpan(
+              children: [
+                WidgetSpan(
+                  child: Icon(
+                    Icons.close,
+                    color: textColor.withAlpha(128),
+                    size: 21 * AppSettings.fontSizeFactor.value
+                  ),
+                ),
+                WidgetSpan(child: const SizedBox(width: 4)),
+                TextSpan(text: label),
+              ],
+              style: textStyle,
             ),
           ),
         );
