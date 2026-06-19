@@ -35,7 +35,7 @@ extension LocalizedBody on Event {
       final filename = content.tryGet<String>('filename') ?? body;
       dmc.download(
         context,
-        "$filename.${roomId!.substring(1, 5)}.${eventId.substring(1, 5)}.${extensionFromMime(attachmentMimetype) ?? filename.split('.').last}",
+        "${filename}_${roomId!.substring(1, 5)}_${eventId.substring(1, 5)}.${extensionFromMime(attachmentMimetype) ?? filename.split('.').last}",
         attachmentMxcUrl.toString(),
       );
     } else {
