@@ -128,7 +128,7 @@
 	"chatBackup": "Copia de seguridad de claves",
 	"pinCode": "Código PIN",
 	"@@locale": "es",
-	"@@last_modified": "2026-05-02T21:28:27.033Z",
+	"@@last_modified": "2026-06-19T20:26:57.115Z",
 	"chatBackupDescription": "La copia de seguridad de las claves está protegida con una clave de recuperación. Guárdala en un lugar seguro.",
 	"chatDetails": "Configuración del chat",
 	"chatHasBeenAddedToThisSpace": "El chat ha sido añadido a este espacio",
@@ -3774,6 +3774,67 @@
 		"placeholder": {
 			"engine": {
 				"type": "String"
+			}
+		}
+	},
+	"deviceIdentityKey": "Clave pública del dispositivo",
+	"discardEdits": "¿Estás seguro de que quieres descartar los cambios?",
+	"checkList": "Lista de tareas",
+	"interactiveVerification": "Verificación interactiva",
+	"interactiveVerificationDescription": "Si estás cerca o te comunicas a través de un canal de comunicación seguro, puedes verificar todos los dispositivos.",
+	"messageLayout": "Diseño de los mensajes",
+	"bubblesLayout": "Burbujas nuevas",
+	"legacyBubblesLayout": "Burbujas",
+	"modernLayout": "Moderno",
+	"sendStickers": "Enviar stickers",
+	"sendReactions": "Enviar reacciones",
+	"pinMessages": "Fijar mensajes",
+	"otherMessageEvents": "Otros eventos de mensaje",
+	"startOrJoinCalls": "Participar en llamadas",
+	"moderation": "Moderación",
+	"kickUsers": "Expulsar usuario",
+	"banUsers": "Banear usuario",
+	"redactMessages": "Eliminar cualquier mensaje",
+	"redactOwnMessages": "Eliminar mensajes propios",
+	"roomMetadata": "Metadatos de la sala",
+	"editRoomName": "Editar nombre de la sala",
+	"editRoomTopic": "Editar tema de la sala",
+	"roomSettings": "Ajustes de la sala",
+	"editWidgets": "Editar widgets",
+	"editRoomEmotes": "Editar paquetes de emoticonos",
+	"editPermissions": "Cambiar permisos",
+	"editJoinRules": "Cambiar reglas de acceso",
+	"upgradeRoom": "Actualizar sala",
+	"editOtherRoomSettings": "Cambiar otros ajustes",
+	"other": "Otro",
+	"powerLevelMustBeANumber": "Se requiere un número",
+	"cannotExceedPowerLevel": "El nivel no puede exceder {powerLevel}",
+	"maxPowerLevel": "Máximo: {powerLevel}",
+	"member": "Miembro",
+	"powerLevel": "Nivel de poder",
+	"apply": "Aplicar",
+	"showSeconds": "Mostrar segundos",
+	"fonts": "Fuentes",
+	"uiFont": "Fuente de la interfaz",
+	"monospaceFont": "Fuente monoespaciada",
+	"uiFontFallback": "Fuentes de interfaz adicionales",
+	"monospaceFontFallback": "Fuentes monoespaciadas adicionales",
+	"chatFont": "Fuente del chat",
+	"chatFontFallback": "Fuentes de chat adicionales",
+	"openMessageSource": "Fuente del mensaje",
+	"@cannotExceedPowerLevel": {
+		"placeholders": {
+			"powerLevel": {
+				"type": "int",
+				"example": "100"
+			}
+		}
+	},
+	"@maxPowerLevel": {
+		"placeholders": {
+			"powerLevel": {
+				"type": "int",
+				"example": "100"
 			}
 		}
 	}
