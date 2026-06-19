@@ -67,18 +67,19 @@ extension LocalizedActiveFilter on ActiveFilter {
   IconData toIconData(bool outline) {
     switch (this) {
       case .allChats:
+        return outline ? Icons.home_outlined : Icons.home;
       case .messages:
         return outline ? Icons.chat_bubble_outline : Icons.chat_bubble;
       case .unread:
         return outline
-            ? Icons.mark_unread_chat_alt_outlined
-            : Icons.mark_unread_chat_alt;
+            ? Icons.chat_outlined
+            : Icons.chat_rounded;
       case .groups:
         return outline ? Icons.people_outline : Icons.people;
       case .spaces:
         return outline ? Icons.grid_view_outlined : Icons.grid_view_rounded;
       case .people:
-        return Icons.people_outline;
+        return outline ? Icons.people_alt_outlined : Icons.people_alt;
     }
   }
 }
