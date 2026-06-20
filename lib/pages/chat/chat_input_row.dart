@@ -1,3 +1,4 @@
+import 'package:extera_next/utils/matrix_sdk_extensions/filtered_timeline_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
@@ -64,7 +65,9 @@ class ChatInputRow extends StatelessWidget {
                         ),
                       ),
                     )
-                  else
+                  else if (controller.selectedEvents.every(
+                    (event) => !event.isState,
+                  ))
                     SizedBox(
                       height: height,
                       child: TextButton(
