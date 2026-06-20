@@ -298,23 +298,21 @@ class InputBar extends StatelessWidget {
         title: Row(
           crossAxisAlignment: .center,
           children: <Widget>[
-            Text(suggestion['name']!),
-            Expanded(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Opacity(
-                  opacity: suggestion['pack_avatar_url'] != null ? 0.8 : 0.5,
-                  child: suggestion['pack_avatar_url'] != null
-                      ? Avatar(
-                          mxContent: Uri.tryParse(
-                            suggestion.tryGet<String>('pack_avatar_url') ?? '',
-                          ),
-                          name: suggestion.tryGet<String>('pack_display_name'),
-                          size: size * 0.9,
-                          client: client,
-                        )
-                      : Text(suggestion['pack_display_name']!),
-                ),
+            Expanded(child: Text(suggestion['name']!)),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Opacity(
+                opacity: suggestion['pack_avatar_url'] != null ? 0.8 : 0.5,
+                child: suggestion['pack_avatar_url'] != null
+                    ? Avatar(
+                        mxContent: Uri.tryParse(
+                          suggestion.tryGet<String>('pack_avatar_url') ?? '',
+                        ),
+                        name: suggestion.tryGet<String>('pack_display_name'),
+                        size: size * 0.9,
+                        client: client,
+                      )
+                    : Text(suggestion['pack_display_name']!),
               ),
             ),
           ],
