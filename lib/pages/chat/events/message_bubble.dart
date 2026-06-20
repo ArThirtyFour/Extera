@@ -53,6 +53,7 @@ class MessageBubble extends StatefulWidget {
   final bool singleSelected;
   final Thread? thread;
   final bool hasBeenRead;
+  final bool? exampleMessage;
 
   const MessageBubble(
     this.event, {
@@ -63,6 +64,7 @@ class MessageBubble extends StatefulWidget {
     this.gradient = false,
     this.singleSelected = false,
     this.hasBeenRead = false,
+    this.exampleMessage = false,
     this.thread,
     required this.onSelect,
     required this.onInfoTab,
@@ -544,7 +546,9 @@ class _MessageBubbleState extends State<MessageBubble> {
                       ),
                     ),
                   ),
-                if (ownMessage && !event.redacted && event.type == EventTypes.Sticker)
+                if (ownMessage &&
+                    !event.redacted &&
+                    event.type == EventTypes.Sticker)
                   Flexible(child: replyDisplay),
                 Expanded(
                   child: Column(
@@ -760,11 +764,15 @@ class _MessageBubbleState extends State<MessageBubble> {
                                       name: user.calcDisplayname(),
                                       size: 36,
                                       // backgroundColor: Colors.transparent,
-                                      onTap: () => showMemberActionsPopupMenu(
-                                        context: context,
-                                        user: user,
-                                        onMention: widget.onMention,
-                                      ),
+                                      onTap: () {
+                                        if (widget.exampleMessage != true) {
+                                          showMemberActionsPopupMenu(
+                                            context: context,
+                                            user: user,
+                                            onMention: widget.onMention,
+                                          );
+                                        }
+                                      },
                                       // presenceUserId: user.stateKey,
                                       // presenceBackgroundColor: Colors.transparent,
                                     ),
@@ -833,7 +841,9 @@ class _MessageBubbleState extends State<MessageBubble> {
                     ],
                   ),
                 ),
-                if (!ownMessage && !event.redacted && event.type == EventTypes.Sticker)
+                if (!ownMessage &&
+                    !event.redacted &&
+                    event.type == EventTypes.Sticker)
                   Flexible(child: replyDisplay),
               ],
             ),
@@ -892,7 +902,11 @@ class _MessageBubbleState extends State<MessageBubble> {
                 left: ownMessage ? 12 : 24,
                 right: ownMessage ? 0 : 12.0,
               ),
-              child: MessageReactions(event, timeline, chatController: widget.chatController),
+              child: MessageReactions(
+                event,
+                timeline,
+                chatController: widget.chatController,
+              ),
             ),
           if (widget.displayReadMarker)
             Row(

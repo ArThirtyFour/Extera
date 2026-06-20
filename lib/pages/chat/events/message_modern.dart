@@ -48,6 +48,7 @@ class MessageModern extends StatefulWidget {
   final bool singleSelected;
   final Thread? thread;
   final bool hasBeenRead;
+  final bool? exampleMessage;
 
   const MessageModern(
     this.event, {
@@ -58,6 +59,7 @@ class MessageModern extends StatefulWidget {
     this.gradient = false,
     this.singleSelected = false,
     this.hasBeenRead = false,
+    this.exampleMessage = false,
     this.thread,
     required this.onSelect,
     required this.onInfoTab,
@@ -319,11 +321,15 @@ class _MessageModernState extends State<MessageModern> {
                     Avatar(
                       mxContent: user.avatarUrl,
                       name: user.calcDisplayname(),
-                      onTap: () => showMemberActionsPopupMenu(
-                        context: context,
-                        user: user,
-                        onMention: widget.onMention,
-                      ),
+                      onTap: () {
+                        if (widget.exampleMessage != true) {
+                          showMemberActionsPopupMenu(
+                            context: context,
+                            user: user,
+                            onMention: widget.onMention,
+                          );
+                        }
+                      },
                       presenceUserId: user.stateKey,
                       presenceBackgroundColor: widget.wallpaperMode
                           ? Colors.transparent

@@ -29,6 +29,7 @@ class Message extends StatelessWidget {
   final List<Color> colors;
   final bool gradient;
   final bool singleSelected;
+  final bool? exampleMessage;
   final Thread? thread;
   final bool hasBeenRead;
   final MessageLayout layout;
@@ -42,6 +43,7 @@ class Message extends StatelessWidget {
     this.gradient = false,
     this.singleSelected = false,
     this.hasBeenRead = false,
+    this.exampleMessage = false,
     this.thread,
     required this.onSelect,
     required this.onInfoTab,
@@ -76,6 +78,7 @@ class Message extends StatelessWidget {
         displayReadMarker: displayReadMarker,
         gradient: gradient,
         hasBeenRead: hasBeenRead,
+        exampleMessage: exampleMessage,
         highlightMarker: highlightMarker,
         key: key,
         longPressSelect: longPressSelect,
@@ -101,6 +104,7 @@ class Message extends StatelessWidget {
         displayReadMarker: displayReadMarker,
         gradient: gradient,
         hasBeenRead: hasBeenRead,
+        exampleMessage: exampleMessage,
         highlightMarker: highlightMarker,
         key: key,
         longPressSelect: longPressSelect,
@@ -126,6 +130,7 @@ class Message extends StatelessWidget {
         displayReadMarker: displayReadMarker,
         gradient: gradient,
         hasBeenRead: hasBeenRead,
+        exampleMessage: exampleMessage,
         highlightMarker: highlightMarker,
         key: key,
         longPressSelect: longPressSelect,
