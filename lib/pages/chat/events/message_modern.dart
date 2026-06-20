@@ -190,9 +190,12 @@ class _MessageModernState extends State<MessageModern> {
     final hasBeenRead = widget.hasBeenRead;
 
     final displayTime =
-        event.type == EventTypes.RoomCreate ||
-        widget.nextEvent == null ||
-        !event.originServerTs.sameEnvironment(widget.nextEvent!.originServerTs);
+        (event.type == EventTypes.RoomCreate ||
+            widget.nextEvent == null ||
+            !event.originServerTs.sameEnvironment(
+              widget.nextEvent!.originServerTs,
+            )) &&
+        widget.exampleMessage != true;
     final nextEventSameSender =
         widget.nextEvent != null &&
         {

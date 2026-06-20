@@ -232,9 +232,12 @@ class _MessageBubbleLegacyState extends State<MessageBubbleLegacy> {
 
     var color = theme.colorScheme.surfaceContainerHigh;
     final displayTime =
-        event.type == EventTypes.RoomCreate ||
-        widget.nextEvent == null ||
-        !event.originServerTs.sameEnvironment(widget.nextEvent!.originServerTs);
+        (event.type == EventTypes.RoomCreate ||
+            widget.nextEvent == null ||
+            !event.originServerTs.sameEnvironment(
+              widget.nextEvent!.originServerTs,
+            )) &&
+        widget.exampleMessage != true;
     final nextEventSameSender =
         widget.nextEvent != null &&
         {
