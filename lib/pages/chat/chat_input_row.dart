@@ -58,6 +58,7 @@ class ChatInputRow extends StatelessWidget {
                         ),
                         onPressed: controller.deleteErrorEventsAction,
                         child: Row(
+                          spacing: 4,
                           children: <Widget>[
                             const Icon(Icons.delete_forever_outlined),
                             Text(L10n.of(context).delete),
@@ -74,6 +75,7 @@ class ChatInputRow extends StatelessWidget {
                         style: selectedTextButtonStyle,
                         onPressed: controller.forwardEventsAction,
                         child: Row(
+                          spacing: 4,
                           children: <Widget>[
                             const Icon(Icons.keyboard_arrow_left_outlined),
                             Text(L10n.of(context).forward),
@@ -92,6 +94,7 @@ class ChatInputRow extends StatelessWidget {
                                   style: selectedTextButtonStyle,
                                   onPressed: () => controller.replyAction(null),
                                   child: Row(
+                                    spacing: 4,
                                     children: <Widget>[
                                       Text(L10n.of(context).reply),
                                       const Icon(Icons.keyboard_arrow_right),
@@ -105,6 +108,7 @@ class ChatInputRow extends StatelessWidget {
                                   style: selectedTextButtonStyle,
                                   onPressed: controller.sendAgainAction,
                                   child: Row(
+                                    spacing: 4,
                                     children: <Widget>[
                                       Text(L10n.of(context).tryToSendAgain),
                                       const SizedBox(width: 4),
