@@ -65,10 +65,13 @@ class NotificationsView extends StatelessWidget {
                           i == 0 ||
                           controller.notifications![i - 1].roomId !=
                               notification.roomId;
-                      final room = client.getRoomById(notification.roomId);
+                      var room = client.getRoomById(notification.roomId);
+
+                      room ??= Room(id: notification.roomId, client: client);
+
                       final event = Event.fromMatrixEvent(
                         notification.event,
-                        room!,
+                        room,
                       );
 
                       final message = Message(
@@ -79,11 +82,11 @@ class NotificationsView extends StatelessWidget {
                         onSelect: (Event ev, Offset? tapPosition) {
                           if (ev.relationshipType != RelationshipTypes.thread) {
                             context.push(
-                              "/rooms/${room.id}?event=${ev.eventId}",
+                              "/rooms/${notification.roomId}?event=${ev.eventId}",
                             );
                           } else {
                             context.push(
-                              "/rooms/${room.id}/threads/${ev.relationshipEventId}?event=${ev.eventId}",
+                              "/rooms/${notification.roomId}/threads/${ev.relationshipEventId}?event=${ev.eventId}",
                             );
                           }
                         },
