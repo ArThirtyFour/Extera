@@ -325,7 +325,7 @@ class SettingsStyleView extends StatelessWidget {
                                               ).settingsStyleMessage2,
                                             },
                                             originServerTs: DateTime.now(),
-                                            senderId: '@y:example.com',
+                                            senderId: '@yuki:example.com',
                                             status: .sent,
                                             type: EventTypes.Message,
                                             room: Room(
