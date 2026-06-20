@@ -1,3 +1,7 @@
+## Extera 26.3.2
+- Improved selecting state messages
+- Fix emote suggestion design flaw
+
 ## Extera 26.3.1
 - Fix fonts related issues (again)
 - Add message menus for state events (replying, reacting, discussing, viewing source...)
