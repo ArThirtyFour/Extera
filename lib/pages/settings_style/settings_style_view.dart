@@ -267,6 +267,7 @@ class SettingsStyleView extends StatelessWidget {
                                             originServerTs: DateTime.now(),
                                             stateKey: client.userID!,
                                           ),
+                                          selected: false,
                                         ),
                                         Message(
                                           Event(

@@ -11,8 +11,14 @@ import '../../../config/app_config.dart';
 
 class StateMessage extends StatefulWidget {
   final Event event;
+  final bool selected;
   final ChatController? controller;
-  const StateMessage(this.event, {this.controller, super.key});
+  const StateMessage(
+    this.event, {
+    required this.selected,
+    this.controller,
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _StateMessageState();
@@ -35,7 +41,9 @@ class _StateMessageState extends State<StateMessage> {
             Padding(
               padding: const .all(4),
               child: Material(
-                color: theme.colorScheme.surface.withAlpha(128),
+                color: widget.selected
+                  ? theme.colorScheme.surfaceContainerHigh
+                  : theme.colorScheme.surface,
                 borderRadius: BorderRadius.circular(AppConfig.borderRadius / 3),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(
