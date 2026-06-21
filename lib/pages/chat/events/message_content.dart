@@ -26,6 +26,7 @@ import 'cute_events.dart';
 import 'html_message.dart';
 import 'image_bubble.dart';
 import 'map_bubble.dart';
+import 'utd_content.dart';
 import 'message_download_content.dart';
 
 class MessageContent extends StatelessWidget {
@@ -293,12 +294,11 @@ class MessageContent extends StatelessWidget {
             continue textmessage;
           case MessageTypes.BadEncrypted:
           case EventTypes.Encrypted:
-            return _ButtonContent(
-              textColor: buttonTextColor,
-              onPressed: () => _verifyOrRequestKey(context),
-              icon: '🔒',
-              label: L10n.of(context).encrypted,
+            return EventUndecryptableContent(
+              event: event,
+              textColor: textColor,
               fontSize: fontSize,
+              onPressed: () => _verifyOrRequestKey(context),
             );
           case MessageTypes.Location:
             final geoUri = Uri.tryParse(

@@ -1,3 +1,4 @@
+import 'package:extera_next/pages/chat/trust_user_key_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -142,7 +143,12 @@ class ChatEmojiPicker extends StatelessWidget {
                             ),
                             StickerPickerDialog(
                               room: controller.room,
-                              onSelected: (sticker) {
+                              onSelected: (sticker) async {
+                                final proceed = await showTrustUserInRoomDialog(
+                                  context,
+                                  controller.room,
+                                );
+                                if (!proceed) return;
                                 controller.room.sendEvent(
                                   {
                                     'body': sticker.body,

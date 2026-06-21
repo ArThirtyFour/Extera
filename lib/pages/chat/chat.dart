@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:extera_next/pages/chat/events/message.dart';
+import 'package:extera_next/pages/chat/trust_user_key_dialog.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -421,7 +422,7 @@ class ChatController extends State<ChatPageWithRoom>
     }
   }
 
-  void _shareItems([_]) {
+  void _shareItems([_]) async {
     final shareItems = widget.shareItems;
     if (shareItems == null || shareItems.isEmpty) return;
     if (!room.otherPartyCanReceiveMessages) {
@@ -439,6 +440,8 @@ class ChatController extends State<ChatPageWithRoom>
       );
       return;
     }
+    final proceed = await showTrustUserInRoomDialog(context, room);
+    if (!mounted || !proceed) return;
     for (final item in shareItems) {
       if (item is FileShareItem) continue;
       if (item is TextShareItem) room.sendTextEvent(item.value);
@@ -803,6 +806,8 @@ class ChatController extends State<ChatPageWithRoom>
   });
 
   Future<void> send() async {
+    final proceed = await showTrustUserInRoomDialog(context, room);
+    if (!mounted || !proceed) return;
     if (sendController.text.trim().isEmpty) return;
     if (inputFocus.hasFocus) {
       inputFocus.unfocus();

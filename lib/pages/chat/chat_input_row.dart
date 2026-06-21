@@ -419,7 +419,7 @@ class ChatInputRow extends StatelessWidget {
                             },
                             style: IconButton.styleFrom(
                               foregroundColor:
-                                  theme.colorScheme.onPrimaryContainer,
+                                  theme.colorScheme.primary,
                             ),
                             icon: Icon(
                               recordingViewModel.recordingMode ==
@@ -433,7 +433,7 @@ class ChatInputRow extends StatelessWidget {
                             onPressed: controller.send,
                             style: IconButton.styleFrom(
                               foregroundColor:
-                                  theme.colorScheme.onPrimaryContainer,
+                                  theme.colorScheme.primary,
                             ),
                             icon: const Icon(Icons.send),
                           ),
