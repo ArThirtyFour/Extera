@@ -21,16 +21,16 @@ import 'package:extera_next/widgets/layouts/login_scaffold.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import '../key_verification/key_verification_dialog.dart';
 
-class BootstrapDialog extends StatefulWidget {
+class BootstrapPage extends StatefulWidget {
   final bool wipe;
 
-  const BootstrapDialog({super.key, this.wipe = false});
+  const BootstrapPage({super.key, this.wipe = false});
 
   @override
-  BootstrapDialogState createState() => BootstrapDialogState();
+  BootstrapPageState createState() => BootstrapPageState();
 }
 
-class BootstrapDialogState extends State<BootstrapDialog> {
+class BootstrapPageState extends State<BootstrapPage> {
   final TextEditingController _recoveryKeyTextEditingController =
       TextEditingController();
 

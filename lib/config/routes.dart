@@ -7,7 +7,7 @@ import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/pages/archive/archive.dart';
-import 'package:extera_next/pages/bootstrap/bootstrap_dialog.dart';
+import 'package:extera_next/pages/bootstrap/bootstrap_page.dart';
 import 'package:extera_next/pages/chat/chat.dart';
 import 'package:extera_next/pages/chat_access_settings/chat_access_settings_controller.dart';
 import 'package:extera_next/pages/chat_details/chat_details.dart';
@@ -135,7 +135,7 @@ abstract class AppRoutes {
       pageBuilder: (context, state) => defaultPageBuilder(
         context,
         state,
-        BootstrapDialog(wipe: state.uri.queryParameters['wipe'] == 'true'),
+        BootstrapPage(wipe: state.uri.queryParameters['wipe'] == 'true'),
       ),
     ),
     GoRoute(
