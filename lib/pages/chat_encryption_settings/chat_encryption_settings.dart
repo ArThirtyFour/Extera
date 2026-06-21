@@ -24,6 +24,18 @@ class ChatEncryptionSettingsController extends State<ChatEncryptionSettings> {
 
   Room get room => Matrix.of(context).client.getRoomById(roomId!)!;
 
+  String? uncollapsedUserId;
+
+  void uncollapse(String? userId) {
+    setState(() {
+      if (uncollapsedUserId == userId) {
+        uncollapsedUserId = null;
+      } else {
+        uncollapsedUserId = userId;
+      }
+    });
+  }
+
   Future<void> unblock(DeviceKeys key) async {
     if (key.blocked) {
       await key.setBlocked(false);

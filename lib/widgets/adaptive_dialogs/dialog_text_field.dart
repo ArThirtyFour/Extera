@@ -10,6 +10,8 @@ class DialogTextField extends StatelessWidget {
   final String? prefixText;
   final String? suffixText;
   final String? errorText;
+  final bool readOnly;
+  final TextStyle? textStyle;
   final bool obscureText;
   final bool isDestructive = false;
   final int? minLines;
@@ -35,6 +37,8 @@ class DialogTextField extends StatelessWidget {
     this.counterText,
     this.errorText,
     this.obscureText = false,
+    this.readOnly = false,
+    this.textStyle,
     this.textInputAction,
     this.onSubmitted,
   });
@@ -53,6 +57,8 @@ class DialogTextField extends StatelessWidget {
         return TextField(
           controller: controller,
           obscureText: obscureText,
+          readOnly: readOnly,
+          style: textStyle,
           minLines: minLines,
           maxLines: maxLines,
           maxLength: maxLength,
@@ -77,6 +83,8 @@ class DialogTextField extends StatelessWidget {
             CupertinoTextField(
               controller: controller,
               obscureText: obscureText,
+              readOnly: readOnly,
+              style: textStyle,
               minLines: minLines,
               maxLines: maxLines,
               maxLength: maxLength,
