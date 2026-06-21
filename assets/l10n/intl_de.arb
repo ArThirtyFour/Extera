@@ -1,6 +1,6 @@
 {
 	"@@locale": "de",
-	"@@last_modified": "2026-06-19T20:32:18.150Z",
+	"@@last_modified": "2026-06-21T21:38:55.619Z",
 	"alwaysUse24HourFormat": "true",
 	"@alwaysUse24HourFormat": {
 		"description": "Set to true to always display time of day in 24 hour format."
@@ -3954,6 +3954,164 @@
 			"powerLevel": {
 				"type": "int",
 				"example": "100"
+			}
+		}
+	},
+	"showProfileSource": "Quelldaten",
+	"restoreBootstrapEmptyDevicesDescription": "Geben Sie Ihre Sicherheitsphrase oder Ihren Wiederherstellungsschlüssel ein, um dieses Gerät zu verifizieren.",
+	"restoreBootstrapDevicesDescription": "Wählen Sie ein anderes Gerät zur Verifizierung aus:",
+	"resetAccount": "Verschlüsselungsschlüssel zurücksetzen",
+	"restoreCryptoIdentity": "Verschlüsselungsschlüssel wiederherstellen",
+	"resetCryptoIdentity": "Verschlüsselungsschlüssel zurücksetzen",
+	"setUpCryptoIdentity": "Sicherheit einrichten",
+	"waitingForKeys": "Warten auf Schlüssel... Schalten Sie das andere Gerät nicht aus.",
+	"noKeysTransmitted": "Schlüssel konnten nicht übertragen werden. Bitte versuchen Sie es erneut.",
+	"unlock": "Entsperren",
+	"openFile": "Datei öffnen",
+	"resetAccountWarning": "Wenn Sie Ihre Verschlüsselungsschlüssel zurücksetzen, verlieren Sie den Zugriff auf verschlüsselte Nachrichten. Zudem müssen Sie alle Geräte erneut verifizieren. Fahren Sie nur fort, wenn Sie keine anderen Geräte besitzen und sowohl Ihre Sicherheitsphrase als auch Ihren Wiederherstellungsschlüssel verloren haben!",
+	"newPassphraseDescription": "Extera verwendet Ende-zu-Ende-Verschlüsselung. Erstellen Sie eine komplexe Sicherheitsphrase zur Sicherung Ihrer Verschlüsselungsschlüssel.",
+	"newPassphrase": "Neue Sicherheitsphrase",
+	"repeatPassphrase": "Sicherheitsphrase bestätigen",
+	"passphrasesMatch": "Phrasen stimmen überein",
+	"passphraseLengthRequirement": "Mindestens 12 Zeichen",
+	"passphraseUpperAndLowerCaseRequirement": "Enthält Groß- und Kleinschreibung",
+	"passphraseSpecialCharactersRequirement": "Enthält ein Sonderzeichen",
+	"passphraseNumberRequirement": "Enthält eine Zahl",
+	"storeRecoveryKeyDescription": "Bewahren Sie Ihren Wiederherstellungsschlüssel an einem sicheren Ort auf, um Ihre Verschlüsselungsschlüssel später wiederherstellen zu können.",
+	"saveAsFile": "In Datei speichern",
+	"youAreReadyToStart": "Sie sind startklar!",
+	"noUserKeyFound": "Kein Schlüssel gefunden",
+	"knownSince": "Bekannt seit: {date}",
+	"unsignedDevice": "Nicht signiertes Gerät",
+	"signedDevice": "Signiertes Gerät",
+	"noCurve25519KeyFound": "Kein Curve25519-Schlüssel gefunden",
+	"supportDevelopment": "Unterstützen",
+	"nDevices": "{count, plural, one{1 Gerät} other{{count} Geräte}}",
+	"messageCanOnlyBeReadByUser": "Ihre Nachrichten sind verschlüsselt und können nur von diesem Benutzer gelesen werden:",
+	"messageCanOnlyBeReadByUsers": "Ihre Nachrichten sind verschlüsselt und können nur von diesen Benutzern gelesen werden:",
+	"publicKey": "Öffentlicher Schlüssel: {key}",
+	"@restoreBootstrapEmptyDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreBootstrapDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccount": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@setUpCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@waitingForKeys": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noKeysTransmitted": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@unlock": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@openFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccountWarning": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphraseDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@repeatPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphrasesMatch": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseLengthRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseUpperAndLowerCaseRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseSpecialCharactersRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseNumberRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@storeRecoveryKeyDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@saveAsFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noUserKeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@knownSince": {
+		"type": "String",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"@unsignedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@signedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noCurve25519KeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@nDevices": {
+		"type": "String",
+		"placeholders": {
+			"count": {
+				"type": "int",
+				"example": "1"
+			}
+		}
+	},
+	"@publicKey": {
+		"type": "String",
+		"placeholders": {
+			"key": {
+				"type": "String"
 			}
 		}
 	}

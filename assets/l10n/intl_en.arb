@@ -3848,7 +3848,7 @@
         "type": "String",
         "placeholders": {}
     },
-    "restoreBootstrapDevicesDescription": "Please pick one of your other devices, to verify this session:",
+    "restoreBootstrapDevicesDescription": "Please pick one of your other devices to verify this session:",
     "@restoreBootstrapDevicesDescription": {
         "type": "String",
         "placeholders": {}
@@ -3893,7 +3893,7 @@
         "type": "String",
         "placeholders": {}
     },
-    "resetAccountWarning": "When you reset your account, you will lose the access to your old messages forever. All your current devices need to be verified again. Please only perform this action when you have no other devices left to verify your session and you have lost your recovery key and passphrase!",
+    "resetAccountWarning": "When you reset your account, you will lose the access to your old messages forever. You will need to verify all your current devices again. Please only perform this action when you have no other devices left to verify your session and you have lost your recovery key and passphrase!",
     "@resetAccountWarning": {
         "type": "String",
         "placeholders": {}
@@ -3989,8 +3989,8 @@
             }
         }
     },
-    "messageCanOnlyBeReadByUser": "Your message is end to end encrypted and can only be read by this user:",
-    "messageCanOnlyBeReadByUsers": "Your message is end to end encrypted and can only be read by these users:",
+    "messageCanOnlyBeReadByUser": "Your messages are encrypted and can only be read by this user:",
+    "messageCanOnlyBeReadByUsers": "Your messages are encrypted and can only be read by these users:",
     "publicKey": "Public key: {key}",
     "@publicKey": {
         "type": "String",

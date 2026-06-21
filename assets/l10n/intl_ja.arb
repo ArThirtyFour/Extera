@@ -32,7 +32,7 @@
 	"cleanExif": "EXIFを削除",
 	"cleanExifDescription": "送信前に画像からEXIFメタデータ（カメラモデル、位置情報、時刻）を削除します。",
 	"@@locale": "ja",
-	"@@last_modified": "2026-06-19T20:19:43.224Z",
+	"@@last_modified": "2026-06-21T21:39:52.330Z",
 	"doNotSendIfCantClean": "クリーンできない画像を送信しない",
 	"doNotSendIfCantCleanDescription": "EXIFメタデータを削除できない場合、画像を送信しません",
 	"repeatPassword": "パスワードを再入力",
@@ -3837,5 +3837,163 @@
 	"monospaceFontFallback": "等幅フォントのフォールバック",
 	"chatFont": "チャットフォント",
 	"chatFontFallback": "チャットフォントのフォールバック",
-	"openMessageSource": "メッセージのソース"
+	"openMessageSource": "メッセージのソース",
+	"showProfileSource": "ソースデータを表示",
+	"restoreBootstrapEmptyDevicesDescription": "このデバイスを認証するために、秘密のフレーズまたはリカバリキーを入力してください。",
+	"restoreBootstrapDevicesDescription": "認証に使用する別のデバイスを選択してください：",
+	"resetAccount": "暗号化キーをリセット",
+	"restoreCryptoIdentity": "暗号化キーを復元",
+	"resetCryptoIdentity": "暗号化キーをリセット",
+	"setUpCryptoIdentity": "セキュリティ設定",
+	"waitingForKeys": "キーを待機中... もう一方のデバイスの電源を切らないでください。",
+	"noKeysTransmitted": "キーを転送できませんでした。もう一度やり直してください。",
+	"unlock": "ロック解除",
+	"openFile": "ファイルを開く",
+	"resetAccountWarning": "暗号化キーをリセットすると、暗号化されたメッセージにアクセスできなくなります。また、すべてのデバイスを再度認証する必要があります。他にデバイスがなく、秘密のフレーズとリカバリキーの両方を紛失した場合にのみ、続行してください。",
+	"newPassphraseDescription": "Exteraはエンドツーエンド暗号化を使用しています。暗号化キーをバックアップするために、複雑な秘密のフレーズを作成してください。",
+	"newPassphrase": "新しい秘密のフレーズ",
+	"repeatPassphrase": "秘密のフレーズを再入力",
+	"passphrasesMatch": "フレーズが一致しました",
+	"passphraseLengthRequirement": "12文字以上必要です",
+	"passphraseUpperAndLowerCaseRequirement": "大文字と小文字を含める必要があります",
+	"passphraseSpecialCharactersRequirement": "特殊文字を含める必要があります",
+	"passphraseNumberRequirement": "数字を含める必要があります",
+	"storeRecoveryKeyDescription": "後で暗号化キーを復元できるように、リカバリキーを安全な場所に保管してください。",
+	"saveAsFile": "ファイルとして保存",
+	"youAreReadyToStart": "準備が整いました！",
+	"noUserKeyFound": "キーが見つかりません",
+	"knownSince": "確認日: {date}",
+	"unsignedDevice": "未署名のデバイス",
+	"signedDevice": "署名済みのデバイス",
+	"noCurve25519KeyFound": "curve25519キーが見つかりません",
+	"supportDevelopment": "開発を支援",
+	"nDevices": "{count, plural, other{{count} 台のデバイス}}",
+	"messageCanOnlyBeReadByUser": "あなたのメッセージは暗号化されており、このユーザーのみが閲覧できます：",
+	"messageCanOnlyBeReadByUsers": "あなたのメッセージは暗号化されており、以下のユーザーのみが閲覧できます：",
+	"publicKey": "公開キー: {key}",
+	"@restoreBootstrapEmptyDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreBootstrapDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccount": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@setUpCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@waitingForKeys": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noKeysTransmitted": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@unlock": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@openFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccountWarning": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphraseDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@repeatPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphrasesMatch": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseLengthRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseUpperAndLowerCaseRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseSpecialCharactersRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseNumberRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@storeRecoveryKeyDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@saveAsFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noUserKeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@knownSince": {
+		"type": "String",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"@unsignedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@signedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noCurve25519KeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@nDevices": {
+		"type": "String",
+		"placeholders": {
+			"count": {
+				"type": "int",
+				"example": "1"
+			}
+		}
+	},
+	"@publicKey": {
+		"type": "String",
+		"placeholders": {
+			"key": {
+				"type": "String"
+			}
+		}
+	}
 }

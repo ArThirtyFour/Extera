@@ -1,6 +1,6 @@
 {
 	"@@locale": "ko",
-	"@@last_modified": "2026-06-19T20:25:19.638Z",
+	"@@last_modified": "2026-06-21T21:39:24.039Z",
 	"about": "소개",
 	"@about": {
 		"type": "String",
@@ -3932,6 +3932,164 @@
 			"powerLevel": {
 				"type": "int",
 				"example": "100"
+			}
+		}
+	},
+	"showProfileSource": "원본 데이터",
+	"restoreBootstrapEmptyDevicesDescription": "이 기기를 인증하려면 복구 구절 또는 복구 키를 입력하세요.",
+	"restoreBootstrapDevicesDescription": "인증을 위해 다른 기기를 선택하세요:",
+	"resetAccount": "암호화 키 초기화",
+	"restoreCryptoIdentity": "암호화 키 복구",
+	"resetCryptoIdentity": "암호화 키 초기화",
+	"setUpCryptoIdentity": "보안 설정",
+	"waitingForKeys": "키 대기 중... 다른 기기를 끄지 마세요.",
+	"noKeysTransmitted": "키를 전송하지 못했습니다. 다시 시도하세요.",
+	"unlock": "잠금 해제",
+	"openFile": "파일 열기",
+	"resetAccountWarning": "암호화 키를 초기화하면 암호화된 메시지에 대한 접근 권한을 잃게 됩니다. 또한 모든 기기를 다시 인증해야 합니다. 다른 기기가 없거나 복구 구절 및 복구 키를 분실한 경우에만 진행하세요!",
+	"newPassphraseDescription": "Extera는 종단간 암호화를 사용합니다. 암호화 키 백업을 위해 복잡한 복구 구절을 만드세요.",
+	"newPassphrase": "새 복구 구절",
+	"repeatPassphrase": "복구 구절 확인",
+	"passphrasesMatch": "복구 구절이 일치합니다",
+	"passphraseLengthRequirement": "최소 12자 이상 포함",
+	"passphraseUpperAndLowerCaseRequirement": "대문자 및 소문자 포함",
+	"passphraseSpecialCharactersRequirement": "특수 문자 포함",
+	"passphraseNumberRequirement": "숫자 포함",
+	"storeRecoveryKeyDescription": "나중에 암호화 키를 복구할 수 있도록 복구 키를 안전한 곳에 보관하세요.",
+	"saveAsFile": "파일로 저장",
+	"youAreReadyToStart": "시작할 준비가 되었습니다!",
+	"noUserKeyFound": "키를 찾을 수 없음",
+	"knownSince": "확인된 날짜: {date}",
+	"unsignedDevice": "서명되지 않은 기기",
+	"signedDevice": "서명된 기기",
+	"noCurve25519KeyFound": "curve25519 키를 찾을 수 없음",
+	"supportDevelopment": "개발 후원",
+	"nDevices": "{count, plural, other{{count}개의 기기}}",
+	"messageCanOnlyBeReadByUser": "메시지가 암호화되었으며 이 사용자만 읽을 수 있습니다:",
+	"messageCanOnlyBeReadByUsers": "메시지가 암호화되었으며 다음 사용자들만 읽을 수 있습니다:",
+	"publicKey": "공개 키: {key}",
+	"@restoreBootstrapEmptyDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreBootstrapDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccount": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@setUpCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@waitingForKeys": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noKeysTransmitted": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@unlock": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@openFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccountWarning": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphraseDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@repeatPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphrasesMatch": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseLengthRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseUpperAndLowerCaseRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseSpecialCharactersRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseNumberRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@storeRecoveryKeyDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@saveAsFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noUserKeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@knownSince": {
+		"type": "String",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"@unsignedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@signedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noCurve25519KeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@nDevices": {
+		"type": "String",
+		"placeholders": {
+			"count": {
+				"type": "int",
+				"example": "1"
+			}
+		}
+	},
+	"@publicKey": {
+		"type": "String",
+		"placeholders": {
+			"key": {
+				"type": "String"
 			}
 		}
 	}
