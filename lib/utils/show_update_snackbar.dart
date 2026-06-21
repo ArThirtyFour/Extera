@@ -24,6 +24,7 @@ abstract class UpdateNotifier {
           SnackBar(
             duration: const Duration(seconds: 30),
             showCloseIcon: true,
+            dismissDirection: .horizontal,
             closeIconColor: theme.colorScheme.onSurface,
             backgroundColor: theme.colorScheme.surfaceContainerHigh,
             content: Column(
