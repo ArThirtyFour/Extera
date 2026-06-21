@@ -46,7 +46,14 @@ class SignInPage extends StatelessWidget {
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: .symmetric(
+              horizontal: 16,
+              vertical:
+                  selectedHomserver == null ||
+                      !publicHomeservers.contains(selectedHomserver)
+                  ? 16
+                  : 0,
+            ),
             child: Column(
               spacing: 16,
               children: [

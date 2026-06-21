@@ -11,21 +11,61 @@ abstract class UpdateNotifier {
   static const String versionStoreKey = 'last_known_version';
 
   static void showUpdateSnackBar(BuildContext context) async {
+    final theme = Theme.of(context);
+
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final currentVersion = await PlatformInfos.getVersion();
     final store = await SharedPreferences.getInstance();
     final storedVersion = store.getString(versionStoreKey);
 
-    if (currentVersion != storedVersion) {
+    if (currentVersion != storedVersion || true) {
       if (storedVersion != null) {
         scaffoldMessenger.showSnackBar(
           SnackBar(
             duration: const Duration(seconds: 30),
             showCloseIcon: true,
-            content: Text(L10n.of(context).updateInstalled(currentVersion)),
-            action: SnackBarAction(
-              label: L10n.of(context).changelog,
-              onPressed: () => launchUrlString(AppConfig.changelogUrl),
+            closeIconColor: theme.colorScheme.onSurface,
+            backgroundColor: theme.colorScheme.surfaceContainerHigh,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  L10n.of(context).updateInstalled(currentVersion),
+                  style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: .end,
+                  children: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: theme.colorScheme.error,
+                        padding: const .symmetric(horizontal: 12),
+                      ),
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        launchUrlString(AppConfig.donateUrl);
+                      },
+                      child: Text(L10n.of(context).supportDevelopment),
+                    ),
+                    const SizedBox(width: 8),
+                    FilledButton.tonalIcon(
+                      style: FilledButton.styleFrom(
+                        foregroundColor: theme.colorScheme.onPrimary,
+                        backgroundColor: theme.colorScheme.primary,
+                        padding: const .symmetric(horizontal: 12),
+                      ),
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        launchUrlString(AppConfig.changelogUrl);
+                      },
+                      icon: const Icon(Icons.list),
+                      label: Text(L10n.of(context).changelog),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );

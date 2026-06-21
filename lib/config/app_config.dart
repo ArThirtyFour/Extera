@@ -9,6 +9,7 @@ abstract class AppConfig {
   static const String aboutProfileField = 'xyz.extera.about';
   static const String updateCheckUrl = 'https://extera.xyz/next/version.txt';
   static const String downloadUpdateUrl = 'https://extera.xyz/';
+  static const String donateUrl = 'https://extera.xyz/donate.html';
 
   static const String appSsoUrlScheme = 'xyz.extera.auth';
 

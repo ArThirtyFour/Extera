@@ -71,9 +71,7 @@ extension LocalizedActiveFilter on ActiveFilter {
       case .messages:
         return outline ? Icons.chat_bubble_outline : Icons.chat_bubble;
       case .unread:
-        return outline
-            ? Icons.chat_outlined
-            : Icons.chat_rounded;
+        return outline ? Icons.chat_outlined : Icons.chat_rounded;
       case .groups:
         return outline ? Icons.people_outline : Icons.people;
       case .spaces:
@@ -487,6 +485,7 @@ class ChatListController extends State<ChatList>
           context,
         ).backgroundPush?.setupPush(Matrix.of(context).widget.clients);
         UpdateNotifier.showUpdateSnackBar(context);
+        checkForUpdates(context);
       }
 
       // Workaround for system UI overlay style not applied on app start
@@ -501,8 +500,6 @@ class ChatListController extends State<ChatList>
           _cachedFilteredRooms = null;
           _cachedSpaces = null;
         });
-
-    checkForUpdates(context);
 
     super.initState();
   }
