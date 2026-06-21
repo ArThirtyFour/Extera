@@ -759,6 +759,7 @@ class ChatController extends State<ChatPageWithRoom>
     timeline?.cancelSubscriptions();
     timeline = null;
     inputFocus.removeListener(_inputFocusListener);
+    inputFocus.dispose();
     inputBarHeight.dispose();
     scrollController.dispose();
     sendController.dispose();

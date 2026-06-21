@@ -452,6 +452,16 @@ class MatrixState extends State<Matrix> with WidgetsBindingObserver {
       s.cancel();
     }
 
+    for (final s in onUiaRequest.values) {
+      s.cancel();
+    }
+
+    onRoomKeyRequestSub.clear();
+    onKeyVerificationRequestSub.clear();
+    onLoginStateChanged.clear();
+    onNotification.clear();
+    onUiaRequest.clear();
+
     client.httpClient.close();
 
     linuxNotifications?.close();
