@@ -1465,7 +1465,7 @@
         "type": "String",
         "placeholders": {}
     },
-    "noGoogleServicesWarning": "На Вашем устройстве не установлены сервисы Google Play. Классное решение! Для получения push-уведомлений, скачайте ntfy из F-Droid. Вы также можете использовать Aurora Store и microG вместо Google Play Services, если Ваш телефон не поддерживает GMS (например, Huawei).",
+    "noGoogleServicesWarning": "На Вашем устройстве не установлены сервисы Google Play. Хорошее решение для Вашей конфиденциальности! Для получения push-уведомлений, скачайте ntfy из F-Droid. Вы также можете использовать Aurora Store и microG вместо Google Play Services, если Ваш телефон не поддерживает GMS (например, Huawei).",
     "@noGoogleServicesWarning": {
         "type": "String",
         "placeholders": {}

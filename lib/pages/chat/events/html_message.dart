@@ -190,6 +190,9 @@ class _HtmlMessageState extends State<HtmlMessage> {
     final onlyElements = nodes.whereType<dom.Element>().toList();
     return [
       for (var i = 0; i < nodes.length; i++) ...[
+        if (nodes[i] is dom.Element &&
+            (nodes[i] as dom.Element).localName == 'blockquote')
+          const TextSpan(text: '\n', style: TextStyle(fontSize: 1)),
         // Actually render the node child:
         _renderHtml(
           nodes[i],

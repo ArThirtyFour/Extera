@@ -799,7 +799,12 @@ class _MessageBubbleState extends State<MessageBubble> {
                               ? Alignment.bottomRight
                               : Alignment.bottomLeft,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(
+                              bottom: 8,
+                              left: 24,
+                              right: 8,
+                              top: 8,
+                            ),
                             child: InkWell(
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,

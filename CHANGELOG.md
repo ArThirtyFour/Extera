@@ -1,3 +1,8 @@
+## Extera 26.3.3
+- Added TOFU (trust-on-first-use) support.
+- Updated bootstrap process as in FluffyChat.
+- Updated chat encryption page.
+
 ## Extera 26.3.2
 - Improved selecting state messages
 - Fix emote suggestion design flaw
