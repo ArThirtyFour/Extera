@@ -3978,5 +3978,26 @@
         "type": "String",
         "placeholders": {}
     },
-    "supportDevelopment": "Support"
+    "supportDevelopment": "Support",
+    "nDevices": "{count, plural, =1{1 device} other{{count} devices}}",
+    "@nDevices": {
+        "type": "String",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "messageCanOnlyBeReadByUser": "Your message is end to end encrypted and can only be read by this user:",
+    "messageCanOnlyBeReadByUsers": "Your message is end to end encrypted and can only be read by these users:",
+    "publicKey": "Public key: {key}",
+    "@publicKey": {
+        "type": "String",
+        "placeholders": {
+            "key": {
+                "type": "String"
+            }
+        }
+    }
 }
