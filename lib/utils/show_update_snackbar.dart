@@ -18,7 +18,7 @@ abstract class UpdateNotifier {
     final store = await SharedPreferences.getInstance();
     final storedVersion = store.getString(versionStoreKey);
 
-    if (currentVersion != storedVersion || true) {
+    if (currentVersion != storedVersion) {
       if (storedVersion != null) {
         scaffoldMessenger.showSnackBar(
           SnackBar(
