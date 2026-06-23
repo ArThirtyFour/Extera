@@ -267,26 +267,6 @@ class ChatInputRow extends StatelessWidget {
                         ],
                       ),
                     ),
-                  Container(
-                    height: height,
-                    width: height,
-                    alignment: Alignment.center,
-                    child: IconButton(
-                      tooltip: L10n.of(context).emojis,
-                      color: theme.colorScheme.onSurface,
-                      icon: Icon(
-                        controller.sendController.text.isEmpty
-                            ? controller.showEmojiPicker
-                                  ? MdiIcons.sticker
-                                  : MdiIcons.stickerOutline
-                            : controller.showEmojiPicker
-                            ? Icons.add_reaction
-                            : Icons.add_reaction_outlined,
-                        key: ValueKey(controller.showEmojiPicker),
-                      ),
-                      onPressed: controller.emojiPickerAction,
-                    ),
-                  ),
                   if (Matrix.of(context).isMultiAccount &&
                       Matrix.of(context).hasComplexBundles &&
                       Matrix.of(context).currentBundle!.length > 1)
@@ -332,6 +312,26 @@ class ChatInputRow extends StatelessWidget {
                         ),
                         onChanged: controller.onInputBarChanged,
                       ),
+                    ),
+                  ),
+                  Container(
+                    height: height,
+                    width: height,
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      tooltip: L10n.of(context).emojis,
+                      color: theme.colorScheme.onSurface,
+                      icon: Icon(
+                        controller.sendController.text.isEmpty
+                            ? controller.showEmojiPicker
+                                  ? MdiIcons.sticker
+                                  : MdiIcons.stickerOutline
+                            : controller.showEmojiPicker
+                            ? Icons.add_reaction
+                            : Icons.add_reaction_outlined,
+                        key: ValueKey(controller.showEmojiPicker),
+                      ),
+                      onPressed: controller.emojiPickerAction,
                     ),
                   ),
                   Container(
