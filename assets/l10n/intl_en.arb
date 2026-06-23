@@ -2206,6 +2206,36 @@
         "type": "String",
         "placeholders": {}
     },
+    "language": "Language",
+    "@language": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "systemLanguage": "System language",
+    "@systemLanguage": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "appLanguageTitle": "App language",
+    "@appLanguageTitle": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "recommended": "Recommended",
+    "@recommended": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "allLanguages": "All languages",
+    "@allLanguages": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "searchLanguages": "Search languages",
+    "@searchLanguages": {
+        "type": "String",
+        "placeholders": {}
+    },
     "theyDontMatch": "They Don't Match",
     "@theyDontMatch": {
         "type": "String",

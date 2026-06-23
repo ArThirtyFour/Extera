@@ -99,8 +99,10 @@ class _FluffyChatAppState extends State<FluffyChatApp> {
             schemeVariant,
             pureBlack,
             twemoji,
+            locale,
           ) => MaterialApp.router(
             title: AppConfig.applicationName,
+            locale: locale,
             themeMode: themeMode,
             theme: FluffyThemes.buildTheme(
               context,

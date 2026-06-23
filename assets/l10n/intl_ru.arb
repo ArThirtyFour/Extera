@@ -2196,6 +2196,36 @@
         "type": "String",
         "placeholders": {}
     },
+    "language": "Язык",
+    "@language": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "systemLanguage": "Язык системы",
+    "@systemLanguage": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "appLanguageTitle": "Язык приложения",
+    "@appLanguageTitle": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "recommended": "Рекомендованные",
+    "@recommended": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "allLanguages": "Все языки",
+    "@allLanguages": {
+        "type": "String",
+        "placeholders": {}
+    },
+    "searchLanguages": "Поиск языков",
+    "@searchLanguages": {
+        "type": "String",
+        "placeholders": {}
+    },
     "theyDontMatch": "Они не совпадают",
     "@theyDontMatch": {
         "type": "String",
