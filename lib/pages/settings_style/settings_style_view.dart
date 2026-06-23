@@ -57,8 +57,9 @@ class SettingsStyleView extends StatelessWidget {
       ),
       backgroundColor: theme.colorScheme.surface,
       body: MaxWidthBody(
+        withoutVerticalPadding: true,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const .all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -622,7 +623,6 @@ class SettingsStyleView extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
             ],
           ),
         ),

@@ -40,6 +40,7 @@ class SettingsSecurityView extends StatelessWidget {
       body: ListTileTheme(
         iconColor: theme.colorScheme.onSurface,
         child: MaxWidthBody(
+          withoutVerticalPadding: true,
           child: FutureBuilder(
             future: Matrix.of(
               context,
@@ -56,7 +57,7 @@ class SettingsSecurityView extends StatelessWidget {
                 );
               }
               return Padding(
-                padding: const .symmetric(horizontal: 8),
+                padding: const .all(8),
                 child: Column(
                   children: [
                     Material(

@@ -28,8 +28,9 @@ class SettingsFeaturesView extends StatelessWidget {
       body: ListTileTheme(
         iconColor: theme.textTheme.bodyLarge!.color,
         child: MaxWidthBody(
+          withoutVerticalPadding: true,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const .all(8),
             child: Column(
               children: [
                 Material(

@@ -38,6 +38,7 @@ class SettingsNotificationsView extends StatelessWidget {
         title: Text(L10n.of(context).notifications),
       ),
       body: MaxWidthBody(
+        withoutVerticalPadding: true,
         child: StreamBuilder(
           stream: Matrix.of(context).client.onSync.stream.where(
             (syncUpdate) =>
@@ -49,7 +50,7 @@ class SettingsNotificationsView extends StatelessWidget {
           builder: (BuildContext context, _) {
             final theme = Theme.of(context);
             return Padding(
-              padding: const .symmetric(horizontal: 8),
+              padding: const .all(8),
               child: Column(
                 children: [
                   if (pushRules != null)

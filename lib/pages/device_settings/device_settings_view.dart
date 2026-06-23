@@ -22,6 +22,7 @@ class DevicesSettingsView extends StatelessWidget {
         title: Text(L10n.of(context).devices),
       ),
       body: MaxWidthBody(
+        withoutVerticalPadding: true,
         child: FutureBuilder<bool>(
           future: controller.loadUserDevices(context),
           builder: (BuildContext context, snapshot) {
@@ -44,7 +45,7 @@ class DevicesSettingsView extends StatelessWidget {
               );
             }
             return Padding(
-              padding: const .symmetric(horizontal: 8),
+              padding: const .all(8),
               child: Material(
                 color: theme.colorScheme.surfaceContainerHigh,
                 borderRadius: borderRadius,
