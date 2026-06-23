@@ -227,32 +227,32 @@ class ProfileView extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Center(
-                                    child: Material(
-                                      color: controller.bannerUrl != null
-                                          ? theme.colorScheme.surface.withAlpha(
-                                              127,
-                                            )
-                                          : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(24),
-                                      clipBehavior: Clip.hardEdge,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 2,
-                                        ),
-                                        child: Text(
-                                          profile.userId,
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: theme.colorScheme.secondary,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  // Center(
+                                  //   child: Material(
+                                  //     color: controller.bannerUrl != null
+                                  //         ? theme.colorScheme.surface.withAlpha(
+                                  //             127,
+                                  //           )
+                                  //         : Colors.transparent,
+                                  //     borderRadius: BorderRadius.circular(24),
+                                  //     clipBehavior: Clip.hardEdge,
+                                  //     child: Padding(
+                                  //       padding: const EdgeInsets.symmetric(
+                                  //         horizontal: 12,
+                                  //         vertical: 2,
+                                  //       ),
+                                  //       child: Text(
+                                  //         profile.userId,
+                                  //         textAlign: TextAlign.center,
+                                  //         maxLines: 1,
+                                  //         overflow: TextOverflow.ellipsis,
+                                  //         style: TextStyle(
+                                  //           color: theme.colorScheme.secondary,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   if (presenceText != null)
                                     Center(
                                       child: Material(
