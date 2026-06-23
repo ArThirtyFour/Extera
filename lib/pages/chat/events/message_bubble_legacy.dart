@@ -465,8 +465,8 @@ class _MessageBubbleLegacyState extends State<MessageBubbleLegacy> {
               children: [
                 if (widget.longPressSelect)
                   SizedBox(
-                    height: 32,
-                    width: Avatar.defaultSize,
+                    height: 36,
+                    width: 36,
                     child: Checkbox.adaptive(
                       value: widget.selected,
                       shape: const CircleBorder(),
@@ -475,7 +475,7 @@ class _MessageBubbleLegacyState extends State<MessageBubbleLegacy> {
                   )
                 else if (nextEventSameSender || ownMessage)
                   SizedBox(
-                    width: Avatar.defaultSize,
+                    width: 36,
                     child: Center(
                       child: SizedBox(
                         width: 16,
@@ -494,6 +494,7 @@ class _MessageBubbleLegacyState extends State<MessageBubbleLegacy> {
                   Avatar(
                     mxContent: user.avatarUrl,
                     name: user.calcDisplayname(),
+                    size: 36,
                     onTap: () {
                       if (widget.exampleMessage != true) {
                         showMemberActionsPopupMenu(
@@ -649,19 +650,12 @@ class _MessageBubbleLegacyState extends State<MessageBubbleLegacy> {
                                                             event,
                                                           ),
                                                       child: AbsorbPointer(
-                                                        child: Padding(
-                                                          // I did this intentionally
-                                                          padding:
-                                                              const .symmetric(
-                                                                horizontal: 8,
-                                                              ),
-                                                          child: ReplyContent(
-                                                            replyEvent,
-                                                            noBubble: noBubble,
-                                                            ownMessage:
-                                                                ownMessage,
-                                                            timeline: timeline,
-                                                          ),
+                                                        child: ReplyContent(
+                                                          replyEvent,
+                                                          noBubble: noBubble,
+                                                          ownMessage:
+                                                              ownMessage,
+                                                          timeline: timeline,
                                                         ),
                                                       ),
                                                     ),
