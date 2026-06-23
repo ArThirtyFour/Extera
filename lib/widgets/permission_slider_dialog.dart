@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:extera_next/config/app_config.dart';
 
-enum _RoleChoice { admin, moderator, member, custom }
+enum _RoleChoice { admin, moderator, member, muted, custom }
 
 Future<int?> showPermissionChooser(
   BuildContext context, {
@@ -52,21 +52,22 @@ class _RoleChooserDialogState extends State<_RoleChooserDialog> {
   }
 
   _RoleChoice _initialChoice(int level) {
-    if (level >= 100) return _RoleChoice.admin;
-    if (level == 50) return _RoleChoice.moderator;
-    if (level == 0) return _RoleChoice.member;
-    return _RoleChoice.custom;
+    if (level >= 100) return .admin;
+    if (level == 50) return .moderator;
+    if (level == 0) return .member;
+    if (level < 0) return .muted;
+    return .custom;
   }
 
   bool _isChoiceEnabled(_RoleChoice choice) {
     switch (choice) {
-      case _RoleChoice.admin:
+      case .admin:
         return widget.maxLevel >= 100;
-      case _RoleChoice.moderator:
+      case .moderator:
         return widget.maxLevel >= 50;
-      case _RoleChoice.member:
-        return true;
-      case _RoleChoice.custom:
+      case .member:
+      case .muted:
+      case .custom:
         return true;
     }
   }
@@ -81,6 +82,9 @@ class _RoleChooserDialogState extends State<_RoleChooserDialog> {
         return;
       case .member:
         Navigator.of(context).pop<int>(0);
+        return;
+      case .muted:
+        Navigator.of(context).pop<int>(-1);
         return;
       case .custom:
         final parsed = int.tryParse(_customController.text.trim());
@@ -146,6 +150,15 @@ class _RoleChooserDialogState extends State<_RoleChooserDialog> {
                 choice: .member,
                 label: L10n.of(context).member,
                 subtitle: '0',
+                onSelected: (v) {
+                  setState(() => _selected = v);
+                },
+              ),
+              _buildRadio(
+                context,
+                choice: .muted,
+                label: L10n.of(context).powerLevelReadOnly,
+                subtitle: '-1',
                 onSelected: (v) {
                   setState(() => _selected = v);
                 },

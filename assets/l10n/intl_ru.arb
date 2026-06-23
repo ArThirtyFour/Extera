@@ -4091,5 +4091,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "powerLevelReadOnly": "Только чтение"
 }

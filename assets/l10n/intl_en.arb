@@ -3999,5 +3999,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "powerLevelReadOnly": "Read only"
 }
