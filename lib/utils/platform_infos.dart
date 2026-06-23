@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:extera_next/widgets/list_divider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -47,39 +48,76 @@ abstract class PlatformInfos {
 
   static void showDialog(BuildContext context) async {
     final version = await PlatformInfos.getVersion();
+    final theme = Theme.of(context);
+
     showAboutDialog(
       context: context,
       useRootNavigator: false,
       children: [
         Text('Version: $version'),
-        TextButton.icon(
-          onPressed: () => launchUrlString(AppConfig.sourceCodeUrl),
-          icon: const Icon(Icons.source_outlined),
-          label: Text(L10n.of(context).sourceCode),
-        ),
-        Builder(
-          builder: (innerContext) {
-            return TextButton.icon(
-              onPressed: () {
-                context.go('/logs');
-                Navigator.of(innerContext).pop();
-              },
-              icon: const Icon(Icons.list_outlined),
-              label: const Text('Logs'),
-            );
-          },
-        ),
-        Builder(
-          builder: (innerContext) {
-            return TextButton.icon(
-              onPressed: () {
-                context.go('/configs');
-                Navigator.of(innerContext).pop();
-              },
-              icon: const Icon(Icons.settings_applications_outlined),
-              label: const Text('Advanced Configs'),
-            );
-          },
+        Material(
+          borderRadius: BorderRadius.circular(AppConfig.borderRadius),
+          color: theme.colorScheme.surfaceContainerHighest,
+          clipBehavior: .hardEdge,
+          child: Column(
+            mainAxisSize: .min,
+            crossAxisAlignment: .start,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: theme.colorScheme.primaryContainer,
+                  child: Icon(
+                    Icons.source,
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
+                ),
+                title: Text(L10n.of(context).sourceCode),
+                onTap: () => launchUrlString(AppConfig.sourceCodeUrl),
+              ),
+              ListDivider(color: theme.colorScheme.surfaceContainerHigh),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: theme.colorScheme.errorContainer,
+                  child: Icon(
+                    Icons.favorite,
+                    color: theme.colorScheme.onErrorContainer,
+                  ),
+                ),
+                title: Text(L10n.of(context).supportDevelopment),
+                onTap: () => launchUrlString(AppConfig.donateUrl),
+              ),
+              ListDivider(color: theme.colorScheme.surfaceContainerHigh),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: theme.colorScheme.secondaryContainer,
+                  child: Icon(
+                    Icons.list,
+                    color: theme.colorScheme.onSecondaryContainer,
+                  ),
+                ),
+                title: const Text('Logs'),
+                onTap: () {
+                  Navigator.of(context, rootNavigator: false).pop();
+                  context.go('/logs');
+                },
+              ),
+              ListDivider(color: theme.colorScheme.surfaceContainerHigh),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: theme.colorScheme.tertiaryContainer,
+                  child: Icon(
+                    Icons.settings,
+                    color: theme.colorScheme.onTertiaryContainer,
+                  ),
+                ),
+                title: const Text('Advanced config'),
+                onTap: () {
+                  Navigator.of(context, rootNavigator: false).pop();
+                  context.go('/configs');
+                },
+              ),
+            ],
+          ),
         ),
       ],
       applicationIcon: Image.asset(
