@@ -159,7 +159,7 @@ class _AvatarVisuals extends StatelessWidget {
     final displayName = name;
     final fallbackLetters = (displayName == null || displayName.isEmpty)
         ? '@'
-        : displayName.substring(0, 1);
+        : displayName.characters.first;
 
     return Container(
       decoration: BoxDecoration(
