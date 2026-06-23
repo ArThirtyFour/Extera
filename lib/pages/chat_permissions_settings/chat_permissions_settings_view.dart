@@ -218,8 +218,9 @@ class ChatPermissionsSettingsView extends StatelessWidget {
         title: Text(L10n.of(context).chatPermissions),
       ),
       body: MaxWidthBody(
+        withoutVerticalPadding: true,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const .all(8),
           child: StreamBuilder(
             stream: controller.onChanged,
             builder: (context, _) {
@@ -286,7 +287,6 @@ class ChatPermissionsSettingsView extends StatelessWidget {
                       canEdit: canEdit,
                     ),
                   ],
-                  const SizedBox(height: 8),
                 ],
               );
             },
