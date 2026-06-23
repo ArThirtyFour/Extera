@@ -78,6 +78,7 @@ enum AppSettings<T> {
   cleanExif<bool>('xyz.extera.next.cleanExif', true),
   doNotSendIfCantClean<bool>('xyz.extera.next.doNotSendIfCantClean', true),
   themeMode<String>('xyz.extera.next.themeMode', 'system'),
+  appLanguage<String>('xyz.extera.next.appLanguage', ''),
   pureBlack<bool>('xyz.extera.next.pureBlack', false),
   renderHtml<bool>('chat.fluffy.renderHtml', true),
   schemeVariant<int>('xyz.extera.next.schemeVariant', 0),

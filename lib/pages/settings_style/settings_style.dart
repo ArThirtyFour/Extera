@@ -15,6 +15,8 @@ import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/utils/file_selector.dart';
+import 'package:extera_next/utils/locale_display_name.dart';
+import 'package:extera_next/pages/settings_language/settings_language_page.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
 import 'package:extera_next/widgets/theme_builder.dart';
 import 'settings_style_view.dart';
@@ -201,6 +203,22 @@ class SettingsStyleController extends State<SettingsStyle> {
         );
       },
     );
+  }
+
+  /// Name of the currently selected language, or the localized "system
+  /// language" label when the app follows the system locale.
+  String get currentLanguageName {
+    final locale = ThemeController.of(context).locale;
+    return locale == null
+        ? L10n.of(context).systemLanguage
+        : localeDisplayName(locale);
+  }
+
+  void setAppLanguage() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const SettingsLanguagePage()),
+    );
+    if (mounted) setState(() {});
   }
 
   void saveWallpaperOpacity(double opacity) async {
