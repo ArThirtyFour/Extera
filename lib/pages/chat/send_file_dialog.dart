@@ -10,7 +10,7 @@ import 'package:matrix/src/utils/markdown.dart';
 import 'package:mime/mime.dart';
 
 import 'package:extera_next/config/app_config.dart';
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/clean_exif.dart';
 import 'package:extera_next/utils/loading_snackbar_extension.dart';

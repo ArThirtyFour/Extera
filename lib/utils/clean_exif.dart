@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:image/image.dart';
 
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 
 class ExifCleaner {
   static List<int> removeExifData(List<int> imageBytes) {

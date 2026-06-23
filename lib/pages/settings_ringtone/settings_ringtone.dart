@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/pages/settings_ringtone/settings_ringtone_view.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/matrix.dart';

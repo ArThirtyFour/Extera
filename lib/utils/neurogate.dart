@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:matrix/matrix.dart';
 
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/utils/custom_http_client.dart';
 
 class NeurogateTranslationResponse {

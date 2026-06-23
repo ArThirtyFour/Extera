@@ -1,4 +1,4 @@
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

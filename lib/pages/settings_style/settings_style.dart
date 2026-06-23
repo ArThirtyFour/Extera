@@ -11,7 +11,7 @@ import 'package:native_imaging/native_imaging.dart' as native;
 import 'package:path_provider/path_provider.dart';
 
 import 'package:extera_next/config/app_config.dart';
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/utils/file_selector.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
 
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/pages/chat_privacy/chat_privacy_view.dart';
 import 'package:extera_next/widgets/matrix.dart';
 

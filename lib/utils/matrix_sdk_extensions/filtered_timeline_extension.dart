@@ -1,6 +1,6 @@
 import 'package:matrix/matrix.dart';
 
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/utils/poll_events.dart';
 import '../../config/app_config.dart';
 

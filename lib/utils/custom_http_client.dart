@@ -6,7 +6,7 @@ import 'package:http/io_client.dart';
 
 import 'package:extera_next/config/isrg_x1.dart';
 import 'package:extera_next/config/isrg_x2.dart';
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 
 class CustomHttpClient {

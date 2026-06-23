@@ -27,7 +27,7 @@ import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog
 import 'package:extera_next/widgets/fluffy_chat_app.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
 import '../config/app_config.dart';
-import '../config/setting_keys.dart';
+import '../config/app_settings.dart';
 import '../pages/key_verification/key_verification_dialog.dart';
 import '../utils/account_bundles.dart';
 import '../utils/background_push.dart';

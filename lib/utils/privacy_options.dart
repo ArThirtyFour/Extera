@@ -1,6 +1,6 @@
 import 'package:matrix/matrix.dart';
 
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 
 bool hasIndividualPrivacyOptionsEnabled(Client client, String roomId) {
   return client.accountData.containsKey(

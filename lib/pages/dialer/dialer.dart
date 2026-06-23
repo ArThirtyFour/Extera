@@ -12,7 +12,7 @@ import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:matrix/matrix.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/dialer/task_handler.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';

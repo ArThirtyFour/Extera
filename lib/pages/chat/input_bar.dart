@@ -1,5 +1,5 @@
 import 'package:extera_next/config/app_config.dart';
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/markdown_context_builder.dart';
 import 'package:extera_next/widgets/mxc_image.dart';

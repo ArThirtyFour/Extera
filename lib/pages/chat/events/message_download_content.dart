@@ -5,7 +5,7 @@ import 'package:matrix/matrix.dart';
 import 'package:open_file/open_file.dart';
 
 import 'package:extera_next/config/app_config.dart';
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/events/html_message.dart';
 import 'package:extera_next/pages/download_manager/download_manager.dart';

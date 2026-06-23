@@ -19,7 +19,7 @@ import 'package:extera_next/pages/chat_encryption_settings/chat_encryption_setti
 import 'package:extera_next/utils/beautify_string_extension.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:extera_next/widgets/list_divider.dart';
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 
 class ChatEncryptionSettingsView extends StatefulWidget {
   final ChatEncryptionSettingsController controller;

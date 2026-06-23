@@ -7,7 +7,7 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:matrix/matrix.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/oidc_session_json_extension.dart';
 import 'package:extera_next/utils/sign_in_flows/calc_redirect_url.dart';
 

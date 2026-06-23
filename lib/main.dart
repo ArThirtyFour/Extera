@@ -15,7 +15,7 @@ import 'package:extera_next/utils/client_manager.dart';
 import 'package:extera_next/utils/notification_background_handler.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/error_widget.dart';
-import 'config/setting_keys.dart';
+import 'config/app_settings.dart';
 import 'utils/background_push.dart';
 import 'widgets/fluffy_chat_app.dart';
 
