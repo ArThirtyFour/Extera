@@ -1,3 +1,13 @@
+## Extera 26.3.4
+- Aligned sticker/emoji button to the right of the message composer.
+- Improved "About Extera" dialog.
+- Minor design changes in settings.
+- Added "Read only" (-1) power level template.
+- Allowed "-" sign in power level input.
+- Minor improvement in user profile page.
+- Minor changes in message layouts: legacy bubbles, modern.
+- Fixed modern message layout being aligned to the left instead of center.
+
 ## Extera 26.3.3
 - Added TOFU (trust-on-first-use) support.
 - Updated bootstrap process as in FluffyChat.
