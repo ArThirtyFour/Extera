@@ -28,7 +28,10 @@ class ProfileSourceDataDialog extends StatelessWidget {
           color: theme.colorScheme.surfaceContainerHigh,
           child: Padding(
             padding: const .all(16),
-            child: SelectableText(json, style: style),
+            child: Column(
+              mainAxisSize: .min,
+              children: [Expanded(child: SelectableText(json, style: style))],
+            ),
           ),
         ),
       ),
