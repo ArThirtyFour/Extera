@@ -2206,42 +2206,12 @@
         "type": "String",
         "placeholders": {}
     },
-    "language": "Language",
-    "@language": {
-        "type": "String",
-        "placeholders": {}
-    },
-    "systemLanguage": "System language",
-    "@systemLanguage": {
-        "type": "String",
-        "placeholders": {}
-    },
-    "appLanguageTitle": "App language",
-    "@appLanguageTitle": {
-        "type": "String",
-        "placeholders": {}
-    },
-    "recommended": "Recommended",
-    "@recommended": {
-        "type": "String",
-        "placeholders": {}
-    },
-    "allLanguages": "All languages",
-    "@allLanguages": {
-        "type": "String",
-        "placeholders": {}
-    },
-    "searchLanguages": "Search languages",
-    "@searchLanguages": {
-        "type": "String",
-        "placeholders": {}
-    },
-    "theyDontMatch": "They Don't Match",
+    "theyDontMatch": "They don't match",
     "@theyDontMatch": {
         "type": "String",
         "placeholders": {}
     },
-    "theyMatch": "They Match",
+    "theyMatch": "They match",
     "@theyMatch": {
         "type": "String",
         "placeholders": {}
@@ -2252,17 +2222,17 @@
         "type": "String",
         "placeholders": {}
     },
-    "toggleFavorite": "Toggle Favorite",
+    "toggleFavorite": "Toggle favorite",
     "@toggleFavorite": {
         "type": "String",
         "placeholders": {}
     },
-    "toggleMuted": "Toggle Muted",
+    "toggleMuted": "Toggle muted",
     "@toggleMuted": {
         "type": "String",
         "placeholders": {}
     },
-    "toggleUnread": "Mark Read/Unread",
+    "toggleUnread": "Mark read/unread",
     "@toggleUnread": {
         "type": "String",
         "placeholders": {}
@@ -2299,7 +2269,7 @@
             }
         }
     },
-    "unblockDevice": "Unblock Device",
+    "unblockDevice": "Unblock device",
     "@unblockDevice": {
         "type": "String",
         "placeholders": {}

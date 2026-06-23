@@ -110,19 +110,6 @@ class SettingsStyleView extends StatelessWidget {
                 color: theme.colorScheme.surfaceContainerHigh,
                 clipBehavior: Clip.hardEdge,
                 borderRadius: borderRadius,
-                child: ListTile(
-                  leading: const Icon(Icons.language_outlined),
-                  title: Text(L10n.of(context).language),
-                  subtitle: Text(controller.currentLanguageName),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: controller.setAppLanguage,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Material(
-                color: theme.colorScheme.surfaceContainerHigh,
-                clipBehavior: Clip.hardEdge,
-                borderRadius: borderRadius,
                 child: Column(
                   children: [
                     ListTile(
