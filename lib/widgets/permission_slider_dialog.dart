@@ -1,7 +1,6 @@
 import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:extera_next/config/app_config.dart';
 
@@ -169,10 +168,10 @@ class _RoleChooserDialogState extends State<_RoleChooserDialog> {
                         child: TextField(
                           controller: _customController,
                           autofocus: true,
-                          keyboardType: .number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
+                          keyboardType: .numberWithOptions(
+                            signed: true,
+                            decimal: false,
+                          ),
                           decoration: InputDecoration(
                             isDense: true,
                             labelText: L10n.of(context).powerLevel,
