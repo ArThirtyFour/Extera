@@ -315,11 +315,12 @@ class _MessageModernState extends State<MessageModern> {
               ),
               child: Row(
                 crossAxisAlignment: .start,
+                mainAxisAlignment: .start,
                 children: [
                   if (widget.longPressSelect)
                     SizedBox(
-                      height: 32,
-                      width: Avatar.defaultSize,
+                      height: 36,
+                      width: 36,
                       child: Checkbox.adaptive(
                         value: widget.selected,
                         shape: const CircleBorder(),
@@ -327,11 +328,12 @@ class _MessageModernState extends State<MessageModern> {
                       ),
                     )
                   else if (nextEventSameSender)
-                    const SizedBox(width: Avatar.defaultSize)
+                    const SizedBox(width: 36)
                   else
                     Avatar(
                       mxContent: user.avatarUrl,
                       name: user.calcDisplayname(),
+                      size: 36,
                       onTap: () {
                         if (widget.exampleMessage != true) {
                           showMemberActionsPopupMenu(
@@ -351,8 +353,8 @@ class _MessageModernState extends State<MessageModern> {
                     child: Stack(
                       children: [
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: .start,
+                          mainAxisSize: .min,
                           children: [
                             if (!nextEventSameSender)
                               Text(
@@ -534,8 +536,8 @@ class _MessageModernState extends State<MessageModern> {
         widget.selected ||
         widget.displayReadMarker) {
       container = Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: .min,
+        crossAxisAlignment: .start,
         children: <Widget>[
           if (displayTime || widget.selected)
             Padding(
@@ -573,7 +575,7 @@ class _MessageModernState extends State<MessageModern> {
             Padding(
               padding: const EdgeInsets.only(
                 top: 4.0,
-                left: Avatar.defaultSize + 16.0,
+                left: 24 + 16.0,
                 right: 12.0,
               ),
               child: MessageReactions(
@@ -638,11 +640,13 @@ class _MessageModernState extends State<MessageModern> {
             ? SwipeDirection.endToStart
             : SwipeDirection.startToEnd,
         onSwipe: (_) => widget.onSwipe(event),
-        child: Container(
-          constraints: const BoxConstraints(
-            maxWidth: FluffyThemes.columnWidth * 2.5,
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(
+              maxWidth: FluffyThemes.columnWidth * 2.5,
+            ),
+            child: container,
           ),
-          child: container,
         ),
       ),
     );
