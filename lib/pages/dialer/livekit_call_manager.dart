@@ -17,6 +17,13 @@ class LiveKitCallManager {
   String? callStateKey;
   Client? client;
 
+  bool echoCancellation = true;
+  bool noiseSuppression = true;
+  bool autoGainControl = true;
+  String? selectedAudioInput;
+  String? selectedAudioOutput;
+  String? selectedVideoInput;
+
   String? get currentRoomId => _currentRoomId;
   Route? get currentCallRoute => _currentCallRoute;
 

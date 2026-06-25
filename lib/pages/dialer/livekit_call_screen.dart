@@ -1,7 +1,11 @@
 import 'dart:async';
 
+import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/pages/dialer/dialer.dart';
+import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
 import 'package:livekit_client/livekit_client.dart' as lk;
 import 'package:matrix/matrix.dart' show Client, Logs;
@@ -72,6 +76,68 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
 
   bool _screenShareActive = false;
 
+  Future<void> _stopFgTaskIfNeeded() async {
+    if (!PlatformInfos.isAndroid) return;
+    if (await FlutterForegroundTask.isRunningService) {
+      await FlutterForegroundTask.stopService();
+    }
+  }
+
+  Future<void> _startFgTaskIfNeeded() async {
+    if (!PlatformInfos.isAndroid) return;
+    final client = Matrix.of(context).client;
+    final room = client.getRoomById(widget.roomId);
+    if (await FlutterForegroundTask.isRunningService) {
+      await FlutterForegroundTask.stopService();
+    }
+
+    FlutterForegroundTask.init(
+      androidNotificationOptions: AndroidNotificationOptions(
+        channelId: 'notification_channel_id',
+        channelName: 'Foreground Notification',
+        channelDescription: L10n.of(context).foregroundServiceRunning,
+      ),
+      iosNotificationOptions: const IOSNotificationOptions(),
+      foregroundTaskOptions: ForegroundTaskOptions(
+        eventAction: ForegroundTaskEventAction.nothing(),
+      ),
+    );
+
+    await FlutterForegroundTask.startService(
+      notificationTitle: L10n.of(context).ongoingElementCall,
+      notificationText: L10n.of(context).ongoingElementCallDetail(
+        room?.getLocalizedDisplayname() ?? widget.roomId,
+      ),
+      serviceTypes: [
+        ForegroundServiceTypes.mediaProjection,
+        ForegroundServiceTypes.microphone,
+        ForegroundServiceTypes.camera,
+      ],
+      notificationButtons: [
+        NotificationButton(id: 'mute', text: L10n.of(context).muteMic),
+        NotificationButton(
+          id: 'hangup',
+          text: L10n.of(context).hangUp,
+          textColor: Colors.red,
+        ),
+      ],
+      callback: startCallback,
+    );
+
+    FlutterForegroundTask.addTaskDataCallback(onDataReceived);
+  }
+
+  void onDataReceived(Object data) async {
+    final lp = _room?.localParticipant;
+    if (lp == null) return;
+
+    if (data == 'mute') {
+      await lp.setMicrophoneEnabled(!lp.isMicrophoneEnabled());
+    } else if (data == 'hangup') {
+      _hangup();
+    }
+  }
+
   Future<void> _toggleScreenShare() async {
     final lp = _room?.localParticipant;
     if (lp == null) return;
@@ -83,27 +149,45 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
     }
 
     try {
-      final sources = await rtc.desktopCapturer.getSources(
-        types: [rtc.SourceType.Screen],
-      );
-      if (sources.isEmpty) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(L10n.of(context).noScreensAvailable)),
-          );
-        }
-        return;
-      }
+      if (PlatformInfos.isAndroid) {
+        final source = await rtc.mediaDevices.getDisplayMedia({
+          'video': true,
+          'audio': true,
+        });
 
-      await lp.setScreenShareEnabled(
-        true,
-        // captureScreenAudio: true,
-        screenShareCaptureOptions: lk.ScreenShareCaptureOptions(
+        await lp.setScreenShareEnabled(
+          true,
           // captureScreenAudio: true,
-          maxFrameRate: 30,
-          sourceId: sources.first.id,
-        ),
-      );
+          screenShareCaptureOptions: lk.ScreenShareCaptureOptions(
+            // captureScreenAudio: true,
+            maxFrameRate: 30,
+            sourceId: source.id,
+          ),
+        );
+      } else {
+        final sources = await rtc.desktopCapturer.getSources(
+          types: [rtc.SourceType.Screen],
+        );
+
+        if (sources.isEmpty) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(L10n.of(context).noScreensAvailable)),
+            );
+          }
+          return;
+        }
+
+        await lp.setScreenShareEnabled(
+          true,
+          // captureScreenAudio: true,
+          screenShareCaptureOptions: lk.ScreenShareCaptureOptions(
+            // captureScreenAudio: true,
+            maxFrameRate: 30,
+            sourceId: sources.first.id,
+          ),
+        );
+      }
       setState(() => _screenShareActive = true);
     } catch (e) {
       if (mounted) {
@@ -120,6 +204,7 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
 
   Future<void> _connect() async {
     try {
+      await _startFgTaskIfNeeded();
       final client = Matrix.of(context).client;
       _client = client;
       final matrixRoom = client.getRoomById(widget.roomId);
@@ -294,6 +379,9 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
     try {
       await room?.dispose();
     } catch (_) {}
+    try {
+      await _stopFgTaskIfNeeded();
+    } catch (_) {}
 
     try {
       if (client != null && stateKey != null) {
@@ -317,6 +405,9 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
   void dispose() {
     _disposed = true;
     _room?.removeListener(_onRoomUpdate);
+    if (PlatformInfos.isAndroid) {
+      FlutterForegroundTask.removeTaskDataCallback(onDataReceived);
+    }
     super.dispose();
   }
 
@@ -396,74 +487,78 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
 
     return Stack(
       children: [
-        Column(
-          children: [
-            Expanded(
-              child: screenShares.isNotEmpty
-                  ? _ScreenShareView(participant: screenShares.first)
-                  : regularParticipants.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            L10n.of(context).waitingForParticipants,
-                            style: TextStyle(
-                              color: theme.colorScheme.onSurfaceVariant,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
+        Positioned.fill(
+          child: screenShares.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 150.0),
+                  child: _ScreenShareView(participant: screenShares.first),
+                )
+              : regularParticipants.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        L10n.of(context).waitingForParticipants,
+                        style: TextStyle(
+                          color: theme.colorScheme.onSurfaceVariant,
+                          fontSize: 18,
+                        ),
                       ),
-                    )
-                  : regularParticipants.length == 1
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _ParticipantView(regularParticipants.first),
-                    )
-                  : GridView.builder(
-                      padding: const EdgeInsets.all(8),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: regularParticipants.length > 4 ? 3 : 2,
-                        childAspectRatio: regularParticipants.length > 4
-                            ? 1.0
-                            : 0.8,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                      ),
-                      itemCount: regularParticipants.length,
-                      itemBuilder: (context, index) =>
-                          _ParticipantView(regularParticipants[index]),
-                    ),
-            ),
-            _CallControls(
-              room: _room,
-              onHangup: _hangup,
-              onScreenShare: _toggleScreenShare,
-              screenShareActive: _screenShareActive,
-            ),
-          ],
+                    ],
+                  ),
+                )
+              : regularParticipants.length == 1
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 150),
+                  child: _ParticipantView(regularParticipants.first),
+                )
+              : GridView.builder(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 150),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: regularParticipants.length > 4 ? 3 : 2,
+                    childAspectRatio: regularParticipants.length > 4 ? 1.0 : 0.8,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                  ),
+                  itemCount: regularParticipants.length,
+                  itemBuilder: (context, index) =>
+                      _ParticipantView(regularParticipants[index]),
+                ),
         ),
         Positioned(
           right: 16,
-          bottom: 110,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (_screenShareActive)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: _LocalScreenShareView(
-                    localParticipant: _room?.localParticipant,
+          bottom: 130, // Increased bottom margin to prevent intersection
+          child: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (_screenShareActive)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: _LocalScreenShareView(
+                      localParticipant: _room?.localParticipant,
+                    ),
                   ),
+                _LocalVideoView(
+                  localParticipant: _room?.localParticipant,
+                  displayName: _localDisplayName,
+                  avatar: _localAvatar,
                 ),
-              _LocalVideoView(
-                localParticipant: _room?.localParticipant,
-                displayName: _localDisplayName,
-                avatar: _localAvatar,
-              ),
-            ],
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: _CallControls(
+            room: _room,
+            onHangup: _hangup,
+            onScreenShare: _toggleScreenShare,
+            screenShareActive: _screenShareActive,
           ),
         ),
       ],
@@ -531,12 +626,7 @@ class _ScreenShareViewState extends State<_ScreenShareView> {
     return Stack(
       children: [
         if (videoTrack != null)
-          Center(
-            child: lk.VideoTrackRenderer(
-              videoTrack,
-              fit: lk.VideoViewFit.contain,
-            ),
-          )
+          Center(child: lk.VideoTrackRenderer(videoTrack, fit: .contain))
         else
           Center(
             child: Column(
@@ -663,7 +753,7 @@ class _ParticipantViewState extends State<_ParticipantView> {
         fit: StackFit.expand,
         children: [
           if (videoTrack != null)
-            lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.cover)
+            lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.contain)
           else
             Center(
               child: CircleAvatar(
@@ -800,7 +890,7 @@ class _LocalVideoView extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           if (videoTrack != null)
-            lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.cover)
+            lk.VideoTrackRenderer(videoTrack, fit: .contain)
           else
             Center(
               child: Avatar(mxContent: avatar, name: displayName, size: 48),
@@ -900,7 +990,7 @@ class _LocalScreenShareView extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          lk.VideoTrackRenderer(screenShareTrack, fit: lk.VideoViewFit.cover),
+          lk.VideoTrackRenderer(screenShareTrack, fit: .contain),
           Positioned(
             top: 4,
             left: 4,
@@ -957,58 +1047,87 @@ class _CallControls extends StatelessWidget {
 
     return SafeArea(
       top: false,
-      child: Container(
-        padding: const .symmetric(vertical: 16, horizontal: 8),
-        color: theme.colorScheme.surfaceContainerLowest,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            FloatingActionButton(
-              onPressed: () => lp?.setMicrophoneEnabled(!micOn),
-              backgroundColor: micOn
-                  ? theme.colorScheme.onSurface
-                  : theme.colorScheme.surfaceContainerHighest,
-              foregroundColor: micOn
-                  ? theme.colorScheme.surfaceContainerHighest
-                  : theme.colorScheme.onSurface,
-              child: Icon(micOn ? Icons.mic : Icons.mic_off),
-            ),
-            FloatingActionButton(
-              onPressed: () => lp?.setCameraEnabled(!camOn),
-              backgroundColor: camOn
-                  ? theme.colorScheme.onSurfaceVariant
-                  : theme.colorScheme.surfaceContainerHighest,
-              foregroundColor: camOn
-                  ? theme.colorScheme.surfaceContainerHighest
-                  : theme.colorScheme.onSurfaceVariant,
-              child: Icon(camOn ? Icons.videocam : Icons.videocam_off),
-            ),
-            FloatingActionButton(
-              onPressed: onHangup,
-              backgroundColor: theme.colorScheme.errorContainer,
-              foregroundColor: theme.colorScheme.onErrorContainer,
-              child: Icon(Icons.call_end),
-            ),
-
-            FloatingActionButton(
-              onPressed: onScreenShare,
-              backgroundColor: screenShareActive
-                  ? theme.colorScheme.onSurfaceVariant
-                  : theme.colorScheme.surfaceContainerHighest,
-              foregroundColor: screenShareActive
-                  ? theme.colorScheme.surfaceContainerHighest
-                  : theme.colorScheme.onSurfaceVariant,
-              child: Icon(
-                screenShareActive
-                    ? Icons.screen_share
-                    : Icons.screen_share_outlined,
+      child: Padding(
+        padding: const .all(16),
+        child: Container(
+          padding: const .symmetric(vertical: 16, horizontal: 8),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerLowest,
+            borderRadius: BorderRadius.circular(AppConfig.borderRadius),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  final manager = LiveKitCallManager();
+                  lp?.setMicrophoneEnabled(
+                    !micOn,
+                    audioCaptureOptions: lk.AudioCaptureOptions(
+                      deviceId: manager.selectedAudioInput,
+                      echoCancellation: manager.echoCancellation,
+                      noiseSuppression: manager.noiseSuppression,
+                      autoGainControl: manager.autoGainControl,
+                      highPassFilter: true,
+                      typingNoiseDetection: true,
+                    ),
+                  );
+                },
+                backgroundColor: micOn
+                    ? theme.colorScheme.onSurface
+                    : theme.colorScheme.surfaceContainerHighest,
+                foregroundColor: micOn
+                    ? theme.colorScheme.surfaceContainerHighest
+                    : theme.colorScheme.onSurface,
+                child: Icon(micOn ? Icons.mic : Icons.mic_off),
               ),
-            ),
-            FloatingActionButton(
-              onPressed: () => _showSettingsSheet(context, room),
-              child: Icon(Icons.settings),
-            ),
-          ],
+              FloatingActionButton(
+                onPressed: () {
+                  final manager = LiveKitCallManager();
+                  lp?.setCameraEnabled(
+                    !camOn,
+                    cameraCaptureOptions: lk.CameraCaptureOptions(
+                      deviceId: manager.selectedVideoInput,
+                      maxFrameRate: 30,
+                      params: lk.VideoParametersPresets.h720_169,
+                    ),
+                  );
+                },
+                backgroundColor: camOn
+                    ? theme.colorScheme.onSurfaceVariant
+                    : theme.colorScheme.surfaceContainerHighest,
+                foregroundColor: camOn
+                    ? theme.colorScheme.surfaceContainerHighest
+                    : theme.colorScheme.onSurfaceVariant,
+                child: Icon(camOn ? Icons.videocam : Icons.videocam_off),
+              ),
+              FloatingActionButton(
+                onPressed: onHangup,
+                backgroundColor: theme.colorScheme.errorContainer,
+                foregroundColor: theme.colorScheme.onErrorContainer,
+                child: Icon(Icons.call_end),
+              ),
+
+              FloatingActionButton(
+                onPressed: onScreenShare,
+                backgroundColor: screenShareActive
+                    ? theme.colorScheme.onSurfaceVariant
+                    : theme.colorScheme.surfaceContainerHighest,
+                foregroundColor: screenShareActive
+                    ? theme.colorScheme.surfaceContainerHighest
+                    : theme.colorScheme.onSurfaceVariant,
+                child: Icon(
+                  screenShareActive
+                      ? Icons.screen_share
+                      : Icons.screen_share_outlined,
+                ),
+              ),
+              FloatingActionButton(
+                onPressed: () => _showSettingsSheet(context, room),
+                child: Icon(Icons.settings),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1191,12 +1310,6 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
   List<rtc.MediaDeviceInfo> _audioInputs = [];
   List<rtc.MediaDeviceInfo> _audioOutputs = [];
   List<rtc.MediaDeviceInfo> _videoInputs = [];
-  String? _selectedAudioInput;
-  String? _selectedAudioOutput;
-  String? _selectedVideoInput;
-  bool _echoCancellation = true;
-  bool _noiseSuppression = true;
-  bool _autoGainControl = true;
 
   @override
   void initState() {
@@ -1214,52 +1327,72 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
   }
 
   Future<void> _switchAudioInput(rtc.MediaDeviceInfo device) async {
-    setState(() => _selectedAudioInput = device.deviceId);
+    final manager = LiveKitCallManager();
+    setState(() => manager.selectedAudioInput = device.deviceId);
     final lp = widget.room?.localParticipant;
     if (lp == null) return;
 
-    await lp.setMicrophoneEnabled(false);
-    await lp.setMicrophoneEnabled(
-      true,
-      audioCaptureOptions: lk.AudioCaptureOptions(
-        deviceId: device.deviceId,
-        echoCancellation: _echoCancellation,
-        noiseSuppression: _noiseSuppression,
-        autoGainControl: _autoGainControl,
-        highPassFilter: true,
-        typingNoiseDetection: true,
-        voiceIsolation: true,
-      ),
-    );
+    final audioTrack = lp.audioTrackPublications.firstOrNull?.track;
+    if (audioTrack is lk.LocalAudioTrack) {
+      final options = audioTrack.currentOptions;
+      await audioTrack.restartTrack(
+        options.copyWith(deviceId: device.deviceId),
+      );
+    }
   }
 
   Future<void> _switchAudioOutput(rtc.MediaDeviceInfo device) async {
-    setState(() => _selectedAudioOutput = device.deviceId);
+    final manager = LiveKitCallManager();
+    setState(() => manager.selectedAudioOutput = device.deviceId);
     await rtc.Helper.selectAudioOutput(device.deviceId);
   }
 
   Future<void> _switchVideoInput(rtc.MediaDeviceInfo device) async {
-    setState(() => _selectedVideoInput = device.deviceId);
+    final manager = LiveKitCallManager();
+    setState(() => manager.selectedVideoInput = device.deviceId);
     final lp = widget.room?.localParticipant;
     if (lp == null) return;
 
-    await lp.setCameraEnabled(false);
-    await lp.setCameraEnabled(
-      true,
-      cameraCaptureOptions: lk.CameraCaptureOptions(
-        deviceId: device.deviceId,
-        maxFrameRate: 30,
-        params: lk.VideoParametersPresets.h720_169,
-      ),
-    );
+    final videoTrack = lp.videoTrackPublications
+        .where((p) => !p.isScreenShare)
+        .firstOrNull
+        ?.track;
+    if (videoTrack is lk.LocalVideoTrack) {
+      await videoTrack.restartTrack(
+        lk.CameraCaptureOptions(
+          deviceId: device.deviceId,
+          maxFrameRate: 30,
+          params: lk.VideoParametersPresets.h720_169,
+        ),
+      );
+    }
+  }
+
+  Future<void> _updateAudioSettings() async {
+    final lp = widget.room?.localParticipant;
+    if (lp == null) return;
+
+    final manager = LiveKitCallManager();
+    final audioTrack = lp.audioTrackPublications.firstOrNull?.track;
+    if (audioTrack is lk.LocalAudioTrack) {
+      final options = audioTrack.currentOptions;
+      await audioTrack.restartTrack(
+        options.copyWith(
+          echoCancellation: manager.echoCancellation,
+          noiseSuppression: manager.noiseSuppression,
+          autoGainControl: manager.autoGainControl,
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final manager = LiveKitCallManager();
 
     return Padding(
-      padding: const .all(16),
+      padding: const EdgeInsets.all(16),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -1284,7 +1417,7 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
                           context,
                         ).microphoneN(_audioInputs.indexOf(d) + 1)
                       : d.label,
-                  selected: _selectedAudioInput == d.deviceId,
+                  selected: manager.selectedAudioInput == d.deviceId,
                   onTap: () => _switchAudioInput(d),
                 ),
               ),
@@ -1298,7 +1431,7 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
                   label: d.label.isEmpty
                       ? L10n.of(context).speakerN(_audioOutputs.indexOf(d) + 1)
                       : d.label,
-                  selected: _selectedAudioOutput == d.deviceId,
+                  selected: manager.selectedAudioOutput == d.deviceId,
                   onTap: () => _switchAudioOutput(d),
                 ),
               ),
@@ -1312,7 +1445,7 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
                   label: d.label.isEmpty
                       ? L10n.of(context).cameraN(_videoInputs.indexOf(d) + 1)
                       : d.label,
-                  selected: _selectedVideoInput == d.deviceId,
+                  selected: manager.selectedVideoInput == d.deviceId,
                   onTap: () => _switchVideoInput(d),
                 ),
               ),
@@ -1322,18 +1455,27 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
             const SizedBox(height: 8),
             _switchTile(
               title: L10n.of(context).echoCancellation,
-              value: _echoCancellation,
-              onChanged: (v) => setState(() => _echoCancellation = v),
+              value: manager.echoCancellation,
+              onChanged: (v) {
+                setState(() => manager.echoCancellation = v);
+                _updateAudioSettings();
+              },
             ),
             _switchTile(
               title: L10n.of(context).noiseSuppression,
-              value: _noiseSuppression,
-              onChanged: (v) => setState(() => _noiseSuppression = v),
+              value: manager.noiseSuppression,
+              onChanged: (v) {
+                setState(() => manager.noiseSuppression = v);
+                _updateAudioSettings();
+              },
             ),
             _switchTile(
               title: L10n.of(context).autoGainControl,
-              value: _autoGainControl,
-              onChanged: (v) => setState(() => _autoGainControl = v),
+              value: manager.autoGainControl,
+              onChanged: (v) {
+                setState(() => manager.autoGainControl = v);
+                _updateAudioSettings();
+              },
             ),
           ],
         ),
