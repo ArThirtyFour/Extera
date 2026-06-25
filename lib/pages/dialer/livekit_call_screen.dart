@@ -353,63 +353,77 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
       }
     }
 
-    return Column(
+    return Stack(
       children: [
-        Expanded(
-          child: screenShares.isNotEmpty
-              ? _ScreenShareView(participant: screenShares.first)
-              : regularParticipants.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.group_add,
-                        size: 64,
-                        color: theme.colorScheme.onSurfaceVariant,
+        Column(
+          children: [
+            Expanded(
+              child: screenShares.isNotEmpty
+                  ? _ScreenShareView(participant: screenShares.first)
+                  : regularParticipants.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            L10n.of(context).waitingForParticipants,
+                            style: TextStyle(
+                              color: theme.colorScheme.onSurfaceVariant,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        L10n.of(context).waitingForParticipants,
-                        style: TextStyle(
-                          color: theme.colorScheme.onSurfaceVariant,
-                          fontSize: 18,
-                        ),
+                    )
+                  : regularParticipants.length == 1
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _ParticipantView(regularParticipants.first),
+                    )
+                  : GridView.builder(
+                      padding: const EdgeInsets.all(8),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: regularParticipants.length > 4 ? 3 : 2,
+                        childAspectRatio: regularParticipants.length > 4
+                            ? 1.0
+                            : 0.8,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        L10n.of(context).shareCallLink,
-                        style: TextStyle(
-                          color: theme.colorScheme.onSurfaceVariant,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
+                      itemCount: regularParticipants.length,
+                      itemBuilder: (context, index) =>
+                          _ParticipantView(regularParticipants[index]),
+                    ),
+            ),
+            _CallControls(
+              room: _room,
+              onHangup: _hangup,
+              onScreenShare: _toggleScreenShare,
+              screenShareActive: _screenShareActive,
+            ),
+          ],
+        ),
+        Positioned(
+          right: 16,
+          bottom: 110,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (_screenShareActive)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: _LocalScreenShareView(
+                    localParticipant: _room?.localParticipant,
                   ),
-                )
-              : GridView.builder(
-                  padding: const EdgeInsets.all(8),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: regularParticipants.length > 1 ? 2 : 1,
-                    childAspectRatio: 16 / 9,
-                  ),
-                  itemCount: regularParticipants.length,
-                  itemBuilder: (context, index) =>
-                      _ParticipantView(regularParticipants[index]),
                 ),
-        ),
-        if (_screenShareActive)
-          _LocalScreenShareView(localParticipant: _room?.localParticipant),
-        _LocalVideoView(
-          localParticipant: _room?.localParticipant,
-          displayName: _localDisplayName,
-          avatar: _localAvatar,
-        ),
-        _CallControls(
-          room: _room,
-          onHangup: _hangup,
-          onScreenShare: _toggleScreenShare,
-          screenShareActive: _screenShareActive,
+              _LocalVideoView(
+                localParticipant: _room?.localParticipant,
+                displayName: _localDisplayName,
+                avatar: _localAvatar,
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -593,70 +607,84 @@ class _ParticipantViewState extends State<_ParticipantView> {
     final speaking = p.isSpeaking;
     final micPub = p.audioTrackPublications.firstOrNull;
     final micMuted = micPub?.muted ?? true;
-    final camMuted = videoPub?.muted ?? true;
 
     return Container(
-      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: speaking ? theme.colorScheme.tertiary : Colors.transparent,
-          width: speaking ? 2 : 0,
+          width: speaking ? 3 : 0,
         ),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
+        fit: StackFit.expand,
         children: [
           if (videoTrack != null)
             lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.cover)
           else
             Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.person,
-                    size: 48,
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _shortId(p.identity),
-                    style: TextStyle(
-                      color: theme.colorScheme.onSurfaceVariant,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          Positioned(
-            top: 4,
-            left: 4,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (micMuted)
-                  _statusBadge(Icons.mic_off, theme.colorScheme.error),
-                if (camMuted)
-                  _statusBadge(Icons.videocam_off, theme.colorScheme.error),
-              ],
-            ),
-          ),
-          if (speaking)
-            Positioned(
-              top: 4,
-              right: 4,
-              child: Container(
-                width: 12,
-                height: 12,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.tertiary,
-                  shape: BoxShape.circle,
+              child: CircleAvatar(
+                radius: 40,
+                backgroundColor: theme.colorScheme.primaryContainer,
+                child: Icon(
+                  Icons.person,
+                  size: 40,
+                  color: theme.colorScheme.onPrimaryContainer,
                 ),
               ),
             ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 64,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.7),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 8,
+            left: 8,
+            right: 8,
+            child: Row(
+              children: [
+                if (micMuted)
+                  _statusBadge(Icons.mic_off, theme.colorScheme.error),
+                if (!micMuted && speaking)
+                  _statusBadge(Icons.mic, theme.colorScheme.tertiary),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    _shortId(p.identity),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black54,
+                          blurRadius: 2,
+                          offset: Offset(1, 1),
+                        ),
+                      ],
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -665,12 +693,12 @@ class _ParticipantViewState extends State<_ParticipantView> {
   Widget _statusBadge(IconData icon, Color color) {
     return Container(
       margin: const EdgeInsets.only(right: 4),
-      padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        color: Colors.black54,
-        borderRadius: BorderRadius.circular(4),
+      padding: const EdgeInsets.all(4),
+      decoration: const BoxDecoration(
+        color: Colors.black45,
+        shape: BoxShape.circle,
       ),
-      child: Icon(icon, color: color, size: 14),
+      child: Icon(icon, color: color, size: 16),
     );
   }
 
@@ -705,69 +733,80 @@ class _LocalVideoView extends StatelessWidget {
     final speaking = lp.isSpeaking;
     final micPub = lp.audioTrackPublications.firstOrNull;
     final micMuted = micPub?.muted ?? true;
-    final camMuted = videoPub?.muted ?? true;
 
     return Container(
+      width: 110,
       height: 150,
-      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
+        color: theme.colorScheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: speaking
               ? theme.colorScheme.tertiary
-              : theme.colorScheme.outlineVariant,
+              : theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
           width: speaking ? 2 : 1,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.5),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
+        fit: StackFit.expand,
         children: [
           if (videoTrack != null)
             lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.cover)
           else
             Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Avatar(mxContent: avatar, name: displayName, size: 48),
-                  const SizedBox(height: 4),
-                  Text(
-                    displayName,
-                    style: TextStyle(
-                      color: theme.colorScheme.onSurfaceVariant,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
+              child: Avatar(mxContent: avatar, name: displayName, size: 48),
             ),
           Positioned(
-            top: 4,
-            left: 4,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (micMuted)
-                  _statusBadge(Icons.mic_off, theme.colorScheme.error),
-                if (camMuted)
-                  _statusBadge(Icons.videocam_off, theme.colorScheme.error),
-              ],
-            ),
-          ),
-          if (speaking)
-            Positioned(
-              top: 4,
-              right: 4,
-              child: Container(
-                width: 12,
-                height: 12,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.tertiary,
-                  shape: BoxShape.circle,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 40,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.6),
+                    Colors.transparent,
+                  ],
                 ),
               ),
             ),
+          ),
+          Positioned(
+            bottom: 4,
+            left: 4,
+            right: 4,
+            child: Row(
+              children: [
+                if (micMuted)
+                  _statusBadge(Icons.mic_off, theme.colorScheme.error),
+                if (!micMuted && speaking)
+                  _statusBadge(Icons.mic, theme.colorScheme.tertiary),
+                const SizedBox(width: 2),
+                Expanded(
+                  child: Text(
+                    displayName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -775,13 +814,13 @@ class _LocalVideoView extends StatelessWidget {
 
   Widget _statusBadge(IconData icon, Color color) {
     return Container(
-      margin: const EdgeInsets.only(right: 4),
-      padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        color: Colors.black54,
-        borderRadius: BorderRadius.circular(4),
+      margin: const EdgeInsets.only(right: 2),
+      padding: const EdgeInsets.all(4),
+      decoration: const BoxDecoration(
+        color: Colors.black45,
+        shape: BoxShape.circle,
       ),
-      child: Icon(icon, color: color, size: 14),
+      child: Icon(icon, color: color, size: 12),
     );
   }
 }
@@ -802,17 +841,25 @@ class _LocalScreenShareView extends StatelessWidget {
     if (screenShareTrack == null) return const SizedBox.shrink();
 
     return Container(
+      width: 110,
       height: 150,
-      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: theme.colorScheme.tertiary, width: 2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
+        fit: StackFit.expand,
         children: [
-          lk.VideoTrackRenderer(screenShareTrack, fit: lk.VideoViewFit.contain),
+          lk.VideoTrackRenderer(screenShareTrack, fit: lk.VideoViewFit.cover),
           Positioned(
             top: 4,
             left: 4,
@@ -828,14 +875,14 @@ class _LocalScreenShareView extends StatelessWidget {
                   Icon(
                     Icons.screen_share,
                     color: theme.colorScheme.tertiary,
-                    size: 14,
+                    size: 12,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     L10n.of(context).screenShare,
                     style: TextStyle(
                       color: theme.colorScheme.tertiary,
-                      fontSize: 11,
+                      fontSize: 10,
                     ),
                   ),
                 ],
