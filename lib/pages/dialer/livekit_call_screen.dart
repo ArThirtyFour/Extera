@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:extera_next/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
 import 'package:livekit_client/livekit_client.dart' as lk;
-import 'package:matrix/matrix.dart' show Client;
+import 'package:matrix/matrix.dart' show Client, Logs;
 
 import 'package:extera_next/pages/dialer/livekit_service.dart';
 import 'package:extera_next/pages/dialer/livekit_call_manager.dart';
@@ -33,6 +34,7 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
   bool _disposed = false;
   Client? _client;
   String _localDisplayName = '';
+  Uri? _localAvatar;
 
   @override
   void initState() {
@@ -47,17 +49,14 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
     if (lp == null) return;
 
     if (_screenShareActive) {
-      final exitingPub = lp.getTrackPublicationBySource(lk.TrackSource.screenShareVideo);
-      if (exitingPub != null) {
-        await lp.setScreenShareEnabled(false);
-      }
+      await lp.setScreenShareEnabled(false);
       setState(() => _screenShareActive = false);
       return;
     }
 
     try {
       final sources = await rtc.desktopCapturer.getSources(
-        types: [rtc.SourceType.Screen]
+        types: [rtc.SourceType.Screen],
       );
       if (sources.isEmpty) {
         if (mounted) {
@@ -68,32 +67,24 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
         return;
       }
 
-      final source = sources.first;
-      final constraints = {
-        'audio': false,
-        'video': {
-          'deviceId': {'exact': source.id},
-          'width': 1920,
-          'height': 1080,
-          'frameRate': 15,
-        }
-      };
-
-      final stream = await rtc.navigator.mediaDevices.getDisplayMedia(constraints);
-      final videoTrack = stream.getVideoTracks().first;
-      final localVideoTrack = lk.LocalVideoTrack(
-        lk.TrackSource.screenShareVideo,
-        stream,
-        videoTrack,
-        const lk.ScreenShareCaptureOptions(),
+      await lp.setScreenShareEnabled(
+        true,
+        // captureScreenAudio: true,
+        screenShareCaptureOptions: lk.ScreenShareCaptureOptions(
+          // captureScreenAudio: true,
+          maxFrameRate: 30,
+          sourceId: sources.first.id,
+        ),
       );
-
-      await lp.publishVideoTrack(localVideoTrack);
       setState(() => _screenShareActive = true);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(L10n.of(context).screenShareErrorWithMessage(e.toString()))),
+          SnackBar(
+            content: Text(
+              L10n.of(context).screenShareErrorWithMessage(e.toString()),
+            ),
+          ),
         );
       }
     }
@@ -104,9 +95,11 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
       final client = Matrix.of(context).client;
       _client = client;
       final matrixRoom = client.getRoomById(widget.roomId);
-      _localDisplayName = matrixRoom
-          ?.unsafeGetUserFromMemoryOrFallback(client.userID!)
-          .displayName ?? client.userID!;
+      final profile = matrixRoom?.unsafeGetUserFromMemoryOrFallback(
+        client.userID!,
+      );
+      _localDisplayName = profile?.displayName ?? client.userID!;
+      _localAvatar = profile?.avatarUrl;
       final openId = await client.requestOpenIdToken(client.userID!, {});
       final deviceId = client.deviceID ?? '';
 
@@ -123,7 +116,7 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
             deviceId: deviceId,
             jwtServiceUrl: jwtServiceUrl,
           );
-          print('LiveKit OK: $jwtServiceUrl → ${creds.url}');
+          Logs().d('LiveKit OK: $jwtServiceUrl → ${creds.url}');
 
           room = lk.Room(
             roomOptions: const lk.RoomOptions(
@@ -139,11 +132,13 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
           );
 
           await room.connect(creds.url, creds.jwt);
-          print('LiveKit connected: $jwtServiceUrl');
+          Logs().d('LiveKit connected: $jwtServiceUrl');
           break;
         } catch (e) {
-          print('LiveKit FAIL: $jwtServiceUrl → $e');
-          try { await room?.dispose(); } catch (_) {}
+          Logs().d('LiveKit FAIL: $jwtServiceUrl → $e');
+          try {
+            await room?.dispose();
+          } catch (_) {}
           room = null;
           creds = null;
         }
@@ -157,15 +152,19 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
       _room!.addListener(_onRoomUpdate);
 
       _room!.events.on<lk.ParticipantConnectedEvent>((event) {
-        print('DEBUG: participant connected: ${event.participant.identity}');
+        Logs().d('DEBUG: participant connected: ${event.participant.identity}');
         if (mounted) setState(() {});
       });
       _room!.events.on<lk.ParticipantDisconnectedEvent>((event) {
-        print('DEBUG: participant disconnected: ${event.participant.identity}');
+        Logs().d(
+          'DEBUG: participant disconnected: ${event.participant.identity}',
+        );
         if (mounted) setState(() {});
       });
       _room!.events.on<lk.TrackSubscribedEvent>((event) {
-        print('DEBUG: track subscribed: ${event.participant.identity} ${event.track.source}');
+        Logs().d(
+          'DEBUG: track subscribed: ${event.participant.identity} ${event.track.source}',
+        );
         if (mounted) setState(() {});
       });
       _room!.events.on<lk.TrackUnsubscribedEvent>((event) {
@@ -178,7 +177,9 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
         if (mounted) setState(() {});
       });
 
-      print('DEBUG: connected, remote participants: ${_room!.remoteParticipants.length}');
+      Logs().d(
+        'DEBUG: connected, remote participants: ${_room!.remoteParticipants.length}',
+      );
 
       await _room!.localParticipant?.setCameraEnabled(
         true,
@@ -202,7 +203,7 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
         setState(() => _connecting = false);
       }
     } catch (e) {
-      print('LiveKit connect error: $e');
+      Logs().d('LiveKit connect error: $e');
       if (mounted && !_disposed) {
         setState(() {
           _error = e.toString();
@@ -255,30 +256,24 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
             widget.roomId,
             'org.matrix.msc3401.call.member',
             stateKey,
-            <String, Object?>{'m.room.member': 'leave'},
+            {},
           );
-        } catch (_) {
-          await client.setRoomStateWithKey(
-            widget.roomId,
-            'org.matrix.msc3401.call.member',
-            stateKey,
-            <String, Object?>{},
-          );
+        } catch (ex) {
+          Logs().e("Failed to send call member state event.", ex);
         }
       }
     } catch (e) {
-      print('DEBUG: error removing call member state: $e');
+      Logs().d('DEBUG: error removing call member state: $e');
     }
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     if (!_disposed) {
       _disposed = true;
-      final room = _room;
+      await _cleanupCall(_room);
       _room = null;
       LiveKitCallManager().endCall();
-      _cleanupCall(room);
     }
     super.dispose();
   }
@@ -311,29 +306,33 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
               ),
             )
           : _error != null
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.error_outline, color: theme.colorScheme.error, size: 48),
-                        const SizedBox(height: 16),
-                        Text(
-                          L10n.of(context).errorWithMessage(_error!),
-                          style: TextStyle(color: theme.colorScheme.onSurface),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 16),
-                        FilledButton(
-                          onPressed: _hangup,
-                          child: Text(L10n.of(context).close),
-                        ),
-                      ],
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: theme.colorScheme.error,
+                      size: 48,
                     ),
-                  ),
-                )
-              : _buildCallUI(),
+                    const SizedBox(height: 16),
+                    Text(
+                      L10n.of(context).errorWithMessage(_error!),
+                      style: TextStyle(color: theme.colorScheme.onSurface),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    FilledButton(
+                      onPressed: _hangup,
+                      child: Text(L10n.of(context).close),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : _buildCallUI(),
     );
   }
 
@@ -360,39 +359,51 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
           child: screenShares.isNotEmpty
               ? _ScreenShareView(participant: screenShares.first)
               : regularParticipants.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.group_add, size: 64, color: theme.colorScheme.onSurfaceVariant),
-                          const SizedBox(height: 16),
-                          Text(
-                            L10n.of(context).waitingForParticipants,
-                            style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 18),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            L10n.of(context).shareCallLink,
-                            style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 14),
-                          ),
-                        ],
+              ? Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.group_add,
+                        size: 64,
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
-                    )
-                  : GridView.builder(
-                      padding: const EdgeInsets.all(8),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: regularParticipants.length > 1 ? 2 : 1,
-                        childAspectRatio: 16 / 9,
+                      const SizedBox(height: 16),
+                      Text(
+                        L10n.of(context).waitingForParticipants,
+                        style: TextStyle(
+                          color: theme.colorScheme.onSurfaceVariant,
+                          fontSize: 18,
+                        ),
                       ),
-                      itemCount: regularParticipants.length,
-                      itemBuilder: (context, index) => _ParticipantView(regularParticipants[index]),
-                    ),
+                      const SizedBox(height: 8),
+                      Text(
+                        L10n.of(context).shareCallLink,
+                        style: TextStyle(
+                          color: theme.colorScheme.onSurfaceVariant,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : GridView.builder(
+                  padding: const EdgeInsets.all(8),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: regularParticipants.length > 1 ? 2 : 1,
+                    childAspectRatio: 16 / 9,
+                  ),
+                  itemCount: regularParticipants.length,
+                  itemBuilder: (context, index) =>
+                      _ParticipantView(regularParticipants[index]),
+                ),
         ),
         if (_screenShareActive)
           _LocalScreenShareView(localParticipant: _room?.localParticipant),
         _LocalVideoView(
           localParticipant: _room?.localParticipant,
           displayName: _localDisplayName,
+          avatar: _localAvatar,
         ),
         _CallControls(
           room: _room,
@@ -465,17 +476,29 @@ class _ScreenShareViewState extends State<_ScreenShareView> {
     return Stack(
       children: [
         if (videoTrack != null)
-          Center(child: lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.contain))
+          Center(
+            child: lk.VideoTrackRenderer(
+              videoTrack,
+              fit: lk.VideoViewFit.contain,
+            ),
+          )
         else
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.screen_share, size: 64, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.screen_share,
+                  size: 64,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 8),
                 Text(
                   L10n.of(context).isScreenSharing(_shortId(p.identity)),
-                  style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 16),
+                  style: TextStyle(
+                    color: theme.colorScheme.onSurfaceVariant,
+                    fontSize: 16,
+                  ),
                 ),
               ],
             ),
@@ -496,7 +519,9 @@ class _ScreenShareViewState extends State<_ScreenShareView> {
                   width: 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: p.isSpeaking ? theme.colorScheme.tertiary : theme.colorScheme.onPrimaryContainer,
+                    color: p.isSpeaking
+                        ? theme.colorScheme.tertiary
+                        : theme.colorScheme.onPrimaryContainer,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -559,10 +584,12 @@ class _ParticipantViewState extends State<_ParticipantView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final p = widget.participant;
-    final videoPub = p.videoTrackPublications.where(
-      (pub) => !pub.isScreenShare && pub.subscribed,
-    ).firstOrNull;
-    final videoTrack = (videoPub != null && !videoPub.muted) ? videoPub.track : null;
+    final videoPub = p.videoTrackPublications
+        .where((pub) => !pub.isScreenShare && pub.subscribed)
+        .firstOrNull;
+    final videoTrack = (videoPub != null && !videoPub.muted)
+        ? videoPub.track
+        : null;
     final speaking = p.isSpeaking;
     final micPub = p.audioTrackPublications.firstOrNull;
     final micMuted = micPub?.muted ?? true;
@@ -588,11 +615,18 @@ class _ParticipantViewState extends State<_ParticipantView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.person, size: 48, color: theme.colorScheme.onSurfaceVariant),
+                  Icon(
+                    Icons.person,
+                    size: 48,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     _shortId(p.identity),
-                    style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
+                    style: TextStyle(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
@@ -649,17 +683,25 @@ class _ParticipantViewState extends State<_ParticipantView> {
 class _LocalVideoView extends StatelessWidget {
   final lk.LocalParticipant? localParticipant;
   final String displayName;
-  const _LocalVideoView({this.localParticipant, required this.displayName});
+  final Uri? avatar;
+
+  const _LocalVideoView({
+    this.localParticipant,
+    required this.displayName,
+    this.avatar,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final lp = localParticipant;
     if (lp == null) return const SizedBox.shrink();
-    final videoPub = lp.videoTrackPublications.where(
-      (pub) => !pub.isScreenShare,
-    ).firstOrNull;
-    final videoTrack = (videoPub != null && !videoPub.muted) ? videoPub.track : null;
+    final videoPub = lp.videoTrackPublications
+        .where((pub) => !pub.isScreenShare)
+        .firstOrNull;
+    final videoTrack = (videoPub != null && !videoPub.muted)
+        ? videoPub.track
+        : null;
     final speaking = lp.isSpeaking;
     final micPub = lp.audioTrackPublications.firstOrNull;
     final micMuted = micPub?.muted ?? true;
@@ -672,7 +714,9 @@ class _LocalVideoView extends StatelessWidget {
         color: theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: speaking ? theme.colorScheme.tertiary : theme.colorScheme.outlineVariant,
+          color: speaking
+              ? theme.colorScheme.tertiary
+              : theme.colorScheme.outlineVariant,
           width: speaking ? 2 : 1,
         ),
       ),
@@ -686,11 +730,14 @@ class _LocalVideoView extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.person, size: 48, color: theme.colorScheme.onSurfaceVariant),
+                  Avatar(mxContent: avatar, name: displayName, size: 48),
                   const SizedBox(height: 4),
                   Text(
-                    _displayName(context),
-                    style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
+                    displayName,
+                    style: TextStyle(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
@@ -737,8 +784,6 @@ class _LocalVideoView extends StatelessWidget {
       child: Icon(icon, color: color, size: 14),
     );
   }
-
-  String _displayName(BuildContext context) => displayName;
 }
 
 class _LocalScreenShareView extends StatelessWidget {
@@ -750,9 +795,9 @@ class _LocalScreenShareView extends StatelessWidget {
     final theme = Theme.of(context);
     final lp = localParticipant;
     if (lp == null) return const SizedBox.shrink();
-    final screenSharePub = lp.videoTrackPublications.where(
-      (pub) => pub.isScreenShare,
-    ).firstOrNull;
+    final screenSharePub = lp.videoTrackPublications
+        .where((pub) => pub.isScreenShare)
+        .firstOrNull;
     final screenShareTrack = screenSharePub?.track;
     if (screenShareTrack == null) return const SizedBox.shrink();
 
@@ -780,11 +825,18 @@ class _LocalScreenShareView extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.screen_share, color: theme.colorScheme.tertiary, size: 14),
+                  Icon(
+                    Icons.screen_share,
+                    color: theme.colorScheme.tertiary,
+                    size: 14,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     L10n.of(context).screenShare,
-                    style: TextStyle(color: theme.colorScheme.tertiary, fontSize: 11),
+                    style: TextStyle(
+                      color: theme.colorScheme.tertiary,
+                      fontSize: 11,
+                    ),
                   ),
                 ],
               ),
@@ -816,37 +868,55 @@ class _CallControls extends StatelessWidget {
     final camOn = _isCamOn(lp);
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-      color: theme.colorScheme.surfaceContainerHighest,
+      padding: const .symmetric(vertical: 16, horizontal: 8),
+      color: theme.colorScheme.surfaceContainerLowest,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _ControlButton(
-            icon: micOn ? Icons.mic : Icons.mic_off,
-            active: micOn,
-            onTap: () => lp?.setMicrophoneEnabled(!micOn),
+          FloatingActionButton(
+            onPressed: () => lp?.setMicrophoneEnabled(!micOn),
+            backgroundColor: micOn
+                ? theme.colorScheme.onSurface
+                : theme.colorScheme.surfaceContainerHighest,
+            foregroundColor: micOn
+                ? theme.colorScheme.surfaceContainerHighest
+                : theme.colorScheme.onSurface,
+            child: Icon(micOn ? Icons.mic : Icons.mic_off),
           ),
-          _ControlButton(
-            icon: camOn ? Icons.videocam : Icons.videocam_off,
-            active: camOn,
-            onTap: () => lp?.setCameraEnabled(!camOn),
+          FloatingActionButton(
+            onPressed: () => lp?.setCameraEnabled(!camOn),
+            backgroundColor: camOn
+                ? theme.colorScheme.onSurfaceVariant
+                : theme.colorScheme.surfaceContainerHighest,
+            foregroundColor: camOn
+                ? theme.colorScheme.surfaceContainerHighest
+                : theme.colorScheme.onSurfaceVariant,
+            child: Icon(camOn ? Icons.videocam : Icons.videocam_off),
           ),
-          _ControlButton(
-            icon: Icons.call_end,
-            active: false,
-            color: theme.colorScheme.error,
-            onTap: onHangup,
+          FloatingActionButton(
+            onPressed: onHangup,
+            backgroundColor: theme.colorScheme.errorContainer,
+            foregroundColor: theme.colorScheme.onErrorContainer,
+            child: Icon(Icons.call_end),
           ),
-          _ControlButton(
-            icon: Icons.screen_share,
-            active: !screenShareActive,
-            color: screenShareActive ? theme.colorScheme.tertiary : null,
-            onTap: onScreenShare,
+
+          FloatingActionButton(
+            onPressed: onScreenShare,
+            backgroundColor: screenShareActive
+                ? theme.colorScheme.onSurfaceVariant
+                : theme.colorScheme.surfaceContainerHighest,
+            foregroundColor: screenShareActive
+                ? theme.colorScheme.surfaceContainerHighest
+                : theme.colorScheme.onSurfaceVariant,
+            child: Icon(
+              screenShareActive
+                  ? Icons.screen_share
+                  : Icons.screen_share_outlined,
+            ),
           ),
-          _ControlButton(
-            icon: Icons.settings,
-            active: true,
-            onTap: () => _showSettingsSheet(context, room),
+          FloatingActionButton(
+            onPressed: () => _showSettingsSheet(context, room),
+            child: Icon(Icons.settings),
           ),
         ],
       ),
@@ -872,48 +942,10 @@ class _CallControls extends StatelessWidget {
 
   bool _isCamOn(lk.LocalParticipant? lp) {
     if (lp == null) return false;
-    final pub = lp.videoTrackPublications.where((p) => !p.isScreenShare).firstOrNull;
+    final pub = lp.videoTrackPublications
+        .where((p) => !p.isScreenShare)
+        .firstOrNull;
     return pub != null && !pub.muted;
-  }
-}
-
-class _ControlButton extends StatelessWidget {
-  final IconData icon;
-  final bool active;
-  final Color? color;
-  final VoidCallback onTap;
-
-  const _ControlButton({
-    required this.icon,
-    required this.active,
-    this.color,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 56,
-        height: 56,
-        decoration: BoxDecoration(
-          color: color ?? (active
-              ? theme.colorScheme.surfaceContainerHigh
-              : theme.colorScheme.errorContainer),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          icon,
-          color: color ?? (active
-              ? theme.colorScheme.onSurface
-              : theme.colorScheme.error),
-          size: 28,
-        ),
-      ),
-    );
   }
 }
 
@@ -948,7 +980,8 @@ Future<void> openLiveKitCall(BuildContext context, String roomId) async {
 
   try {
     final wellKnown = await client.getWellknown();
-    final rtcFoci = wellKnown.additionalProperties['org.matrix.msc4143.rtc_foci'];
+    final rtcFoci =
+        wellKnown.additionalProperties['org.matrix.msc4143.rtc_foci'];
     if (rtcFoci is List) {
       for (final f in rtcFoci) {
         if (f is Map && f['type'] == 'livekit') {
@@ -958,7 +991,10 @@ Future<void> openLiveKitCall(BuildContext context, String roomId) async {
       }
     }
     if (urls.isEmpty) {
-      final homeserverUrl = wellKnown.mHomeserver.baseUrl.toString().replaceAll(RegExp(r'/+$'), '');
+      final homeserverUrl = wellKnown.mHomeserver.baseUrl.toString().replaceAll(
+        RegExp(r'/+$'),
+        '',
+      );
       urls.add('$homeserverUrl/livekit-jwt-service');
     }
   } catch (_) {}
@@ -981,15 +1017,16 @@ Future<void> openLiveKitCall(BuildContext context, String roomId) async {
     'call_id': '',
     'device_id': deviceId,
     'expires': 14400000,
-    'foci_preferred': urls.map((u) => {
-      'type': 'livekit',
-      'livekit_service_url': u,
-      'livekit_alias': roomId,
-    }).toList(),
-    'focus_active': {
-      'type': 'livekit',
-      'focus_selection': 'oldest_membership',
-    },
+    'foci_preferred': urls
+        .map(
+          (u) => {
+            'type': 'livekit',
+            'livekit_service_url': u,
+            'livekit_alias': roomId,
+          },
+        )
+        .toList(),
+    'focus_active': {'type': 'livekit', 'focus_selection': 'oldest_membership'},
     'm.call.intent': 'video',
     'membershipID': membershipID,
     'scope': 'm.room',
@@ -1003,7 +1040,7 @@ Future<void> openLiveKitCall(BuildContext context, String roomId) async {
       Map<String, Object?>.from(memberEventContent),
     );
   } catch (e) {
-    print('DEBUG: error sending call member event: $e');
+    Logs().d('DEBUG: error sending call member event: $e');
   }
 
   if (context.mounted) {
@@ -1099,27 +1136,16 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+      padding: const .all(16),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurfaceVariant,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
             Text(
               L10n.of(context).callSettings,
               style: TextStyle(
-                color: theme.colorScheme.onSurface,
+                color: theme.colorScheme.primary,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -1128,37 +1154,45 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
             if (_audioInputs.isNotEmpty) ...[
               _sectionTitle(L10n.of(context).microphone),
               const SizedBox(height: 8),
-              ..._audioInputs.map((d) => _deviceTile(
-                label: d.label.isEmpty
-                    ? L10n.of(context).microphoneN(_audioInputs.indexOf(d) + 1)
-                    : d.label,
-                selected: _selectedAudioInput == d.deviceId,
-                onTap: () => _switchAudioInput(d),
-              )),
+              ..._audioInputs.map(
+                (d) => _deviceTile(
+                  label: d.label.isEmpty
+                      ? L10n.of(
+                          context,
+                        ).microphoneN(_audioInputs.indexOf(d) + 1)
+                      : d.label,
+                  selected: _selectedAudioInput == d.deviceId,
+                  onTap: () => _switchAudioInput(d),
+                ),
+              ),
               const SizedBox(height: 16),
             ],
             if (_audioOutputs.isNotEmpty) ...[
               _sectionTitle(L10n.of(context).speaker),
               const SizedBox(height: 8),
-              ..._audioOutputs.map((d) => _deviceTile(
-                label: d.label.isEmpty
-                    ? L10n.of(context).speakerN(_audioOutputs.indexOf(d) + 1)
-                    : d.label,
-                selected: _selectedAudioOutput == d.deviceId,
-                onTap: () => _switchAudioOutput(d),
-              )),
+              ..._audioOutputs.map(
+                (d) => _deviceTile(
+                  label: d.label.isEmpty
+                      ? L10n.of(context).speakerN(_audioOutputs.indexOf(d) + 1)
+                      : d.label,
+                  selected: _selectedAudioOutput == d.deviceId,
+                  onTap: () => _switchAudioOutput(d),
+                ),
+              ),
               const SizedBox(height: 16),
             ],
             if (_videoInputs.isNotEmpty) ...[
               _sectionTitle(L10n.of(context).camera),
               const SizedBox(height: 8),
-              ..._videoInputs.map((d) => _deviceTile(
-                label: d.label.isEmpty
-                    ? L10n.of(context).cameraN(_videoInputs.indexOf(d) + 1)
-                    : d.label,
-                selected: _selectedVideoInput == d.deviceId,
-                onTap: () => _switchVideoInput(d),
-              )),
+              ..._videoInputs.map(
+                (d) => _deviceTile(
+                  label: d.label.isEmpty
+                      ? L10n.of(context).cameraN(_videoInputs.indexOf(d) + 1)
+                      : d.label,
+                  selected: _selectedVideoInput == d.deviceId,
+                  onTap: () => _switchVideoInput(d),
+                ),
+              ),
               const SizedBox(height: 16),
             ],
             _sectionTitle(L10n.of(context).audioProcessing),
@@ -1189,8 +1223,7 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
     return Text(
       text,
       style: TextStyle(
-        color: theme.colorScheme.onSurfaceVariant,
-        fontSize: 13,
+        color: theme.colorScheme.secondary,
         fontWeight: FontWeight.w600,
       ),
     );
@@ -1207,10 +1240,12 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
       contentPadding: EdgeInsets.zero,
       leading: Icon(
         selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
-        color: selected ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+        color: selected
+            ? theme.colorScheme.primary
+            : theme.colorScheme.onSurfaceVariant,
         size: 20,
       ),
-      title: Text(label, style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 14)),
+      title: Text(label),
       onTap: onTap,
     );
   }
@@ -1220,14 +1255,12 @@ class _CallSettingsSheetState extends State<_CallSettingsSheet> {
     required bool value,
     required ValueChanged<bool> onChanged,
   }) {
-    final theme = Theme.of(context);
     return SwitchListTile(
       dense: true,
       contentPadding: EdgeInsets.zero,
-      title: Text(title, style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 14)),
+      title: Text(title),
       value: value,
       onChanged: onChanged,
-      activeColor: theme.colorScheme.primary,
     );
   }
 }
