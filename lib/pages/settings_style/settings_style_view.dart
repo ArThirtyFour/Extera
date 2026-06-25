@@ -159,7 +159,7 @@ class SettingsStyleView extends StatelessWidget {
                                   onTap: () => controller.setChatColor(color),
                                   child: Material(
                                     color: color ?? systemColor,
-                                    elevation: 6,
+                                    elevation: 0,
                                     borderRadius: BorderRadius.circular(
                                       colorPickerSize,
                                     ),
