@@ -255,9 +255,7 @@ class ChatController extends State<ChatPageWithRoom>
 
     final events = timeline!.events
         .filterByThreaded(thread != null)
-        .filterByVisibleInGui(
-          threadId: thread?.rootEvent.eventId,
-        );
+        .filterByVisibleInGui(threadId: thread?.rootEvent.eventId);
 
     _cachedFilteredEvents = events;
 
@@ -539,7 +537,9 @@ class ChatController extends State<ChatPageWithRoom>
                 .filterByVisibleInGui(exceptionEventId: readMarkerEventId)
                 .indexWhere((e) => e.eventId == readMarkerEventId);
 
-      if (timeline != null && readMarkerEventId.isNotEmpty && readMarkerEventIndex == -1) {
+      if (timeline != null &&
+          readMarkerEventId.isNotEmpty &&
+          readMarkerEventIndex == -1) {
         await timeline?.requestHistory(historyCount: _loadHistoryCount);
         readMarkerEventIndex = timeline!.events
             .filterByVisibleInGui(exceptionEventId: readMarkerEventId)
@@ -908,12 +908,7 @@ class ChatController extends State<ChatPageWithRoom>
       context: context,
       useRootNavigator: false,
       builder: (c) => SendFileDialog(
-        files: [
-          XFile.fromData(
-            pastedImage!,
-            mimeType: 'image/png',
-          ),
-        ],
+        files: [XFile.fromData(pastedImage!, mimeType: 'image/png')],
         room: room,
         thread: thread,
         outerContext: context,
@@ -1671,13 +1666,7 @@ class ChatController extends State<ChatPageWithRoom>
     setState(() {
       pendingText = sendController.text;
       editEvent = event;
-      sendController.text = event
-          .getDisplayEvent(timeline)
-          .calcLocalizedBodyFallback(
-            MatrixLocals(L10n.of(context)),
-            withSenderNamePrefix: false,
-            hideReply: true,
-          );
+      sendController.text = event.getDisplayEvent(timeline).body;
       if (clearSelection) selectedEvents.clear();
     });
     inputFocus.requestFocus();
