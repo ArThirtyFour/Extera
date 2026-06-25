@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:extera_next/pages/dialer/livekit_call_manager.dart';
+import 'package:extera_next/pages/dialer/livekit_call_screen.dart';
 
 class BackToLiveKitCallButton extends StatelessWidget {
   final String? roomId;
@@ -23,10 +23,7 @@ class BackToLiveKitCallButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: FilledButton.tonal(
         onPressed: () {
-          final route = LiveKitCallManager().currentCallRoute;
-          if (route != null && context.mounted) {
-            Navigator.of(context).popUntil((r) => r == route);
-          }
+          openLiveKitCall(context, roomId!);
         },
         child: Row(
           mainAxisSize: MainAxisSize.max,

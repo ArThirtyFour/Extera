@@ -19,7 +19,6 @@ import 'package:extera_next/pages/chat/encryption_button.dart';
 import 'package:extera_next/pages/chat/pinned_events.dart';
 import 'package:extera_next/pages/chat/reply_display.dart';
 import 'package:extera_next/pages/dialer/back_to_call_button.dart';
-import 'package:extera_next/pages/dialer/active_livekit_call_banner.dart';
 import 'package:extera_next/pages/dialer/back_to_livekit_call_button.dart';
 import 'package:extera_next/pages/dialer/livekit_call_manager.dart';
 import 'package:extera_next/utils/stream_extension.dart';
@@ -728,7 +727,6 @@ class _ChatViewState extends State<ChatView> {
                               );
                             },
                           ),
-                          ActiveLiveKitCallBanner(room: controller.room),
                           const MiniAudioPlayer(),
                           if (scrollUpBannerEventId != null)
                             Row(

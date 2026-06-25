@@ -39,7 +39,33 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
   @override
   void initState() {
     super.initState();
-    _connect();
+    final manager = LiveKitCallManager();
+    if (manager.room != null && manager.currentRoomId == widget.roomId) {
+      _room = manager.room;
+      _client = manager.client;
+      _connecting = false;
+      _screenShareActive = _room?.localParticipant?.videoTrackPublications
+              .any((pub) => pub.isScreenShare) ??
+          false;
+      _setupRoomListeners();
+      _fetchProfile();
+    } else {
+      _connect();
+    }
+  }
+
+  Future<void> _fetchProfile() async {
+    final client = Matrix.of(context).client;
+    final matrixRoom = client.getRoomById(widget.roomId);
+    final profile = matrixRoom?.unsafeGetUserFromMemoryOrFallback(
+      client.userID!,
+    );
+    if (mounted) {
+      setState(() {
+        _localDisplayName = profile?.displayName ?? client.userID!;
+        _localAvatar = profile?.avatarUrl;
+      });
+    }
   }
 
   bool _screenShareActive = false;
@@ -149,33 +175,11 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
       }
 
       _room = room;
-      _room!.addListener(_onRoomUpdate);
+      LiveKitCallManager().room = room;
+      LiveKitCallManager().callStateKey = widget.callStateKey;
+      LiveKitCallManager().client = _client;
 
-      _room!.events.on<lk.ParticipantConnectedEvent>((event) {
-        Logs().d('DEBUG: participant connected: ${event.participant.identity}');
-        if (mounted) setState(() {});
-      });
-      _room!.events.on<lk.ParticipantDisconnectedEvent>((event) {
-        Logs().d(
-          'DEBUG: participant disconnected: ${event.participant.identity}',
-        );
-        if (mounted) setState(() {});
-      });
-      _room!.events.on<lk.TrackSubscribedEvent>((event) {
-        Logs().d(
-          'DEBUG: track subscribed: ${event.participant.identity} ${event.track.source}',
-        );
-        if (mounted) setState(() {});
-      });
-      _room!.events.on<lk.TrackUnsubscribedEvent>((event) {
-        if (mounted) setState(() {});
-      });
-      _room!.events.on<lk.TrackPublishedEvent>((event) {
-        if (mounted) setState(() {});
-      });
-      _room!.events.on<lk.LocalTrackPublishedEvent>((event) {
-        if (mounted) setState(() {});
-      });
+      _setupRoomListeners();
 
       Logs().d(
         'DEBUG: connected, remote participants: ${_room!.remoteParticipants.length}',
@@ -213,6 +217,36 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
     }
   }
 
+  void _setupRoomListeners() {
+    _room!.addListener(_onRoomUpdate);
+
+    _room!.events.on<lk.ParticipantConnectedEvent>((event) {
+      Logs().d('DEBUG: participant connected: ${event.participant.identity}');
+      if (mounted) setState(() {});
+    });
+    _room!.events.on<lk.ParticipantDisconnectedEvent>((event) {
+      Logs().d(
+        'DEBUG: participant disconnected: ${event.participant.identity}',
+      );
+      if (mounted) setState(() {});
+    });
+    _room!.events.on<lk.TrackSubscribedEvent>((event) {
+      Logs().d(
+        'DEBUG: track subscribed: ${event.participant.identity} ${event.track.source}',
+      );
+      if (mounted) setState(() {});
+    });
+    _room!.events.on<lk.TrackUnsubscribedEvent>((event) {
+      if (mounted) setState(() {});
+    });
+    _room!.events.on<lk.TrackPublishedEvent>((event) {
+      if (mounted) setState(() {});
+    });
+    _room!.events.on<lk.LocalTrackPublishedEvent>((event) {
+      if (mounted) setState(() {});
+    });
+  }
+
   void _onRoomUpdate() {
     if (!mounted || _disposed) return;
     if (_room?.connectionState == lk.ConnectionState.disconnected) {
@@ -229,14 +263,16 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
     _disposed = true;
     final room = _room;
     _room = null;
+    final client = _client ?? LiveKitCallManager().client;
+    final stateKey = widget.callStateKey ?? LiveKitCallManager().callStateKey;
     LiveKitCallManager().endCall();
-    _cleanupCall(room);
+    _cleanupCall(room, client, stateKey);
     if (mounted) {
       Navigator.of(context).pop();
     }
   }
 
-  Future<void> _cleanupCall(lk.Room? room) async {
+  Future<void> _cleanupCall(lk.Room? room, Client? client, String? stateKey) async {
     try {
       await room?.localParticipant?.unpublishAllTracks();
     } catch (_) {}
@@ -248,8 +284,6 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
     } catch (_) {}
 
     try {
-      final client = _client;
-      final stateKey = widget.callStateKey;
       if (client != null && stateKey != null) {
         try {
           await client.setRoomStateWithKey(
@@ -268,13 +302,9 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
   }
 
   @override
-  void dispose() async {
-    if (!_disposed) {
-      _disposed = true;
-      await _cleanupCall(_room);
-      _room = null;
-      LiveKitCallManager().endCall();
-    }
+  void dispose() {
+    _disposed = true;
+    _room?.removeListener(_onRoomUpdate);
     super.dispose();
   }
 
@@ -287,8 +317,8 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
       appBar: AppBar(
         backgroundColor: theme.colorScheme.surfaceContainerHighest,
         leading: IconButton(
-          icon: Icon(Icons.close, color: theme.colorScheme.onSurface),
-          onPressed: _hangup,
+          icon: Icon(Icons.expand_more, color: theme.colorScheme.onSurface),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: _connecting
@@ -997,6 +1027,33 @@ class _CallControls extends StatelessWidget {
 }
 
 Future<void> openLiveKitCall(BuildContext context, String roomId) async {
+  final manager = LiveKitCallManager();
+
+  // Check if we are already in THIS call. If so, just push the UI, don't send Matrix state events.
+  if (manager.isInCall && manager.currentRoomId == roomId) {
+    if (context.mounted) {
+      final route = MaterialPageRoute(
+        builder: (_) => LiveKitCallScreen(
+          roomId: roomId,
+          liveKitServiceUrls: const [],
+          callStateKey: manager.callStateKey,
+        ),
+      );
+      manager.startCall(roomId, route);
+      Navigator.of(context).push(route);
+    }
+    return;
+  }
+
+  // If in a DIFFERENT call, we ideally should prompt or end it, but for now we'll just try to let the new call replace it.
+  // The old call will disconnect when the user hangs it up, or if LiveKitClient manages one room at a time, it might fail or replace.
+  // But to avoid leaking, let's at least clean up the manager.
+  if (manager.isInCall && manager.currentRoomId != roomId) {
+     // Not cleanly leaving the matrix state for the old room, but this is a complex edge case for now.
+     manager.room?.disconnect();
+     manager.endCall();
+  }
+
   final client = Matrix.of(context).client;
   final room = client.getRoomById(roomId);
   if (room == null) return;

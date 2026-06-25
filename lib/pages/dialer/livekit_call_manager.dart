@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:livekit_client/livekit_client.dart' as lk;
+import 'package:matrix/matrix.dart' show Client;
 
 class LiveKitCallManager {
   static final LiveKitCallManager _instance = LiveKitCallManager._internal();
@@ -10,6 +12,10 @@ class LiveKitCallManager {
   final ValueNotifier<String?> currentCallRoomId = ValueNotifier<String?>(null);
   Route? _currentCallRoute;
   bool _disposed = false;
+
+  lk.Room? room;
+  String? callStateKey;
+  Client? client;
 
   String? get currentRoomId => _currentRoomId;
   Route? get currentCallRoute => _currentCallRoute;
@@ -24,6 +30,9 @@ class LiveKitCallManager {
   void endCall() {
     _currentRoomId = null;
     _currentCallRoute = null;
+    room = null;
+    callStateKey = null;
+    client = null;
     if (!_disposed) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         if (!_disposed) {
