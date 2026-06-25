@@ -188,14 +188,14 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
       );
 
       await _room!.localParticipant?.setCameraEnabled(
-        true,
+        false,
         cameraCaptureOptions: const lk.CameraCaptureOptions(
           maxFrameRate: 30,
           params: lk.VideoParametersPresets.h720_169,
         ),
       );
       await _room!.localParticipant?.setMicrophoneEnabled(
-        true,
+        false,
         audioCaptureOptions: const lk.AudioCaptureOptions(
           echoCancellation: true,
           noiseSuppression: true,
