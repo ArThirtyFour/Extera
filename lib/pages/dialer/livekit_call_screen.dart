@@ -44,8 +44,10 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
       _room = manager.room;
       _client = manager.client;
       _connecting = false;
-      _screenShareActive = _room?.localParticipant?.videoTrackPublications
-              .any((pub) => pub.isScreenShare) ??
+      _screenShareActive =
+          _room?.localParticipant?.videoTrackPublications.any(
+            (pub) => pub.isScreenShare,
+          ) ??
           false;
       _setupRoomListeners();
       _fetchProfile();
@@ -272,9 +274,19 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
     }
   }
 
-  Future<void> _cleanupCall(lk.Room? room, Client? client, String? stateKey) async {
+  Future<void> _cleanupCall(
+    lk.Room? room,
+    Client? client,
+    String? stateKey,
+  ) async {
     try {
-      await room?.localParticipant?.unpublishAllTracks();
+      await room?.localParticipant?.setCameraEnabled(false);
+    } catch (_) {}
+    try {
+      await room?.localParticipant?.setMicrophoneEnabled(false);
+    } catch (_) {}
+    try {
+      await room?.localParticipant?.setScreenShareEnabled(false);
     } catch (_) {}
     try {
       await room?.disconnect();
@@ -315,9 +327,8 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: theme.colorScheme.surfaceContainerHighest,
         leading: IconButton(
-          icon: Icon(Icons.expand_more, color: theme.colorScheme.onSurface),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -944,58 +955,61 @@ class _CallControls extends StatelessWidget {
     final micOn = _isMicOn(lp);
     final camOn = _isCamOn(lp);
 
-    return Container(
-      padding: const .symmetric(vertical: 16, horizontal: 8),
-      color: theme.colorScheme.surfaceContainerLowest,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          FloatingActionButton(
-            onPressed: () => lp?.setMicrophoneEnabled(!micOn),
-            backgroundColor: micOn
-                ? theme.colorScheme.onSurface
-                : theme.colorScheme.surfaceContainerHighest,
-            foregroundColor: micOn
-                ? theme.colorScheme.surfaceContainerHighest
-                : theme.colorScheme.onSurface,
-            child: Icon(micOn ? Icons.mic : Icons.mic_off),
-          ),
-          FloatingActionButton(
-            onPressed: () => lp?.setCameraEnabled(!camOn),
-            backgroundColor: camOn
-                ? theme.colorScheme.onSurfaceVariant
-                : theme.colorScheme.surfaceContainerHighest,
-            foregroundColor: camOn
-                ? theme.colorScheme.surfaceContainerHighest
-                : theme.colorScheme.onSurfaceVariant,
-            child: Icon(camOn ? Icons.videocam : Icons.videocam_off),
-          ),
-          FloatingActionButton(
-            onPressed: onHangup,
-            backgroundColor: theme.colorScheme.errorContainer,
-            foregroundColor: theme.colorScheme.onErrorContainer,
-            child: Icon(Icons.call_end),
-          ),
-
-          FloatingActionButton(
-            onPressed: onScreenShare,
-            backgroundColor: screenShareActive
-                ? theme.colorScheme.onSurfaceVariant
-                : theme.colorScheme.surfaceContainerHighest,
-            foregroundColor: screenShareActive
-                ? theme.colorScheme.surfaceContainerHighest
-                : theme.colorScheme.onSurfaceVariant,
-            child: Icon(
-              screenShareActive
-                  ? Icons.screen_share
-                  : Icons.screen_share_outlined,
+    return SafeArea(
+      top: false,
+      child: Container(
+        padding: const .symmetric(vertical: 16, horizontal: 8),
+        color: theme.colorScheme.surfaceContainerLowest,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            FloatingActionButton(
+              onPressed: () => lp?.setMicrophoneEnabled(!micOn),
+              backgroundColor: micOn
+                  ? theme.colorScheme.onSurface
+                  : theme.colorScheme.surfaceContainerHighest,
+              foregroundColor: micOn
+                  ? theme.colorScheme.surfaceContainerHighest
+                  : theme.colorScheme.onSurface,
+              child: Icon(micOn ? Icons.mic : Icons.mic_off),
             ),
-          ),
-          FloatingActionButton(
-            onPressed: () => _showSettingsSheet(context, room),
-            child: Icon(Icons.settings),
-          ),
-        ],
+            FloatingActionButton(
+              onPressed: () => lp?.setCameraEnabled(!camOn),
+              backgroundColor: camOn
+                  ? theme.colorScheme.onSurfaceVariant
+                  : theme.colorScheme.surfaceContainerHighest,
+              foregroundColor: camOn
+                  ? theme.colorScheme.surfaceContainerHighest
+                  : theme.colorScheme.onSurfaceVariant,
+              child: Icon(camOn ? Icons.videocam : Icons.videocam_off),
+            ),
+            FloatingActionButton(
+              onPressed: onHangup,
+              backgroundColor: theme.colorScheme.errorContainer,
+              foregroundColor: theme.colorScheme.onErrorContainer,
+              child: Icon(Icons.call_end),
+            ),
+
+            FloatingActionButton(
+              onPressed: onScreenShare,
+              backgroundColor: screenShareActive
+                  ? theme.colorScheme.onSurfaceVariant
+                  : theme.colorScheme.surfaceContainerHighest,
+              foregroundColor: screenShareActive
+                  ? theme.colorScheme.surfaceContainerHighest
+                  : theme.colorScheme.onSurfaceVariant,
+              child: Icon(
+                screenShareActive
+                    ? Icons.screen_share
+                    : Icons.screen_share_outlined,
+              ),
+            ),
+            FloatingActionButton(
+              onPressed: () => _showSettingsSheet(context, room),
+              child: Icon(Icons.settings),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1049,9 +1063,14 @@ Future<void> openLiveKitCall(BuildContext context, String roomId) async {
   // The old call will disconnect when the user hangs it up, or if LiveKitClient manages one room at a time, it might fail or replace.
   // But to avoid leaking, let's at least clean up the manager.
   if (manager.isInCall && manager.currentRoomId != roomId) {
-     // Not cleanly leaving the matrix state for the old room, but this is a complex edge case for now.
-     manager.room?.disconnect();
-     manager.endCall();
+    try {
+      await manager.room?.localParticipant?.setCameraEnabled(false);
+      await manager.room?.localParticipant?.setMicrophoneEnabled(false);
+      await manager.room?.localParticipant?.setScreenShareEnabled(false);
+      await manager.room?.disconnect();
+      await manager.room?.dispose();
+    } catch (_) {}
+    manager.endCall();
   }
 
   final client = Matrix.of(context).client;
