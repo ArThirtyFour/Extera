@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   app_links
   audioplayers_windows
+  connectivity_plus
   desktop_drop
   desktop_webview_window
   dynamic_color
@@ -13,6 +14,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_webrtc
   geolocator_windows
   hotkey_manager_windows
+  livekit_client
   pasteboard
   permission_handler_windows
   record_windows
