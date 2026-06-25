@@ -16,10 +16,12 @@ import 'package:extera_next/pages/chat/chat_app_bar_list_tile.dart';
 import 'package:extera_next/pages/chat/chat_app_bar_title.dart';
 import 'package:extera_next/pages/chat/chat_event_list.dart';
 import 'package:extera_next/pages/chat/encryption_button.dart';
-import 'package:extera_next/pages/chat/jitsi_popup_button.dart';
 import 'package:extera_next/pages/chat/pinned_events.dart';
 import 'package:extera_next/pages/chat/reply_display.dart';
 import 'package:extera_next/pages/dialer/back_to_call_button.dart';
+import 'package:extera_next/pages/dialer/active_livekit_call_banner.dart';
+import 'package:extera_next/pages/dialer/back_to_livekit_call_button.dart';
+import 'package:extera_next/pages/dialer/livekit_call_manager.dart';
 import 'package:extera_next/utils/stream_extension.dart';
 import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/avatar.dart';
@@ -149,16 +151,20 @@ class _ChatViewState extends State<ChatView> {
       ];
     } else if (!controller.room.isArchived) {
       return [
-        if (AppSettings.experimentalVoip.value &&
+        if (AppSettings.experimentalLiveKit.value)
+          IconButton(
+            onPressed: () => controller.onLiveKitCallButtonTap(),
+            icon: const Icon(Icons.video_call_outlined),
+            tooltip: L10n.of(context).elementCallExperimental,
+          )
+        else if (AppSettings.experimentalVoip.value &&
             Matrix.of(context).voipPlugin != null &&
             controller.room.isDirectChat)
           IconButton(
             onPressed: controller.onPhoneButtonTap,
             icon: const Icon(Icons.call_outlined),
             tooltip: L10n.of(context).placeCall,
-          )
-        else if (AppSettings.experimentalJitsi.value)
-          JitsiPopupButton(controller.room),
+          ),
         EncryptionButton(controller.room),
         ChatSettingsPopupMenu(controller.room, true),
       ];
@@ -707,10 +713,22 @@ class _ChatViewState extends State<ChatView> {
                     right: 0,
                     child: Align(
                       alignment: Alignment.center,
-                      child: Column(
+                        child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const BackToCallButton(),
+                          ValueListenableBuilder<String?>(
+                            valueListenable: LiveKitCallManager().currentCallRoomId,
+                            builder: (context, roomId, _) {
+                              if (roomId == null) {
+                                return const SizedBox.shrink();
+                              }
+                              return BackToLiveKitCallButton(
+                                roomId: roomId,
+                              );
+                            },
+                          ),
+                          ActiveLiveKitCallBanner(room: controller.room),
                           const MiniAudioPlayer(),
                           if (scrollUpBannerEventId != null)
                             Row(
