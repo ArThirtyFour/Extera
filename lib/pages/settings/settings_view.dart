@@ -78,7 +78,7 @@ class SettingsView extends StatelessWidget {
             body: ListTileTheme(
               iconColor: theme.colorScheme.onSurface,
               child: Padding(
-                padding: const .all(8),
+                padding: const .fromLTRB(8, 0, 8, 8),
                 child: ListView(
                   key: const Key('SettingsListViewContent'),
                   children: <Widget>[
