@@ -1,0 +1,1233 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
+import 'package:livekit_client/livekit_client.dart' as lk;
+import 'package:matrix/matrix.dart' show Client;
+
+import 'package:extera_next/pages/dialer/livekit_service.dart';
+import 'package:extera_next/pages/dialer/livekit_call_manager.dart';
+import 'package:extera_next/widgets/matrix.dart';
+
+import 'package:extera_next/generated/l10n/l10n.dart';
+
+class LiveKitCallScreen extends StatefulWidget {
+  final String roomId;
+  final List<String> liveKitServiceUrls;
+  final String? callStateKey;
+  const LiveKitCallScreen({
+    required this.roomId,
+    required this.liveKitServiceUrls,
+    this.callStateKey,
+    super.key,
+  });
+
+  @override
+  State<LiveKitCallScreen> createState() => _LiveKitCallScreenState();
+}
+
+class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
+  lk.Room? _room;
+  bool _connecting = true;
+  String? _error;
+  bool _disposed = false;
+  Client? _client;
+  String _localDisplayName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _connect();
+  }
+
+  bool _screenShareActive = false;
+
+  Future<void> _toggleScreenShare() async {
+    final lp = _room?.localParticipant;
+    if (lp == null) return;
+
+    if (_screenShareActive) {
+      final exitingPub = lp.getTrackPublicationBySource(lk.TrackSource.screenShareVideo);
+      if (exitingPub != null) {
+        await lp.setScreenShareEnabled(false);
+      }
+      setState(() => _screenShareActive = false);
+      return;
+    }
+
+    try {
+      final sources = await rtc.desktopCapturer.getSources(
+        types: [rtc.SourceType.Screen]
+      );
+      if (sources.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(L10n.of(context).noScreensAvailable)),
+          );
+        }
+        return;
+      }
+
+      final source = sources.first;
+      final constraints = {
+        'audio': false,
+        'video': {
+          'deviceId': {'exact': source.id},
+          'width': 1920,
+          'height': 1080,
+          'frameRate': 15,
+        }
+      };
+
+      final stream = await rtc.navigator.mediaDevices.getDisplayMedia(constraints);
+      final videoTrack = stream.getVideoTracks().first;
+      final localVideoTrack = lk.LocalVideoTrack(
+        lk.TrackSource.screenShareVideo,
+        stream,
+        videoTrack,
+        const lk.ScreenShareCaptureOptions(),
+      );
+
+      await lp.publishVideoTrack(localVideoTrack);
+      setState(() => _screenShareActive = true);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(L10n.of(context).screenShareErrorWithMessage(e.toString()))),
+        );
+      }
+    }
+  }
+
+  Future<void> _connect() async {
+    try {
+      final client = Matrix.of(context).client;
+      _client = client;
+      final matrixRoom = client.getRoomById(widget.roomId);
+      _localDisplayName = matrixRoom
+          ?.unsafeGetUserFromMemoryOrFallback(client.userID!)
+          .displayName ?? client.userID!;
+      final openId = await client.requestOpenIdToken(client.userID!, {});
+      final deviceId = client.deviceID ?? '';
+
+      await lk.LiveKitClient.initialize();
+
+      LiveKitCredentials? creds;
+      lk.Room? room;
+
+      for (final jwtServiceUrl in widget.liveKitServiceUrls) {
+        try {
+          creds = await LiveKitService.getCredentials(
+            openId: openId,
+            roomId: widget.roomId,
+            deviceId: deviceId,
+            jwtServiceUrl: jwtServiceUrl,
+          );
+          print('LiveKit OK: $jwtServiceUrl → ${creds.url}');
+
+          room = lk.Room(
+            roomOptions: const lk.RoomOptions(
+              adaptiveStream: true,
+              dynacast: true,
+              defaultAudioCaptureOptions: lk.AudioCaptureOptions(
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true,
+                highPassFilter: true,
+              ),
+            ),
+          );
+
+          await room.connect(creds.url, creds.jwt);
+          print('LiveKit connected: $jwtServiceUrl');
+          break;
+        } catch (e) {
+          print('LiveKit FAIL: $jwtServiceUrl → $e');
+          try { await room?.dispose(); } catch (_) {}
+          room = null;
+          creds = null;
+        }
+      }
+
+      if (room == null) {
+        throw Exception(L10n.of(context).allLiveKitUnavailable);
+      }
+
+      _room = room;
+      _room!.addListener(_onRoomUpdate);
+
+      _room!.events.on<lk.ParticipantConnectedEvent>((event) {
+        print('DEBUG: participant connected: ${event.participant.identity}');
+        if (mounted) setState(() {});
+      });
+      _room!.events.on<lk.ParticipantDisconnectedEvent>((event) {
+        print('DEBUG: participant disconnected: ${event.participant.identity}');
+        if (mounted) setState(() {});
+      });
+      _room!.events.on<lk.TrackSubscribedEvent>((event) {
+        print('DEBUG: track subscribed: ${event.participant.identity} ${event.track.source}');
+        if (mounted) setState(() {});
+      });
+      _room!.events.on<lk.TrackUnsubscribedEvent>((event) {
+        if (mounted) setState(() {});
+      });
+      _room!.events.on<lk.TrackPublishedEvent>((event) {
+        if (mounted) setState(() {});
+      });
+      _room!.events.on<lk.LocalTrackPublishedEvent>((event) {
+        if (mounted) setState(() {});
+      });
+
+      print('DEBUG: connected, remote participants: ${_room!.remoteParticipants.length}');
+
+      await _room!.localParticipant?.setCameraEnabled(
+        true,
+        cameraCaptureOptions: const lk.CameraCaptureOptions(
+          maxFrameRate: 30,
+          params: lk.VideoParametersPresets.h720_169,
+        ),
+      );
+      await _room!.localParticipant?.setMicrophoneEnabled(
+        true,
+        audioCaptureOptions: const lk.AudioCaptureOptions(
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          highPassFilter: true,
+          typingNoiseDetection: true,
+        ),
+      );
+
+      if (mounted && !_disposed) {
+        setState(() => _connecting = false);
+      }
+    } catch (e) {
+      print('LiveKit connect error: $e');
+      if (mounted && !_disposed) {
+        setState(() {
+          _error = e.toString();
+          _connecting = false;
+        });
+      }
+    }
+  }
+
+  void _onRoomUpdate() {
+    if (!mounted || _disposed) return;
+    if (_room?.connectionState == lk.ConnectionState.disconnected) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && !_disposed) _hangup();
+      });
+      return;
+    }
+    if (mounted) setState(() {});
+  }
+
+  void _hangup() {
+    if (_disposed) return;
+    _disposed = true;
+    final room = _room;
+    _room = null;
+    LiveKitCallManager().endCall();
+    _cleanupCall(room);
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> _cleanupCall(lk.Room? room) async {
+    try {
+      await room?.localParticipant?.unpublishAllTracks();
+    } catch (_) {}
+    try {
+      await room?.disconnect();
+    } catch (_) {}
+    try {
+      await room?.dispose();
+    } catch (_) {}
+
+    try {
+      final client = _client;
+      final stateKey = widget.callStateKey;
+      if (client != null && stateKey != null) {
+        try {
+          await client.setRoomStateWithKey(
+            widget.roomId,
+            'org.matrix.msc3401.call.member',
+            stateKey,
+            <String, Object?>{'m.room.member': 'leave'},
+          );
+        } catch (_) {
+          await client.setRoomStateWithKey(
+            widget.roomId,
+            'org.matrix.msc3401.call.member',
+            stateKey,
+            <String, Object?>{},
+          );
+        }
+      }
+    } catch (e) {
+      print('DEBUG: error removing call member state: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    if (!_disposed) {
+      _disposed = true;
+      final room = _room;
+      _room = null;
+      LiveKitCallManager().endCall();
+      _cleanupCall(room);
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      backgroundColor: theme.colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: theme.colorScheme.surfaceContainerHighest,
+        leading: IconButton(
+          icon: Icon(Icons.close, color: theme.colorScheme.onSurface),
+          onPressed: _hangup,
+        ),
+      ),
+      body: _connecting
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(color: theme.colorScheme.primary),
+                  const SizedBox(height: 16),
+                  Text(
+                    L10n.of(context).connectingToCall,
+                    style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            )
+          : _error != null
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.error_outline, color: theme.colorScheme.error, size: 48),
+                        const SizedBox(height: 16),
+                        Text(
+                          L10n.of(context).errorWithMessage(_error!),
+                          style: TextStyle(color: theme.colorScheme.onSurface),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        FilledButton(
+                          onPressed: _hangup,
+                          child: Text(L10n.of(context).close),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : _buildCallUI(),
+    );
+  }
+
+  Widget _buildCallUI() {
+    final theme = Theme.of(context);
+    final participants = _room?.remoteParticipants.values.toList() ?? [];
+
+    final screenShares = <lk.RemoteParticipant>[];
+    final regularParticipants = <lk.RemoteParticipant>[];
+    for (final p in participants) {
+      final hasScreenShare = p.videoTrackPublications.any(
+        (pub) => pub.isScreenShare && pub.subscribed,
+      );
+      if (hasScreenShare) {
+        screenShares.add(p);
+      } else {
+        regularParticipants.add(p);
+      }
+    }
+
+    return Column(
+      children: [
+        Expanded(
+          child: screenShares.isNotEmpty
+              ? _ScreenShareView(participant: screenShares.first)
+              : regularParticipants.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.group_add, size: 64, color: theme.colorScheme.onSurfaceVariant),
+                          const SizedBox(height: 16),
+                          Text(
+                            L10n.of(context).waitingForParticipants,
+                            style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 18),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            L10n.of(context).shareCallLink,
+                            style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    )
+                  : GridView.builder(
+                      padding: const EdgeInsets.all(8),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: regularParticipants.length > 1 ? 2 : 1,
+                        childAspectRatio: 16 / 9,
+                      ),
+                      itemCount: regularParticipants.length,
+                      itemBuilder: (context, index) => _ParticipantView(regularParticipants[index]),
+                    ),
+        ),
+        if (_screenShareActive)
+          _LocalScreenShareView(localParticipant: _room?.localParticipant),
+        _LocalVideoView(
+          localParticipant: _room?.localParticipant,
+          displayName: _localDisplayName,
+        ),
+        _CallControls(
+          room: _room,
+          onHangup: _hangup,
+          onScreenShare: _toggleScreenShare,
+          screenShareActive: _screenShareActive,
+        ),
+      ],
+    );
+  }
+}
+
+class _ScreenShareView extends StatefulWidget {
+  final lk.RemoteParticipant participant;
+  const _ScreenShareView({required this.participant});
+
+  @override
+  State<_ScreenShareView> createState() => _ScreenShareViewState();
+}
+
+class _ScreenShareViewState extends State<_ScreenShareView> {
+  Timer? _pollTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.participant.addListener(_onChange);
+    _startPolling();
+  }
+
+  @override
+  void didUpdateWidget(_ScreenShareView oldWidget) {
+    oldWidget.participant.removeListener(_onChange);
+    widget.participant.addListener(_onChange);
+    _startPolling();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    _pollTimer?.cancel();
+    widget.participant.removeListener(_onChange);
+    super.dispose();
+  }
+
+  void _startPolling() {
+    _pollTimer?.cancel();
+    _pollTimer = Timer.periodic(const Duration(milliseconds: 500), (_) {
+      if (mounted) setState(() {});
+    });
+    Future.delayed(const Duration(seconds: 5), () {
+      _pollTimer?.cancel();
+    });
+  }
+
+  void _onChange() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final p = widget.participant;
+    final screenSharePub = p.videoTrackPublications.firstWhere(
+      (pub) => pub.isScreenShare && pub.subscribed,
+      orElse: () => p.videoTrackPublications.first,
+    );
+    final videoTrack = screenSharePub.track;
+
+    return Stack(
+      children: [
+        if (videoTrack != null)
+          Center(child: lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.contain))
+        else
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.screen_share, size: 64, color: theme.colorScheme.onSurfaceVariant),
+                const SizedBox(height: 8),
+                Text(
+                  L10n.of(context).isScreenSharing(_shortId(p.identity)),
+                  style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 16),
+                ),
+              ],
+            ),
+          ),
+        Positioned(
+          top: 8,
+          left: 8,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primaryContainer.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: p.isSpeaking ? theme.colorScheme.tertiary : theme.colorScheme.onPrimaryContainer,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  _shortId(p.identity),
+                  style: TextStyle(
+                    color: theme.colorScheme.onPrimaryContainer,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _shortId(String identity) {
+    final at = identity.indexOf(':');
+    return at > 0 ? identity.substring(1, at).toLowerCase() : identity;
+  }
+}
+
+class _ParticipantView extends StatefulWidget {
+  final lk.RemoteParticipant participant;
+  const _ParticipantView(this.participant);
+
+  @override
+  State<_ParticipantView> createState() => _ParticipantViewState();
+}
+
+class _ParticipantViewState extends State<_ParticipantView> {
+  @override
+  void initState() {
+    super.initState();
+    widget.participant.addListener(_onChange);
+  }
+
+  @override
+  void didUpdateWidget(_ParticipantView oldWidget) {
+    oldWidget.participant.removeListener(_onChange);
+    widget.participant.addListener(_onChange);
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    widget.participant.removeListener(_onChange);
+    super.dispose();
+  }
+
+  void _onChange() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final p = widget.participant;
+    final videoPub = p.videoTrackPublications.where(
+      (pub) => !pub.isScreenShare && pub.subscribed,
+    ).firstOrNull;
+    final videoTrack = (videoPub != null && !videoPub.muted) ? videoPub.track : null;
+    final speaking = p.isSpeaking;
+    final micPub = p.audioTrackPublications.firstOrNull;
+    final micMuted = micPub?.muted ?? true;
+    final camMuted = videoPub?.muted ?? true;
+
+    return Container(
+      margin: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: speaking ? theme.colorScheme.tertiary : Colors.transparent,
+          width: speaking ? 2 : 0,
+        ),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        children: [
+          if (videoTrack != null)
+            lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.cover)
+          else
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.person, size: 48, color: theme.colorScheme.onSurfaceVariant),
+                  const SizedBox(height: 4),
+                  Text(
+                    _shortId(p.identity),
+                    style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          Positioned(
+            top: 4,
+            left: 4,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (micMuted)
+                  _statusBadge(Icons.mic_off, theme.colorScheme.error),
+                if (camMuted)
+                  _statusBadge(Icons.videocam_off, theme.colorScheme.error),
+              ],
+            ),
+          ),
+          if (speaking)
+            Positioned(
+              top: 4,
+              right: 4,
+              child: Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.tertiary,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusBadge(IconData icon, Color color) {
+    return Container(
+      margin: const EdgeInsets.only(right: 4),
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        color: Colors.black54,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Icon(icon, color: color, size: 14),
+    );
+  }
+
+  String _shortId(String identity) {
+    final at = identity.indexOf(':');
+    return at > 0 ? identity.substring(1, at).toLowerCase() : identity;
+  }
+}
+
+class _LocalVideoView extends StatelessWidget {
+  final lk.LocalParticipant? localParticipant;
+  final String displayName;
+  const _LocalVideoView({this.localParticipant, required this.displayName});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final lp = localParticipant;
+    if (lp == null) return const SizedBox.shrink();
+    final videoPub = lp.videoTrackPublications.where(
+      (pub) => !pub.isScreenShare,
+    ).firstOrNull;
+    final videoTrack = (videoPub != null && !videoPub.muted) ? videoPub.track : null;
+    final speaking = lp.isSpeaking;
+    final micPub = lp.audioTrackPublications.firstOrNull;
+    final micMuted = micPub?.muted ?? true;
+    final camMuted = videoPub?.muted ?? true;
+
+    return Container(
+      height: 150,
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: speaking ? theme.colorScheme.tertiary : theme.colorScheme.outlineVariant,
+          width: speaking ? 2 : 1,
+        ),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        children: [
+          if (videoTrack != null)
+            lk.VideoTrackRenderer(videoTrack, fit: lk.VideoViewFit.cover)
+          else
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.person, size: 48, color: theme.colorScheme.onSurfaceVariant),
+                  const SizedBox(height: 4),
+                  Text(
+                    _displayName(context),
+                    style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          Positioned(
+            top: 4,
+            left: 4,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (micMuted)
+                  _statusBadge(Icons.mic_off, theme.colorScheme.error),
+                if (camMuted)
+                  _statusBadge(Icons.videocam_off, theme.colorScheme.error),
+              ],
+            ),
+          ),
+          if (speaking)
+            Positioned(
+              top: 4,
+              right: 4,
+              child: Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.tertiary,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusBadge(IconData icon, Color color) {
+    return Container(
+      margin: const EdgeInsets.only(right: 4),
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        color: Colors.black54,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Icon(icon, color: color, size: 14),
+    );
+  }
+
+  String _displayName(BuildContext context) => displayName;
+}
+
+class _LocalScreenShareView extends StatelessWidget {
+  final lk.LocalParticipant? localParticipant;
+  const _LocalScreenShareView({this.localParticipant});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final lp = localParticipant;
+    if (lp == null) return const SizedBox.shrink();
+    final screenSharePub = lp.videoTrackPublications.where(
+      (pub) => pub.isScreenShare,
+    ).firstOrNull;
+    final screenShareTrack = screenSharePub?.track;
+    if (screenShareTrack == null) return const SizedBox.shrink();
+
+    return Container(
+      height: 150,
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: theme.colorScheme.tertiary, width: 2),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        children: [
+          lk.VideoTrackRenderer(screenShareTrack, fit: lk.VideoViewFit.contain),
+          Positioned(
+            top: 4,
+            left: 4,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: Colors.black54,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.screen_share, color: theme.colorScheme.tertiary, size: 14),
+                  const SizedBox(width: 4),
+                  Text(
+                    L10n.of(context).screenShare,
+                    style: TextStyle(color: theme.colorScheme.tertiary, fontSize: 11),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CallControls extends StatelessWidget {
+  final lk.Room? room;
+  final VoidCallback onHangup;
+  final VoidCallback onScreenShare;
+  final bool screenShareActive;
+  const _CallControls({
+    this.room,
+    required this.onHangup,
+    required this.onScreenShare,
+    this.screenShareActive = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final lp = room?.localParticipant;
+    final micOn = _isMicOn(lp);
+    final camOn = _isCamOn(lp);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      color: theme.colorScheme.surfaceContainerHighest,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _ControlButton(
+            icon: micOn ? Icons.mic : Icons.mic_off,
+            active: micOn,
+            onTap: () => lp?.setMicrophoneEnabled(!micOn),
+          ),
+          _ControlButton(
+            icon: camOn ? Icons.videocam : Icons.videocam_off,
+            active: camOn,
+            onTap: () => lp?.setCameraEnabled(!camOn),
+          ),
+          _ControlButton(
+            icon: Icons.call_end,
+            active: false,
+            color: theme.colorScheme.error,
+            onTap: onHangup,
+          ),
+          _ControlButton(
+            icon: Icons.screen_share,
+            active: !screenShareActive,
+            color: screenShareActive ? theme.colorScheme.tertiary : null,
+            onTap: onScreenShare,
+          ),
+          _ControlButton(
+            icon: Icons.settings,
+            active: true,
+            onTap: () => _showSettingsSheet(context, room),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static void _showSettingsSheet(BuildContext context, lk.Room? room) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) => _CallSettingsSheet(room: room),
+    );
+  }
+
+  bool _isMicOn(lk.LocalParticipant? lp) {
+    if (lp == null) return false;
+    final pub = lp.audioTrackPublications.firstOrNull;
+    return pub != null && !pub.muted;
+  }
+
+  bool _isCamOn(lk.LocalParticipant? lp) {
+    if (lp == null) return false;
+    final pub = lp.videoTrackPublications.where((p) => !p.isScreenShare).firstOrNull;
+    return pub != null && !pub.muted;
+  }
+}
+
+class _ControlButton extends StatelessWidget {
+  final IconData icon;
+  final bool active;
+  final Color? color;
+  final VoidCallback onTap;
+
+  const _ControlButton({
+    required this.icon,
+    required this.active,
+    this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          color: color ?? (active
+              ? theme.colorScheme.surfaceContainerHigh
+              : theme.colorScheme.errorContainer),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: color ?? (active
+              ? theme.colorScheme.onSurface
+              : theme.colorScheme.error),
+          size: 28,
+        ),
+      ),
+    );
+  }
+}
+
+Future<void> openLiveKitCall(BuildContext context, String roomId) async {
+  final client = Matrix.of(context).client;
+  final room = client.getRoomById(roomId);
+  if (room == null) return;
+
+  final callMembers = room.states['org.matrix.msc3401.call.member'];
+
+  final urls = <String>{};
+
+  if (callMembers != null && callMembers.isNotEmpty) {
+    for (final entry in callMembers.entries) {
+      final content = entry.value.content;
+      if (content['m.room.member'] == 'leave') continue;
+      final fociPreferred = content['foci_preferred'] as List?;
+      for (final f in fociPreferred ?? []) {
+        final fMap = f as Map?;
+        if (fMap?['type'] == 'livekit') {
+          final url = fMap!['livekit_service_url'] as String?;
+          if (url != null) urls.add(url);
+        }
+      }
+      final focusActive = content['focus_active'] as Map?;
+      if (focusActive?['type'] == 'livekit') {
+        final url = focusActive!['livekit_service_url'] as String?;
+        if (url != null) urls.add(url);
+      }
+    }
+  }
+
+  try {
+    final wellKnown = await client.getWellknown();
+    final rtcFoci = wellKnown.additionalProperties['org.matrix.msc4143.rtc_foci'];
+    if (rtcFoci is List) {
+      for (final f in rtcFoci) {
+        if (f is Map && f['type'] == 'livekit') {
+          final url = f['livekit_service_url'] as String?;
+          if (url != null) urls.add(url);
+        }
+      }
+    }
+    if (urls.isEmpty) {
+      final homeserverUrl = wellKnown.mHomeserver.baseUrl.toString().replaceAll(RegExp(r'/+$'), '');
+      urls.add('$homeserverUrl/livekit-jwt-service');
+    }
+  } catch (_) {}
+
+  if (urls.isEmpty) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(L10n.of(context).couldNotFindCallServer)),
+      );
+    }
+    return;
+  }
+
+  final deviceId = client.deviceID ?? '';
+  final userId = client.userID!;
+  final stateKey = '_${userId}_${deviceId}_m.call';
+  final membershipID = '$userId:$deviceId';
+  final memberEventContent = {
+    'application': 'm.call',
+    'call_id': '',
+    'device_id': deviceId,
+    'expires': 14400000,
+    'foci_preferred': urls.map((u) => {
+      'type': 'livekit',
+      'livekit_service_url': u,
+      'livekit_alias': roomId,
+    }).toList(),
+    'focus_active': {
+      'type': 'livekit',
+      'focus_selection': 'oldest_membership',
+    },
+    'm.call.intent': 'video',
+    'membershipID': membershipID,
+    'scope': 'm.room',
+  };
+
+  try {
+    await client.setRoomStateWithKey(
+      roomId,
+      'org.matrix.msc3401.call.member',
+      stateKey,
+      Map<String, Object?>.from(memberEventContent),
+    );
+  } catch (e) {
+    print('DEBUG: error sending call member event: $e');
+  }
+
+  if (context.mounted) {
+    final route = MaterialPageRoute(
+      builder: (_) => LiveKitCallScreen(
+        roomId: roomId,
+        liveKitServiceUrls: urls.toList(),
+        callStateKey: stateKey,
+      ),
+    );
+    LiveKitCallManager().startCall(roomId, route);
+    Navigator.of(context).push(route);
+  }
+}
+
+class _CallSettingsSheet extends StatefulWidget {
+  final lk.Room? room;
+  const _CallSettingsSheet({this.room});
+
+  @override
+  State<_CallSettingsSheet> createState() => _CallSettingsSheetState();
+}
+
+class _CallSettingsSheetState extends State<_CallSettingsSheet> {
+  List<rtc.MediaDeviceInfo> _audioInputs = [];
+  List<rtc.MediaDeviceInfo> _audioOutputs = [];
+  List<rtc.MediaDeviceInfo> _videoInputs = [];
+  String? _selectedAudioInput;
+  String? _selectedAudioOutput;
+  String? _selectedVideoInput;
+  bool _echoCancellation = true;
+  bool _noiseSuppression = true;
+  bool _autoGainControl = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDevices();
+  }
+
+  Future<void> _loadDevices() async {
+    final devices = await rtc.navigator.mediaDevices.enumerateDevices();
+    setState(() {
+      _audioInputs = devices.where((d) => d.kind == 'audioinput').toList();
+      _audioOutputs = devices.where((d) => d.kind == 'audiooutput').toList();
+      _videoInputs = devices.where((d) => d.kind == 'videoinput').toList();
+    });
+  }
+
+  Future<void> _switchAudioInput(rtc.MediaDeviceInfo device) async {
+    setState(() => _selectedAudioInput = device.deviceId);
+    final lp = widget.room?.localParticipant;
+    if (lp == null) return;
+
+    await lp.setMicrophoneEnabled(false);
+    await lp.setMicrophoneEnabled(
+      true,
+      audioCaptureOptions: lk.AudioCaptureOptions(
+        deviceId: device.deviceId,
+        echoCancellation: _echoCancellation,
+        noiseSuppression: _noiseSuppression,
+        autoGainControl: _autoGainControl,
+        highPassFilter: true,
+        typingNoiseDetection: true,
+        voiceIsolation: true,
+      ),
+    );
+  }
+
+  Future<void> _switchAudioOutput(rtc.MediaDeviceInfo device) async {
+    setState(() => _selectedAudioOutput = device.deviceId);
+    await rtc.Helper.selectAudioOutput(device.deviceId);
+  }
+
+  Future<void> _switchVideoInput(rtc.MediaDeviceInfo device) async {
+    setState(() => _selectedVideoInput = device.deviceId);
+    final lp = widget.room?.localParticipant;
+    if (lp == null) return;
+
+    await lp.setCameraEnabled(false);
+    await lp.setCameraEnabled(
+      true,
+      cameraCaptureOptions: lk.CameraCaptureOptions(
+        deviceId: device.deviceId,
+        maxFrameRate: 30,
+        params: lk.VideoParametersPresets.h720_169,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              L10n.of(context).callSettings,
+              style: TextStyle(
+                color: theme.colorScheme.onSurface,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            if (_audioInputs.isNotEmpty) ...[
+              _sectionTitle(L10n.of(context).microphone),
+              const SizedBox(height: 8),
+              ..._audioInputs.map((d) => _deviceTile(
+                label: d.label.isEmpty
+                    ? L10n.of(context).microphoneN(_audioInputs.indexOf(d) + 1)
+                    : d.label,
+                selected: _selectedAudioInput == d.deviceId,
+                onTap: () => _switchAudioInput(d),
+              )),
+              const SizedBox(height: 16),
+            ],
+            if (_audioOutputs.isNotEmpty) ...[
+              _sectionTitle(L10n.of(context).speaker),
+              const SizedBox(height: 8),
+              ..._audioOutputs.map((d) => _deviceTile(
+                label: d.label.isEmpty
+                    ? L10n.of(context).speakerN(_audioOutputs.indexOf(d) + 1)
+                    : d.label,
+                selected: _selectedAudioOutput == d.deviceId,
+                onTap: () => _switchAudioOutput(d),
+              )),
+              const SizedBox(height: 16),
+            ],
+            if (_videoInputs.isNotEmpty) ...[
+              _sectionTitle(L10n.of(context).camera),
+              const SizedBox(height: 8),
+              ..._videoInputs.map((d) => _deviceTile(
+                label: d.label.isEmpty
+                    ? L10n.of(context).cameraN(_videoInputs.indexOf(d) + 1)
+                    : d.label,
+                selected: _selectedVideoInput == d.deviceId,
+                onTap: () => _switchVideoInput(d),
+              )),
+              const SizedBox(height: 16),
+            ],
+            _sectionTitle(L10n.of(context).audioProcessing),
+            const SizedBox(height: 8),
+            _switchTile(
+              title: L10n.of(context).echoCancellation,
+              value: _echoCancellation,
+              onChanged: (v) => setState(() => _echoCancellation = v),
+            ),
+            _switchTile(
+              title: L10n.of(context).noiseSuppression,
+              value: _noiseSuppression,
+              onChanged: (v) => setState(() => _noiseSuppression = v),
+            ),
+            _switchTile(
+              title: L10n.of(context).autoGainControl,
+              value: _autoGainControl,
+              onChanged: (v) => setState(() => _autoGainControl = v),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionTitle(String text) {
+    final theme = Theme.of(context);
+    return Text(
+      text,
+      style: TextStyle(
+        color: theme.colorScheme.onSurfaceVariant,
+        fontSize: 13,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  Widget _deviceTile({
+    required String label,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    final theme = Theme.of(context);
+    return ListTile(
+      dense: true,
+      contentPadding: EdgeInsets.zero,
+      leading: Icon(
+        selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+        color: selected ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+        size: 20,
+      ),
+      title: Text(label, style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 14)),
+      onTap: onTap,
+    );
+  }
+
+  Widget _switchTile({
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    final theme = Theme.of(context);
+    return SwitchListTile(
+      dense: true,
+      contentPadding: EdgeInsets.zero,
+      title: Text(title, style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 14)),
+      value: value,
+      onChanged: onChanged,
+      activeColor: theme.colorScheme.primary,
+    );
+  }
+}

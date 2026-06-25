@@ -4092,5 +4092,95 @@
             }
         }
     },
-    "powerLevelReadOnly": "Только чтение"
+    "powerLevelReadOnly": "Только чтение",
+    "elementCall": "Element Call",
+    "@elementCall": {},
+    "elementCallExperimental": "Element Call (Экспериментально)",
+    "@elementCallExperimental": {},
+    "p2pCall": "P2P Звонок",
+    "@p2pCall": {},
+    "chooseCallType": "Выберите тип звонка",
+    "@chooseCallType": {},
+    "elementCallDescription": "Групповые звонки через LiveKit",
+    "@elementCallDescription": {},
+    "ongoingElementCall": "Element Call",
+    "@ongoingElementCall": {},
+    "ongoingElementCallDetail": "Вы в Element Call с {name}",
+    "@ongoingElementCallDetail": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "elementCallLiveKit": "Element Call (LiveKit)",
+    "@elementCallLiveKit": {},
+    "camera": "Камера",
+    "@camera": {},
+    "connectingToCall": "Подключение к звонку...",
+    "@connectingToCall": {},
+    "waitingForParticipants": "Ожидание участников...",
+    "@waitingForParticipants": {},
+    "callSettings": "Настройки звонка",
+    "@callSettings": {},
+    "microphone": "Микрофон",
+    "@microphone": {},
+    "speaker": "Динамики",
+    "@speaker": {},
+    "audioProcessing": "Обработка звука",
+    "@audioProcessing": {},
+    "echoCancellation": "Подавление эха",
+    "@echoCancellation": {},
+    "noiseSuppression": "Шумоподавление",
+    "@noiseSuppression": {},
+    "autoGainControl": "Автогромкость",
+    "@autoGainControl": {},
+    "noScreensAvailable": "Нет доступных экранов",
+    "@noScreensAvailable": {},
+    "allLiveKitUnavailable": "Все LiveKit URL недоступны",
+    "@allLiveKitUnavailable": {},
+    "close": "Закрыть",
+    "@close": {},
+    "shareCallLink": "Поделитесь ссылкой на звонок",
+    "@shareCallLink": {},
+    "couldNotFindCallServer": "Не удалось найти сервер звонка. Проверьте настройки LiveKit.",
+    "@couldNotFindCallServer": {},
+    "errorWithMessage": "Ошибка: {error}",
+    "@errorWithMessage": {
+      "placeholders": {
+        "error": {"type": "String"}
+      }
+    },
+    "screenShareErrorWithMessage": "Ошибка демонстрации: {error}",
+    "@screenShareErrorWithMessage": {
+      "placeholders": {
+        "error": {"type": "String"}
+      }
+    },
+    "isScreenSharing": "{name} демонстрирует экран",
+    "@isScreenSharing": {
+      "placeholders": {
+        "name": {"type": "String"}
+      }
+    },
+    "microphoneN": "Микрофон {n}",
+    "@microphoneN": {
+      "placeholders": {
+        "n": {"type": "int"}
+      }
+    },
+    "speakerN": "Динамики {n}",
+    "@speakerN": {
+      "placeholders": {
+        "n": {"type": "int"}
+      }
+    },
+    "cameraN": "Камера {n}",
+    "@cameraN": {
+      "placeholders": {
+        "n": {"type": "int"}
+      }
+    },
+    "screenShare": "Демонстрация",
+    "@screenShare": {}
 }

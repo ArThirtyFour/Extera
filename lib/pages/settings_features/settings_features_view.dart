@@ -69,8 +69,8 @@ class SettingsFeaturesView extends StatelessWidget {
                       ),
                       const ListDivider(),
                       SettingsSwitchListTile.adaptive(
-                        title: L10n.of(context).jitsiFeatureFlag,
-                        setting: AppSettings.experimentalJitsi,
+                        title: L10n.of(context).elementCallLiveKit,
+                        setting: AppSettings.experimentalLiveKit,
                       ),
                       const ListDivider(),
                       SettingsSwitchListTile.adaptive(

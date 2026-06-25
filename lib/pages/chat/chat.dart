@@ -32,6 +32,7 @@ import 'package:extera_next/pages/chat/send_poll_dialog.dart';
 import 'package:extera_next/pages/chat/translated_event_dialog.dart';
 import 'package:extera_next/pages/chat/vote_results_dialog.dart';
 import 'package:extera_next/pages/chat_details/chat_details.dart';
+import 'package:extera_next/pages/dialer/livekit_call_screen.dart';
 import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/utils/clipboard_utils.dart';
 import 'package:extera_next/utils/platform_infos.dart';
@@ -2086,6 +2087,72 @@ class ChatController extends State<ChatPageWithRoom>
         context,
       ).showSnackBar(SnackBar(content: Text(e.toLocalizedString(context))));
       Logs().e("onPhoneButtonTap", e);
+    }
+  }
+
+  void onLiveKitCallButtonTap() async {
+    final callType = await showModalActionPopup<String>(
+      context: context,
+      title: L10n.of(context).elementCallExperimental,
+      message: L10n.of(context).chooseCallType,
+      cancelLabel: L10n.of(context).cancel,
+      actions: [
+        AdaptiveModalAction(
+          label: L10n.of(context).p2pCall,
+          icon: const Icon(Icons.phone_outlined),
+          value: 'p2p',
+        ),
+        AdaptiveModalAction(
+          label: L10n.of(context).elementCall,
+          icon: const Icon(Icons.video_call_outlined),
+          value: 'element_call',
+        ),
+      ],
+    );
+    if (callType == null) return;
+
+    if (callType == 'p2p') {
+      // Use traditional P2P call
+      final voipCallType = await showModalActionPopup<CallType>(
+        context: context,
+        title: L10n.of(context).warning,
+        message: L10n.of(context).videoCallsBetaWarning,
+        cancelLabel: L10n.of(context).cancel,
+        actions: [
+          AdaptiveModalAction(
+            label: L10n.of(context).voiceCall,
+            icon: const Icon(Icons.phone_outlined),
+            value: CallType.kVoice,
+          ),
+          AdaptiveModalAction(
+            label: L10n.of(context).videoCall,
+            icon: const Icon(Icons.video_call_outlined),
+            value: CallType.kVideo,
+          ),
+        ],
+      );
+      if (voipCallType == null) return;
+
+      final voipPlugin = Matrix.of(context).voipPlugin;
+      try {
+        final session = await voipPlugin!.voip.inviteToCall(room, voipCallType);
+        voipPlugin.addCallingOverlay(session.callId, session);
+      } catch (e) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toLocalizedString(context))));
+        Logs().e("onPhoneButtonTap", e);
+      }
+    } else if (callType == 'element_call') {
+      // Use Element Call (LiveKit)
+      try {
+        await openLiveKitCall(context, roomId);
+      } catch (e) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(L10n.of(context).errorWithMessage('Element Call: $e'))));
+        Logs().e("onLiveKitCallButtonTap", e);
+      }
     }
   }
 

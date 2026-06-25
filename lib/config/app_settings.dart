@@ -41,8 +41,8 @@ enum AppSettings<T> {
   wallpaperPath<String>('xyz.extera.wallpaper_path', ''),
   wallpaperOpacity<double>('xyz.extera.wallpaper_opacity', 0.5),
   wallpaperBlur<double>('xyz.extera.wallpaper_blur', 0.0),
-  experimentalJitsi<bool>('xyz.extera.jitsi', false),
-  jitsiDomain<String>('xyz.extera.jitsi_domain', 'meet.jit.si'),
+  experimentalLiveKit<bool>('xyz.extera.experimental_livekit', false),
+  livekitServerUrl<String>('xyz.extera.livekit_server_url', ''),
   applicationName<String>('xyz.extera.app_name', 'Extera'),
   logoUrl<String>('xyz.extera.logo_url', 'https://extera.xyz/logo.svg'),
   privacyPolicy<String>(

@@ -4000,5 +4000,95 @@
             }
         }
     },
-    "powerLevelReadOnly": "Read only"
+    "powerLevelReadOnly": "Read only",
+    "elementCall": "Element Call",
+    "@elementCall": {},
+    "elementCallExperimental": "Element Call (Experimental)",
+    "@elementCallExperimental": {},
+    "p2pCall": "P2P Call",
+    "@p2pCall": {},
+    "chooseCallType": "Choose call type",
+    "@chooseCallType": {},
+    "elementCallDescription": "Group calls via LiveKit",
+    "@elementCallDescription": {},
+    "ongoingElementCall": "Element Call",
+    "@ongoingElementCall": {},
+    "ongoingElementCallDetail": "You are in Element Call with {name}",
+    "@ongoingElementCallDetail": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "elementCallLiveKit": "Element Call (LiveKit)",
+    "@elementCallLiveKit": {},
+    "camera": "Camera",
+    "@camera": {},
+    "connectingToCall": "Connecting to call...",
+    "@connectingToCall": {},
+    "waitingForParticipants": "Waiting for participants...",
+    "@waitingForParticipants": {},
+    "callSettings": "Call settings",
+    "@callSettings": {},
+    "microphone": "Microphone",
+    "@microphone": {},
+    "speaker": "Speaker",
+    "@speaker": {},
+    "audioProcessing": "Audio processing",
+    "@audioProcessing": {},
+    "echoCancellation": "Echo cancellation",
+    "@echoCancellation": {},
+    "noiseSuppression": "Noise suppression",
+    "@noiseSuppression": {},
+    "autoGainControl": "Auto gain control",
+    "@autoGainControl": {},
+    "noScreensAvailable": "No screens available",
+    "@noScreensAvailable": {},
+    "allLiveKitUnavailable": "All LiveKit URLs unavailable",
+    "@allLiveKitUnavailable": {},
+    "close": "Close",
+    "@close": {},
+    "shareCallLink": "Share call link",
+    "@shareCallLink": {},
+    "couldNotFindCallServer": "Could not find call server. Check LiveKit settings.",
+    "@couldNotFindCallServer": {},
+    "errorWithMessage": "Error: {error}",
+    "@errorWithMessage": {
+      "placeholders": {
+        "error": {"type": "String"}
+      }
+    },
+    "screenShareErrorWithMessage": "Screen share error: {error}",
+    "@screenShareErrorWithMessage": {
+      "placeholders": {
+        "error": {"type": "String"}
+      }
+    },
+    "isScreenSharing": "{name} is sharing screen",
+    "@isScreenSharing": {
+      "placeholders": {
+        "name": {"type": "String"}
+      }
+    },
+    "microphoneN": "Microphone {n}",
+    "@microphoneN": {
+      "placeholders": {
+        "n": {"type": "int"}
+      }
+    },
+    "speakerN": "Speaker {n}",
+    "@speakerN": {
+      "placeholders": {
+        "n": {"type": "int"}
+      }
+    },
+    "cameraN": "Camera {n}",
+    "@cameraN": {
+      "placeholders": {
+        "n": {"type": "int"}
+      }
+    },
+    "screenShare": "Screen share",
+    "@screenShare": {}
 }
