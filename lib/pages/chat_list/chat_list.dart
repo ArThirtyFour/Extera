@@ -75,7 +75,7 @@ extension LocalizedActiveFilter on ActiveFilter {
       case .groups:
         return outline ? Icons.people_outline : Icons.people;
       case .spaces:
-        return outline ? Icons.grid_view_outlined : Icons.grid_view_rounded;
+        return outline ? Icons.grid_view_outlined : Icons.grid_view_sharp;
       case .people:
         return outline ? Icons.people_alt_outlined : Icons.people_alt;
     }
