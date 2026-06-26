@@ -563,8 +563,8 @@ class _MessageBubbleState extends State<MessageBubble> {
                   Flexible(child: replyDisplay),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: .start,
+                    mainAxisSize: .min,
                     children: [
                       if (!nextEventSameSender)
                         Padding(
@@ -796,10 +796,10 @@ class _MessageBubbleState extends State<MessageBubble> {
                       if (widget.thread != null)
                         Align(
                           alignment: ownMessage
-                              ? Alignment.bottomRight
-                              : Alignment.bottomLeft,
+                              ? .bottomRight
+                              : .bottomLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: const .only(
                               bottom: 8,
                               left: 24,
                               right: 8,
@@ -807,7 +807,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                             ),
                             child: InkWell(
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
+                                mainAxisSize: .min,
                                 children: [
                                   Icon(
                                     (widget.thread?.hasNewMessages ?? false)
@@ -882,18 +882,18 @@ class _MessageBubbleState extends State<MessageBubble> {
           if (displayTime || widget.selected)
             Padding(
               padding: displayTime
-                  ? const EdgeInsets.symmetric(vertical: 8.0)
-                  : EdgeInsets.zero,
+                  ? const .symmetric(vertical: 8.0)
+                  : .zero,
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: const .only(top: 4.0),
                   child: Material(
                     borderRadius: BorderRadius.circular(
                       AppConfig.borderRadius * 2,
                     ),
                     color: theme.colorScheme.surface.withAlpha(128),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
+                      padding: const .symmetric(
                         horizontal: 8.0,
                         vertical: 2.0,
                       ),
@@ -913,7 +913,7 @@ class _MessageBubbleState extends State<MessageBubble> {
           row,
           if (showReactionsRow)
             Padding(
-              padding: EdgeInsets.only(
+              padding: .only(
                 top: 4.0,
                 left: ownMessage ? 12 : 24,
                 right: ownMessage ? 0 : 12.0,
@@ -933,11 +933,11 @@ class _MessageBubbleState extends State<MessageBubble> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(
+                  margin: const .symmetric(
                     horizontal: 4,
                     vertical: 16.0,
                   ),
-                  padding: const EdgeInsets.symmetric(
+                  padding: const .symmetric(
                     horizontal: 8,
                     vertical: 2,
                   ),
@@ -974,7 +974,7 @@ class _MessageBubbleState extends State<MessageBubble> {
         child: Swipeable(
           key: ValueKey(event.eventId),
           background: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0),
+            padding: .symmetric(horizontal: 12.0),
             child: Center(child: Icon(Icons.check_outlined)),
           ),
           direction: AppSettings.swipeRightToLeftToReply.value
@@ -985,7 +985,7 @@ class _MessageBubbleState extends State<MessageBubble> {
             constraints: const BoxConstraints(
               maxWidth: FluffyThemes.columnWidth * 2.5,
             ),
-            padding: EdgeInsets.only(
+            padding: .only(
               left: 8.0,
               right: 8.0,
               top: nextEventSameSender ? 1.0 : 4.0,
