@@ -1,6 +1,6 @@
 {
 	"@@locale": "de",
-	"@@last_modified": "2026-06-21T21:38:55.619Z",
+	"@@last_modified": "2026-06-26T19:08:04.825Z",
 	"alwaysUse24HourFormat": "true",
 	"@alwaysUse24HourFormat": {
 		"description": "Set to true to always display time of day in 24 hour format."
@@ -4114,5 +4114,106 @@
 				"type": "String"
 			}
 		}
-	}
+	},
+	"powerLevelReadOnly": "Nur Lesen",
+	"elementCall": "Element Call",
+	"elementCallExperimental": "Element Call (Experimentell)",
+	"p2pCall": "P2P-Anruf",
+	"chooseCallType": "Anruftyp auswählen",
+	"elementCallDescription": "Anrufe über LiveKit",
+	"ongoingElementCall": "Element Call",
+	"ongoingElementCallDetail": "Du nimmst an einem Anruf teil: {name}",
+	"elementCallLiveKit": "Element Call",
+	"camera": "Kamera",
+	"connectingToCall": "Verbindung zum Anruf wird hergestellt",
+	"waitingForParticipants": "Warten auf Teilnehmer",
+	"callSettings": "Anrufeinstellungen",
+	"microphone": "Mikrofon",
+	"speaker": "Lautsprecher",
+	"audioProcessing": "Audioverarbeitung",
+	"echoCancellation": "Echounterdrückung",
+	"noiseSuppression": "Rauschunterdrückung",
+	"autoGainControl": "Automatische Verstärkungsregelung",
+	"noScreensAvailable": "Keine Bildschirme verfügbar",
+	"allLiveKitUnavailable": "Anrufserver nicht verfügbar",
+	"shareCallLink": "Anruflink teilen",
+	"couldNotFindCallServer": "Dein Server unterstützt keine experimentellen Anrufe.",
+	"errorWithMessage": "Fehler: {error}",
+	"screenShareErrorWithMessage": "Fehler bei der Bildschirmfreigabe: {error}",
+	"isScreenSharing": "{name} teilt den Bildschirm",
+	"microphoneN": "Mikrofon {n}",
+	"speakerN": "Lautsprecher {n}",
+	"cameraN": "Kamera {n}",
+	"screenShare": "Bildschirmfreigabe",
+	"@elementCall": {},
+	"@elementCallExperimental": {},
+	"@p2pCall": {},
+	"@chooseCallType": {},
+	"@elementCallDescription": {},
+	"@ongoingElementCall": {},
+	"@ongoingElementCallDetail": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@elementCallLiveKit": {},
+	"@camera": {},
+	"@connectingToCall": {},
+	"@waitingForParticipants": {},
+	"@callSettings": {},
+	"@microphone": {},
+	"@speaker": {},
+	"@audioProcessing": {},
+	"@echoCancellation": {},
+	"@noiseSuppression": {},
+	"@autoGainControl": {},
+	"@noScreensAvailable": {},
+	"@allLiveKitUnavailable": {},
+	"@shareCallLink": {},
+	"@couldNotFindCallServer": {},
+	"@errorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@screenShareErrorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@isScreenSharing": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@microphoneN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@speakerN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@cameraN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@screenShare": {}
 }

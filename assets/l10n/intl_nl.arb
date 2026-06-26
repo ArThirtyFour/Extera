@@ -1,6 +1,6 @@
 {
 	"@@locale": "nl",
-	"@@last_modified": "2026-06-19T20:19:30.795Z",
+	"@@last_modified": "2026-06-26T19:07:25.287Z",
 	"@choicesSelected": {
 		"type": "String",
 		"placeholders": {
@@ -3837,5 +3837,264 @@
 	"monospaceFontFallback": "Reserve-monospaced lettertypen",
 	"chatFont": "Chatlettertype",
 	"chatFontFallback": "Reserve-chatlettertypen",
-	"openMessageSource": "Berichtbron"
+	"openMessageSource": "Berichtbron",
+	"showProfileSource": "Brongegevens",
+	"restoreBootstrapEmptyDevicesDescription": "Voer uw geheime zin of herstelsleutel in om dit apparaat te verifiëren.",
+	"restoreBootstrapDevicesDescription": "Kies een ander apparaat om te verifiëren:",
+	"resetAccount": "Versleutelingssleutels resetten",
+	"restoreCryptoIdentity": "Versleutelingssleutels herstellen",
+	"resetCryptoIdentity": "Versleutelingssleutels resetten",
+	"setUpCryptoIdentity": "Beveiliging instellen",
+	"waitingForKeys": "Wachten op sleutels... Zet uw andere apparaat niet uit.",
+	"noKeysTransmitted": "Sleutels konden niet worden overgedragen. Probeer het opnieuw.",
+	"unlock": "Ontgrendelen",
+	"openFile": "Bestand openen",
+	"resetAccountWarning": "U verliest de toegang tot uw versleutelde berichten als u uw versleutelingssleutels reset. U moet ook al uw apparaten opnieuw verifiëren. Ga alleen door als u geen andere apparaten heeft en uw geheime zin en herstelsleutel bent kwijtgeraakt!",
+	"newPassphraseDescription": "Extera maakt gebruik van end-to-end versleuteling. Verzin een sterke geheime zin om een back-up van uw versleutelingssleutels te maken.",
+	"newPassphrase": "Nieuwe geheime zin",
+	"repeatPassphrase": "Herhaal geheime zin",
+	"passphrasesMatch": "Zinnen komen overeen",
+	"passphraseLengthRequirement": "Bevat minimaal 12 tekens",
+	"passphraseUpperAndLowerCaseRequirement": "Bevat kleine letters en hoofdletters",
+	"passphraseSpecialCharactersRequirement": "Bevat een speciaal teken",
+	"passphraseNumberRequirement": "Bevat een cijfer",
+	"storeRecoveryKeyDescription": "Bewaar uw herstelsleutel op een veilige plek om later uw versleutelingssleutels te kunnen herstellen.",
+	"saveAsFile": "Opslaan als bestand",
+	"youAreReadyToStart": "U bent klaar om te beginnen!",
+	"noUserKeyFound": "Geen sleutel gevonden",
+	"knownSince": "Bekend sinds: {date}",
+	"unsignedDevice": "Ongetekend apparaat",
+	"signedDevice": "Ondertekend apparaat",
+	"noCurve25519KeyFound": "Geen curve25519-sleutel gevonden",
+	"supportDevelopment": "Ontwikkeling steunen",
+	"nDevices": "{count, plural, one{1 apparaat} other{{count} apparaten}}",
+	"messageCanOnlyBeReadByUser": "Uw berichten zijn versleuteld en alleen leesbaar voor deze gebruiker:",
+	"messageCanOnlyBeReadByUsers": "Uw berichten zijn versleuteld en alleen leesbaar voor deze gebruikers:",
+	"publicKey": "Publieke sleutel: {key}",
+	"powerLevelReadOnly": "Alleen-lezen",
+	"elementCall": "Element Call",
+	"elementCallExperimental": "Element Call (Experimenteel)",
+	"p2pCall": "P2P-oproep",
+	"chooseCallType": "Kies oproeptype",
+	"elementCallDescription": "Oproepen via LiveKit",
+	"ongoingElementCall": "Element Call",
+	"ongoingElementCallDetail": "U neemt deel aan een oproep: {name}",
+	"elementCallLiveKit": "Element Call",
+	"camera": "Camera",
+	"connectingToCall": "Verbinden met oproep",
+	"waitingForParticipants": "Wachten op deelnemers",
+	"callSettings": "Oproepinstellingen",
+	"microphone": "Microfoon",
+	"speaker": "Luidsprekers",
+	"audioProcessing": "Audioverwerking",
+	"echoCancellation": "Echoonderdrukking",
+	"noiseSuppression": "Ruisonderdrukking",
+	"autoGainControl": "Automatische volumeregeling",
+	"noScreensAvailable": "Geen schermen beschikbaar",
+	"allLiveKitUnavailable": "Oproepserver niet beschikbaar",
+	"shareCallLink": "Deel oproeplink",
+	"couldNotFindCallServer": "Uw server ondersteunt geen experimentele oproepen.",
+	"errorWithMessage": "Fout: {error}",
+	"screenShareErrorWithMessage": "Fout bij schermdelen: {error}",
+	"isScreenSharing": "{name} deelt het scherm",
+	"microphoneN": "Microfoon {n}",
+	"speakerN": "Luidspreker {n}",
+	"cameraN": "Camera {n}",
+	"screenShare": "Scherm delen",
+	"@restoreBootstrapEmptyDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreBootstrapDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccount": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@setUpCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@waitingForKeys": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noKeysTransmitted": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@unlock": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@openFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccountWarning": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphraseDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@repeatPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphrasesMatch": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseLengthRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseUpperAndLowerCaseRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseSpecialCharactersRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseNumberRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@storeRecoveryKeyDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@saveAsFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noUserKeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@knownSince": {
+		"type": "String",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"@unsignedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@signedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noCurve25519KeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@nDevices": {
+		"type": "String",
+		"placeholders": {
+			"count": {
+				"type": "int",
+				"example": "1"
+			}
+		}
+	},
+	"@publicKey": {
+		"type": "String",
+		"placeholders": {
+			"key": {
+				"type": "String"
+			}
+		}
+	},
+	"@elementCall": {},
+	"@elementCallExperimental": {},
+	"@p2pCall": {},
+	"@chooseCallType": {},
+	"@elementCallDescription": {},
+	"@ongoingElementCall": {},
+	"@ongoingElementCallDetail": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@elementCallLiveKit": {},
+	"@camera": {},
+	"@connectingToCall": {},
+	"@waitingForParticipants": {},
+	"@callSettings": {},
+	"@microphone": {},
+	"@speaker": {},
+	"@audioProcessing": {},
+	"@echoCancellation": {},
+	"@noiseSuppression": {},
+	"@autoGainControl": {},
+	"@noScreensAvailable": {},
+	"@allLiveKitUnavailable": {},
+	"@shareCallLink": {},
+	"@couldNotFindCallServer": {},
+	"@errorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@screenShareErrorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@isScreenSharing": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@microphoneN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@speakerN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@cameraN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@screenShare": {}
 }

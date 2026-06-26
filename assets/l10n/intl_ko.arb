@@ -1,6 +1,6 @@
 {
 	"@@locale": "ko",
-	"@@last_modified": "2026-06-21T21:39:24.039Z",
+	"@@last_modified": "2026-06-26T19:06:53.355Z",
 	"about": "소개",
 	"@about": {
 		"type": "String",
@@ -4092,5 +4092,106 @@
 				"type": "String"
 			}
 		}
-	}
+	},
+	"powerLevelReadOnly": "읽기 전용",
+	"elementCall": "Element Call",
+	"elementCallExperimental": "Element Call (실험적)",
+	"p2pCall": "P2P 통화",
+	"chooseCallType": "통화 유형 선택",
+	"elementCallDescription": "LiveKit을 통한 통화",
+	"ongoingElementCall": "Element Call",
+	"ongoingElementCallDetail": "통화 참여 중: {name}",
+	"elementCallLiveKit": "Element Call",
+	"camera": "카메라",
+	"connectingToCall": "통화 연결 중",
+	"waitingForParticipants": "참여자 대기 중",
+	"callSettings": "통화 설정",
+	"microphone": "마이크",
+	"speaker": "스피커",
+	"audioProcessing": "오디오 처리",
+	"echoCancellation": "에코 억제",
+	"noiseSuppression": "노이즈 억제",
+	"autoGainControl": "자동 이득 조절",
+	"noScreensAvailable": "사용 가능한 화면 없음",
+	"allLiveKitUnavailable": "통화 서버를 사용할 수 없음",
+	"shareCallLink": "통화 링크 공유",
+	"couldNotFindCallServer": "서버가 실험적 통화 기능을 지원하지 않습니다.",
+	"errorWithMessage": "오류: {error}",
+	"screenShareErrorWithMessage": "화면 공유 오류: {error}",
+	"isScreenSharing": "{name}님이 화면을 공유 중입니다",
+	"microphoneN": "마이크 {n}",
+	"speakerN": "스피커 {n}",
+	"cameraN": "카메라 {n}",
+	"screenShare": "화면 공유",
+	"@elementCall": {},
+	"@elementCallExperimental": {},
+	"@p2pCall": {},
+	"@chooseCallType": {},
+	"@elementCallDescription": {},
+	"@ongoingElementCall": {},
+	"@ongoingElementCallDetail": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@elementCallLiveKit": {},
+	"@camera": {},
+	"@connectingToCall": {},
+	"@waitingForParticipants": {},
+	"@callSettings": {},
+	"@microphone": {},
+	"@speaker": {},
+	"@audioProcessing": {},
+	"@echoCancellation": {},
+	"@noiseSuppression": {},
+	"@autoGainControl": {},
+	"@noScreensAvailable": {},
+	"@allLiveKitUnavailable": {},
+	"@shareCallLink": {},
+	"@couldNotFindCallServer": {},
+	"@errorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@screenShareErrorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@isScreenSharing": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@microphoneN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@speakerN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@cameraN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@screenShare": {}
 }

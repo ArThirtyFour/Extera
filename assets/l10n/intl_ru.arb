@@ -4101,11 +4101,11 @@
     "@p2pCall": {},
     "chooseCallType": "Выберите тип звонка",
     "@chooseCallType": {},
-    "elementCallDescription": "Групповые звонки через LiveKit",
+    "elementCallDescription": "Звонки через LiveKit",
     "@elementCallDescription": {},
     "ongoingElementCall": "Element Call",
     "@ongoingElementCall": {},
-    "ongoingElementCallDetail": "Вы в Element Call с {name}",
+    "ongoingElementCallDetail": "Вы участвуете в звонке: {name}",
     "@ongoingElementCallDetail": {
         "placeholders": {
             "name": {
@@ -4113,13 +4113,13 @@
             }
         }
     },
-    "elementCallLiveKit": "Element Call (LiveKit)",
+    "elementCallLiveKit": "Element Call",
     "@elementCallLiveKit": {},
     "camera": "Камера",
     "@camera": {},
-    "connectingToCall": "Подключение к звонку...",
+    "connectingToCall": "Подключение к звонку",
     "@connectingToCall": {},
-    "waitingForParticipants": "Ожидание участников...",
+    "waitingForParticipants": "Ожидание участников",
     "@waitingForParticipants": {},
     "callSettings": "Настройки звонка",
     "@callSettings": {},
@@ -4137,13 +4137,11 @@
     "@autoGainControl": {},
     "noScreensAvailable": "Нет доступных экранов",
     "@noScreensAvailable": {},
-    "allLiveKitUnavailable": "Все LiveKit URL недоступны",
+    "allLiveKitUnavailable": "Сервер звонков недоступен",
     "@allLiveKitUnavailable": {},
-    "close": "Закрыть",
-    "@close": {},
     "shareCallLink": "Поделитесь ссылкой на звонок",
     "@shareCallLink": {},
-    "couldNotFindCallServer": "Не удалось найти сервер звонка. Проверьте настройки LiveKit.",
+    "couldNotFindCallServer": "Ваш сервер не поддерживает экспериментальные звонки.",
     "@couldNotFindCallServer": {},
     "errorWithMessage": "Ошибка: {error}",
     "@errorWithMessage": {

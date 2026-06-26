@@ -128,7 +128,7 @@
 	"chatBackup": "Copia de seguridad de claves",
 	"pinCode": "Código PIN",
 	"@@locale": "es",
-	"@@last_modified": "2026-06-19T20:26:57.115Z",
+	"@@last_modified": "2026-06-26T19:08:34.680Z",
 	"chatBackupDescription": "La copia de seguridad de las claves está protegida con una clave de recuperación. Guárdala en un lugar seguro.",
 	"chatDetails": "Configuración del chat",
 	"chatHasBeenAddedToThisSpace": "El chat ha sido añadido a este espacio",
@@ -3837,5 +3837,264 @@
 				"example": "100"
 			}
 		}
-	}
+	},
+	"showProfileSource": "Datos de origen",
+	"restoreBootstrapEmptyDevicesDescription": "Introduce tu frase de seguridad o la clave de recuperación para confirmar este dispositivo.",
+	"restoreBootstrapDevicesDescription": "Selecciona otro dispositivo para realizar la confirmación:",
+	"resetAccount": "Restablecer claves de cifrado",
+	"restoreCryptoIdentity": "Restaurar claves de cifrado",
+	"resetCryptoIdentity": "Restablecer claves de cifrado",
+	"setUpCryptoIdentity": "Configuración de seguridad",
+	"waitingForKeys": "Esperando claves... No apagues el otro dispositivo.",
+	"noKeysTransmitted": "No se han podido transmitir las claves. Inténtalo de nuevo.",
+	"unlock": "Desbloquear",
+	"openFile": "Abrir archivo",
+	"resetAccountWarning": "Perderás el acceso a tus mensajes cifrados si restableces las claves de cifrado. También tendrás que volver a confirmar todos los dispositivos. ¡Continúa solo si no tienes otros dispositivos y has perdido tu frase de seguridad y la clave de recuperación!",
+	"newPassphraseDescription": "Extera utiliza cifrado de extremo a extremo. Crea una frase de seguridad compleja para realizar copias de seguridad de tus claves de cifrado.",
+	"newPassphrase": "Nueva frase de seguridad",
+	"repeatPassphrase": "Confirma la frase de seguridad",
+	"passphrasesMatch": "Las frases coinciden",
+	"passphraseLengthRequirement": "Contiene al menos 12 caracteres",
+	"passphraseUpperAndLowerCaseRequirement": "Contiene letras mayúsculas y minúsculas",
+	"passphraseSpecialCharactersRequirement": "Contiene un carácter especial",
+	"passphraseNumberRequirement": "Contiene un número",
+	"storeRecoveryKeyDescription": "Guarda la clave de recuperación en un lugar seguro para poder restaurar tus claves de cifrado más adelante.",
+	"saveAsFile": "Guardar en un archivo",
+	"youAreReadyToStart": "¡Ya puedes empezar!",
+	"noUserKeyFound": "No se ha encontrado la clave",
+	"knownSince": "Conocido desde: {date}",
+	"unsignedDevice": "Dispositivo no verificado",
+	"signedDevice": "Dispositivo verificado",
+	"noCurve25519KeyFound": "No se ha encontrado la clave curve25519",
+	"supportDevelopment": "Apoyar el desarrollo",
+	"nDevices": "{count, plural, one{1 dispositivo} other{{count} dispositivos}}",
+	"messageCanOnlyBeReadByUser": "Tus mensajes están cifrados y solo son accesibles para este usuario:",
+	"messageCanOnlyBeReadByUsers": "Tus mensajes están cifrados y solo son accesibles para estos usuarios:",
+	"publicKey": "Clave pública: {key}",
+	"powerLevelReadOnly": "Solo lectura",
+	"elementCall": "Element Call",
+	"elementCallExperimental": "Element Call (Experimental)",
+	"p2pCall": "Llamada P2P",
+	"chooseCallType": "Selecciona el tipo de llamada",
+	"elementCallDescription": "Llamadas a través de LiveKit",
+	"ongoingElementCall": "Element Call",
+	"ongoingElementCallDetail": "Estás participando en una llamada: {name}",
+	"elementCallLiveKit": "Element Call",
+	"camera": "Cámara",
+	"connectingToCall": "Conectando a la llamada",
+	"waitingForParticipants": "Esperando participantes",
+	"callSettings": "Ajustes de llamada",
+	"microphone": "Micrófono",
+	"speaker": "Altavoces",
+	"audioProcessing": "Procesamiento de audio",
+	"echoCancellation": "Cancelación de eco",
+	"noiseSuppression": "Supresión de ruido",
+	"autoGainControl": "Control automático de ganancia",
+	"noScreensAvailable": "No hay pantallas disponibles",
+	"allLiveKitUnavailable": "El servidor de llamadas no está disponible",
+	"shareCallLink": "Comparte el enlace de la llamada",
+	"couldNotFindCallServer": "Tu servidor no admite llamadas experimentales.",
+	"errorWithMessage": "Error: {error}",
+	"screenShareErrorWithMessage": "Error al compartir pantalla: {error}",
+	"isScreenSharing": "{name} está compartiendo pantalla",
+	"microphoneN": "Micrófono {n}",
+	"speakerN": "Altavoces {n}",
+	"cameraN": "Cámara {n}",
+	"screenShare": "Compartir pantalla",
+	"@restoreBootstrapEmptyDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreBootstrapDevicesDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccount": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@restoreCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@setUpCryptoIdentity": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@waitingForKeys": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noKeysTransmitted": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@unlock": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@openFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@resetAccountWarning": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphraseDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@newPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@repeatPassphrase": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphrasesMatch": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseLengthRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseUpperAndLowerCaseRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseSpecialCharactersRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@passphraseNumberRequirement": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@storeRecoveryKeyDescription": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@saveAsFile": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noUserKeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@knownSince": {
+		"type": "String",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
+	"@unsignedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@signedDevice": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@noCurve25519KeyFound": {
+		"type": "String",
+		"placeholders": {}
+	},
+	"@nDevices": {
+		"type": "String",
+		"placeholders": {
+			"count": {
+				"type": "int",
+				"example": "1"
+			}
+		}
+	},
+	"@publicKey": {
+		"type": "String",
+		"placeholders": {
+			"key": {
+				"type": "String"
+			}
+		}
+	},
+	"@elementCall": {},
+	"@elementCallExperimental": {},
+	"@p2pCall": {},
+	"@chooseCallType": {},
+	"@elementCallDescription": {},
+	"@ongoingElementCall": {},
+	"@ongoingElementCallDetail": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@elementCallLiveKit": {},
+	"@camera": {},
+	"@connectingToCall": {},
+	"@waitingForParticipants": {},
+	"@callSettings": {},
+	"@microphone": {},
+	"@speaker": {},
+	"@audioProcessing": {},
+	"@echoCancellation": {},
+	"@noiseSuppression": {},
+	"@autoGainControl": {},
+	"@noScreensAvailable": {},
+	"@allLiveKitUnavailable": {},
+	"@shareCallLink": {},
+	"@couldNotFindCallServer": {},
+	"@errorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@screenShareErrorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@isScreenSharing": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@microphoneN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@speakerN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@cameraN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@screenShare": {}
 }

@@ -32,7 +32,7 @@
 	"cleanExif": "EXIFを削除",
 	"cleanExifDescription": "送信前に画像からEXIFメタデータ（カメラモデル、位置情報、時刻）を削除します。",
 	"@@locale": "ja",
-	"@@last_modified": "2026-06-21T21:39:52.330Z",
+	"@@last_modified": "2026-06-26T19:05:33.277Z",
 	"doNotSendIfCantClean": "クリーンできない画像を送信しない",
 	"doNotSendIfCantCleanDescription": "EXIFメタデータを削除できない場合、画像を送信しません",
 	"repeatPassword": "パスワードを再入力",
@@ -3995,5 +3995,106 @@
 				"type": "String"
 			}
 		}
-	}
+	},
+	"powerLevelReadOnly": "読み取り専用",
+	"elementCall": "Element Call",
+	"elementCallExperimental": "Element Call (試験的)",
+	"p2pCall": "P2P通話",
+	"chooseCallType": "通話タイプを選択",
+	"elementCallDescription": "LiveKitを使用した通話",
+	"ongoingElementCall": "Element Call",
+	"ongoingElementCallDetail": "通話に参加中: {name}",
+	"elementCallLiveKit": "Element Call",
+	"camera": "カメラ",
+	"connectingToCall": "通話に接続中",
+	"waitingForParticipants": "参加者を待機中",
+	"callSettings": "通話設定",
+	"microphone": "マイク",
+	"speaker": "スピーカー",
+	"audioProcessing": "オーディオ処理",
+	"echoCancellation": "エコーキャンセリング",
+	"noiseSuppression": "ノイズ抑制",
+	"autoGainControl": "自動ゲイン制御",
+	"noScreensAvailable": "利用可能な画面がありません",
+	"allLiveKitUnavailable": "通話サーバーが利用できません",
+	"shareCallLink": "通話リンクを共有",
+	"couldNotFindCallServer": "お使いのサーバーは試験的な通話をサポートしていません。",
+	"errorWithMessage": "エラー: {error}",
+	"screenShareErrorWithMessage": "画面共有エラー: {error}",
+	"isScreenSharing": "{name}が画面を共有しています",
+	"microphoneN": "マイク {n}",
+	"speakerN": "スピーカー {n}",
+	"cameraN": "カメラ {n}",
+	"screenShare": "画面共有",
+	"@elementCall": {},
+	"@elementCallExperimental": {},
+	"@p2pCall": {},
+	"@chooseCallType": {},
+	"@elementCallDescription": {},
+	"@ongoingElementCall": {},
+	"@ongoingElementCallDetail": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@elementCallLiveKit": {},
+	"@camera": {},
+	"@connectingToCall": {},
+	"@waitingForParticipants": {},
+	"@callSettings": {},
+	"@microphone": {},
+	"@speaker": {},
+	"@audioProcessing": {},
+	"@echoCancellation": {},
+	"@noiseSuppression": {},
+	"@autoGainControl": {},
+	"@noScreensAvailable": {},
+	"@allLiveKitUnavailable": {},
+	"@shareCallLink": {},
+	"@couldNotFindCallServer": {},
+	"@errorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@screenShareErrorWithMessage": {
+		"placeholders": {
+			"error": {
+				"type": "String"
+			}
+		}
+	},
+	"@isScreenSharing": {
+		"placeholders": {
+			"name": {
+				"type": "String"
+			}
+		}
+	},
+	"@microphoneN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@speakerN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@cameraN": {
+		"placeholders": {
+			"n": {
+				"type": "int"
+			}
+		}
+	},
+	"@screenShare": {}
 }
