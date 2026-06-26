@@ -527,7 +527,7 @@ class _MessageBubbleState extends State<MessageBubble> {
               ),
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               mainAxisAlignment: rowMainAxisAlignment,
               children: [
                 if (widget.longPressSelect)
