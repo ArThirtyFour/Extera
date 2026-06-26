@@ -4005,15 +4005,15 @@
     "@elementCall": {},
     "elementCallExperimental": "Element Call (Experimental)",
     "@elementCallExperimental": {},
-    "p2pCall": "P2P Call",
+    "p2pCall": "Legacy call",
     "@p2pCall": {},
     "chooseCallType": "Choose call type",
     "@chooseCallType": {},
-    "elementCallDescription": "Group calls via LiveKit",
+    "elementCallDescription": "Group calls using LiveKit",
     "@elementCallDescription": {},
     "ongoingElementCall": "Element Call",
     "@ongoingElementCall": {},
-    "ongoingElementCallDetail": "You are in Element Call with {name}",
+    "ongoingElementCallDetail": "You are in a call: {name}",
     "@ongoingElementCallDetail": {
         "placeholders": {
             "name": {
@@ -4021,7 +4021,7 @@
             }
         }
     },
-    "elementCallLiveKit": "Element Call (LiveKit)",
+    "elementCallLiveKit": "Element Call",
     "@elementCallLiveKit": {},
     "camera": "Camera",
     "@camera": {},
@@ -4047,8 +4047,6 @@
     "@noScreensAvailable": {},
     "allLiveKitUnavailable": "All LiveKit URLs unavailable",
     "@allLiveKitUnavailable": {},
-    "close": "Close",
-    "@close": {},
     "shareCallLink": "Share call link",
     "@shareCallLink": {},
     "couldNotFindCallServer": "Could not find call server. Check LiveKit settings.",

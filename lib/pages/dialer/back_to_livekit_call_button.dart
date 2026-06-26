@@ -31,7 +31,7 @@ class BackToLiveKitCallButton extends StatelessWidget {
           children: [
             const Icon(Icons.video_call),
             const SizedBox(width: 18),
-            Text(L10n.of(context).elementCallLiveKit),
+            Text(L10n.of(context).backToCall),
           ],
         ),
       ),
