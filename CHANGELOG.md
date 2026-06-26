@@ -1,5 +1,7 @@
+## Extera 26.4.0
+- Added support for LiveKit-backed calls (*Element Call*) behind a Labs feature.
+
 ## Extera 26.3.4
-- Aligned sticker/emoji button to the right of the message composer.
 - Improved "About Extera" dialog.
 - Minor design changes in settings.
 - Added "Read only" (-1) power level template.
