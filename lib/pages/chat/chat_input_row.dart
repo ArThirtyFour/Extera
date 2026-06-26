@@ -418,8 +418,7 @@ class ChatInputRow extends StatelessWidget {
                               }
                             },
                             style: IconButton.styleFrom(
-                              foregroundColor:
-                                  theme.colorScheme.primary,
+                              foregroundColor: theme.colorScheme.primary,
                             ),
                             icon: Icon(
                               recordingViewModel.recordingMode ==
@@ -432,13 +431,12 @@ class ChatInputRow extends StatelessWidget {
                             tooltip: L10n.of(context).send,
                             onPressed: controller.send,
                             style: IconButton.styleFrom(
-                              foregroundColor:
-                                  theme.colorScheme.primary,
+                              foregroundColor: theme.colorScheme.primary,
                             ),
                             icon: const Icon(Icons.send),
                           ),
                   ),
-                  const SizedBox(width: 4),
+                  // const SizedBox(width: 4),
                 ],
         );
       },

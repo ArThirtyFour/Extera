@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
@@ -51,12 +50,12 @@ class _ChatEncryptionSettingsViewState
             onPressed: () => context.go('/rooms/${controller.roomId!}'),
           ),
           title: Text(L10n.of(context).encryption),
-          actions: [
-            TextButton(
-              onPressed: () => launchUrlString(AppConfig.encryptionTutorial),
-              child: Text(L10n.of(context).help),
-            ),
-          ],
+          // actions: [
+          //   TextButton(
+          //     onPressed: () => launchUrlString(AppConfig.encryptionTutorial),
+          //     child: Text(L10n.of(context).help),
+          //   ),
+          // ],
         ),
         body: MaxWidthBody(
           withoutVisibleBorder: true,

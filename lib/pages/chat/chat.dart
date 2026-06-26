@@ -392,20 +392,21 @@ class ChatController extends State<ChatPageWithRoom>
       return;
     }
     if (!scrollController.hasClients) return;
+
+    final position = scrollController.position;
+
+    final atBottom = position.pixels <= position.minScrollExtent + 1.0;
+    final isScrolledUp = position.pixels > position.minScrollExtent + 1.0;
+
     if (timeline?.allowNewEvent == false ||
-        scrollController.position.pixels > 0 && !_scrolledUp.value) {
+        isScrolledUp && !_scrolledUp.value) {
       _scrolledUp.value = true;
-      // Capture the newest visible event as the scroll anchor when the user
-      // manually scrolls up in a live timeline. Everything before this anchor
-      // in filteredEvents will be rendered in the pre-center sliver.
-      // Do NOT set the anchor for fragmented timelines (allowNewEvent == false)
-      // — requestFuture handles its own scroll anchoring in that case.
       if (_scrollAnchorEventId == null &&
-          scrollController.position.pixels > 0 &&
+          isScrolledUp &&
           filteredEvents.isNotEmpty) {
         _scrollAnchorEventId = filteredEvents.first.eventId;
       }
-    } else if (scrollController.position.pixels <= 0 && _scrolledUp.value) {
+    } else if (atBottom && _scrolledUp.value) {
       _scrolledUp.value = false;
       _scrollAnchorEventId = null;
       setReadMarker();
@@ -675,7 +676,8 @@ class ChatController extends State<ChatPageWithRoom>
     await Matrix.of(context).client.accountDataLoading;
     threads = null;
     if (eventContextId != null &&
-        (!eventContextId.isValidMatrixId || eventContextId.sigil != '\$')) {
+        (!eventContextId.isValidMatrixIdStrict() ||
+            eventContextId.sigil != '\$')) {
       eventContextId = null;
     }
     if (thread == null) {
@@ -2137,9 +2139,13 @@ class ChatController extends State<ChatPageWithRoom>
       try {
         await openLiveKitCall(context, roomId);
       } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(L10n.of(context).errorWithMessage('Element Call: $e'))));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              L10n.of(context).errorWithMessage('Element Call: $e'),
+            ),
+          ),
+        );
         Logs().e("onLiveKitCallButtonTap", e);
       }
     }
