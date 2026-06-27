@@ -556,6 +556,12 @@ class ChatController extends State<ChatPageWithRoom>
         _showScrollUpMaterialBanner(readMarkerEventId);
       }
 
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (scrollController.hasClients) {
+          scrollController.jumpTo(scrollController.position.minScrollExtent);
+        }
+      });
+
       setReadMarker();
 
       if (!mounted) return;
@@ -1902,7 +1908,7 @@ class ChatController extends State<ChatPageWithRoom>
     final nec = newEventCount;
     if (index == null || index < nec) return null;
     // +2 -> child 0 = spacer, 1 = typing indicator
-    return (index - nec) + 2;
+    return (index - nec) + 1;
   }
 
   int? findNewEventsChildIndexCallback(Key key) {

@@ -36,7 +36,9 @@ class ChatEventList extends StatelessWidget {
 
     final latestReadEvent = controller.room.getLatestReadMessage(
       timeline,
-      userID: controller.room.directChatMatrixID, // If in a DM, show double check mark only when read by second party. Bridged DMs may have bridge bots sending read marks after message delivery to remote platform
+      userID: controller
+          .room
+          .directChatMatrixID, // If in a DM, show double check mark only when read by second party. Bridged DMs may have bridge bots sending read marks after message delivery to remote platform
     );
 
     final horizontalPadding = FluffyThemes.isColumnMode(context) ? 8.0 : 0.0;
@@ -120,12 +122,18 @@ class ChatEventList extends StatelessWidget {
           ? ScrollViewKeyboardDismissBehavior.onDrag
           : ScrollViewKeyboardDismissBehavior.manual,
       slivers: [
+        SliverToBoxAdapter(
+          child: ValueListenableBuilder<double>(
+            valueListenable: controller.inputBarHeight,
+            builder: (context, height, _) => SizedBox(height: height + 8),
+          ),
+        ),
         SliverPadding(
           padding: .symmetric(horizontal: horizontalPadding),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int i) {
-                return buildEventTile(i);
+                return buildEventTile(newEventCount - 1 - i);
               },
               childCount: newEventCount,
               findChildIndexCallback:
@@ -133,7 +141,6 @@ class ChatEventList extends StatelessWidget {
             ),
           ),
         ),
-
         SliverPadding(
           key: _centerKey,
           padding: EdgeInsets.only(
@@ -145,14 +152,6 @@ class ChatEventList extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int i) {
                 if (i == 0) {
-                  return ValueListenableBuilder<double>(
-                    valueListenable: controller.inputBarHeight,
-                    builder: (context, height, _) =>
-                        SizedBox(height: height + 8),
-                  );
-                }
-
-                if (i == 1) {
                   if (timeline.canRequestFuture) {
                     return Center(
                       child: ElevatedButton(
@@ -176,7 +175,7 @@ class ChatEventList extends StatelessWidget {
                   );
                 }
 
-                if (i == centerEventCount + 2) {
+                if (i == centerEventCount + 1) {
                   if (timeline.canRequestHistory) {
                     WidgetsBinding.instance.addPostFrameCallback(
                       controller.requestHistory,
@@ -209,11 +208,11 @@ class ChatEventList extends StatelessWidget {
 
                 // i in [1..centerEventCount]: event tiles.
                 // Maps to filteredEvents[newEventCount + (i - 1)].
-                final eventIndex = newEventCount + (i - 2);
+                final eventIndex = newEventCount + (i - 1);
                 return buildEventTile(eventIndex);
               },
               // typing + centerEventCount events + history button
-              childCount: centerEventCount + 3,
+              childCount: centerEventCount + 2,
               findChildIndexCallback: controller.findChildIndexCallback,
             ),
           ),
