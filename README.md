@@ -4,35 +4,35 @@ A FluffyChat fork on steroids, aimed at adding more features.
 
 ## Features
 
-### 🗨️ Core messaging
-- 📨 Send/receive all kinds of messages: text, images, videos, voice, files, polls...
-- 📍 Geolocation sharing with in-app map preview
-- 🔔 Push notifications
-- 🛠️ Room moderation
-- 😄 Custom emotes and stickers
-- 🌌 Spaces
-- 📞 1-to-1 voice/video calls
-- ☎️ Jitsi-powered group calls
+### Core messaging
+- Send/receive all kinds of messages: text, images, videos, voice, files, polls...
+- Geolocation sharing with in-app map preview
+- Push notifications
+- Room moderation
+- Custom emotes and stickers
+- Spaces
+- 1-to-1 voice/video calls
+- Group calls compatible with Element Call (powered by LiveKit)
 
-### 🔒 Security and privacy
-- 🔑 E2EE encryption using Matrix's `libvodozemac`
-- 💼 Encrypted key backup
-- ✅ Emoji verification and cross-signing
+### Security and privacy
+- E2EE encryption using Matrix's `libvodozemac`
+- Encrypted key backup
+- Emoji verification and cross-signing
 
-### 🪟 UI and design
-- 🌙 Dark mode
-- 🌑 AMOLED (pitch black) mode
-- 🎨 Customisable seed color & color scheme
-- 📱 Material You design, partially inspired by Material 3 Expressive
+### UI and design
+- Dark mode
+- AMOLED (pitch black) mode
+- Customisable seed color & color scheme
+- Material You design, partially inspired by Material 3 Expressive
 
-### 🧰 Moderation
-- 🔨 Feature-rich group moderation (all Matrix features)
-- 🔍 Redacted message recovery (for Synapse admins)
+### Moderation
+- Feature-rich group moderation (all Matrix features)
+- Redacted message recovery (for Synapse admins)
 
-### ✨ Extera Exclusives
-- 🌐 Built-in message translation (toggleable)
-- 🖌️ Built-in image editor
-- 🧰 More expressive profiles: "About", banner, Rich Presence (MSC4320)
+### Extera Exclusives
+- Built-in message translation (toggleable)
+- Built-in image editor
+- More expressive profiles: "About", banner, Rich Presence (MSC4320)
 
 ## Building
 
@@ -93,4 +93,4 @@ This project is licensed under the [AGPL-3.0 License](LICENSE). See the LICENSE 
 - [Matrix room](https://matrix.to/#/#extera:extera.xyz) - Support room for Extera
 - [Matrix.org](https://matrix.org/) - The Matrix protocol specification
 - [FluffyChat](https://github.com/krille-chan/fluffychat) - The original FluffyChat project
-- [matrix-dart-sdk](https://github.com/ExteraApp/matrix-dart-sdk) - Dart SDK for Matrix
+- [matrix-dart-sdk](https://github.com/ExteraApp/matrix-dart-sdk) - Dart SDK for Matrix (a fork of [famedly/matrix-dart-sdk](https://github.com/famedly/matrix-dart-sdk))
