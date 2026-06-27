@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:extera_next/utils/matrix_sdk_extensions/call_members_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -52,6 +54,35 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> {
   // A shorthand so we don’t have to write `widget.controller` everywhere.
   ChatController get controller => widget.controller;
+  int callMembers = 0;
+
+  StreamSubscription? stateUpdateSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    callMembers = controller.room.callMembersCount;
+    stateUpdateSubscription = controller.room.client.onRoomState.stream
+        .where(
+          (update) =>
+              update.roomId == controller.roomId &&
+              update.state.type == 'org.matrix.msc3401.call.member',
+        )
+        .rateLimit(const Duration(seconds: 1))
+        .listen(stateUpdated);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    stateUpdateSubscription?.cancel();
+  }
+
+  void stateUpdated(_) {
+    setState(() {
+      callMembers = controller.room.callMembersCount;
+    });
+  }
 
   List<Widget> _appBarActions(BuildContext context) {
     if (controller.selectMode) {
@@ -123,11 +154,10 @@ class _ChatViewState extends State<ChatView> {
                 value: _EventContextAction.info,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Icon(Icons.info_outlined),
                     SizedBox(width: 12),
-                    // Text will be localized at runtime
-                    // (cannot be const)
+                    Text(L10n.of(context).messageInfo),
                   ],
                 ),
               ),
@@ -135,14 +165,22 @@ class _ChatViewState extends State<ChatView> {
                 value: _EventContextAction.readReceipts,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [Icon(Icons.done_all), SizedBox(width: 12)],
+                  children: [
+                    Icon(Icons.done_all),
+                    SizedBox(width: 12),
+                    Text(L10n.of(context).readReceipts),
+                  ],
                 ),
               ),
               PopupMenuItem(
                 value: _EventContextAction.copyLink,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [Icon(Icons.link), SizedBox(width: 12)],
+                  children: [
+                    Icon(Icons.link),
+                    SizedBox(width: 12),
+                    Text(L10n.of(context).copyLink),
+                  ],
                 ),
               ),
             ],
@@ -151,11 +189,24 @@ class _ChatViewState extends State<ChatView> {
     } else if (!controller.room.isArchived) {
       return [
         if (AppSettings.experimentalLiveKit.value)
-          IconButton(
-            onPressed: () => controller.onLiveKitCallButtonTap(),
-            icon: const Icon(Icons.video_call_outlined),
-            tooltip: L10n.of(context).elementCallExperimental,
-          )
+          if (callMembers > 0)
+            FilledButton.tonal(
+              onPressed: () => controller.onLiveKitCallButtonTap(),
+              child: Row(
+                mainAxisSize: .min,
+                spacing: 2,
+                children: [
+                  const Icon(Icons.video_call_outlined),
+                  Text(callMembers.toString()),
+                ],
+              ),
+            )
+          else
+            IconButton(
+              onPressed: () => controller.onLiveKitCallButtonTap(),
+              icon: const Icon(Icons.video_call_outlined),
+              tooltip: L10n.of(context).elementCallExperimental,
+            )
         else if (AppSettings.experimentalVoip.value &&
             Matrix.of(context).voipPlugin != null &&
             controller.room.isDirectChat)
