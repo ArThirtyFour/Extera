@@ -86,14 +86,15 @@ class ChatDetailsView extends StatelessWidget {
             backgroundColor: theme.appBarTheme.backgroundColor,
           ),
           body: MaxWidthBody(
+            withoutVerticalPadding: true,
             child: Padding(
-              padding: const .symmetric(horizontal: 8),
+              padding: const .all(8),
               child: Column(
                 children: [
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(32.0),
+                        padding: const .all(24.0),
                         child: Stack(
                           children: [
                             Hero(
