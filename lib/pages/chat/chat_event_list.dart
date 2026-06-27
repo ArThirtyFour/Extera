@@ -73,7 +73,7 @@ class ChatEventList extends StatelessWidget {
 
       return AutoScrollTag(
         key: ValueKey(event.transactionId ?? event.eventId),
-        index: eventIndex,
+        index: controller.autoScrollIndexForEvent(eventIndex),
         controller: controller.scrollController,
         child: RepaintBoundary(
           child: Message(
@@ -123,27 +123,28 @@ class ChatEventList extends StatelessWidget {
           : ScrollViewKeyboardDismissBehavior.manual,
       slivers: [
         SliverToBoxAdapter(
-          child: ValueListenableBuilder<double>(
-            valueListenable: controller.inputBarHeight,
-            builder: (context, height, _) => SizedBox(height: height + 8),
+          child: AutoScrollTag(
+            key: const ValueKey('chat_bottom_padding'),
+            index: ChatController.bottomPaddingAutoScrollIndex,
+            controller: controller.scrollController,
+            child: ValueListenableBuilder<double>(
+              valueListenable: controller.inputBarHeight,
+              builder: (context, height, _) => SizedBox(height: height + 8),
+            ),
           ),
         ),
-        SliverPadding(
-          padding: .symmetric(horizontal: horizontalPadding),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int i) {
-                return buildEventTile(newEventCount - 1 - i);
-              },
-              childCount: newEventCount,
-              findChildIndexCallback:
-                  controller.findNewEventsChildIndexCallback,
-            ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int i) {
+              return buildEventTile(newEventCount - 1 - i);
+            },
+            childCount: newEventCount,
+            findChildIndexCallback: controller.findNewEventsChildIndexCallback,
           ),
         ),
         SliverPadding(
           key: _centerKey,
-          padding: EdgeInsets.only(
+          padding: .only(
             top: MediaQuery.of(context).padding.top + 16,
             left: horizontalPadding,
             right: horizontalPadding,

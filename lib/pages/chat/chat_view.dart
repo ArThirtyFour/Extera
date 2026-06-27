@@ -574,7 +574,9 @@ class _ChatViewState extends State<ChatView> {
                         final sc = controller.scrollController;
                         if (sc.hasClients && sc.offset <= 0.0) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            if (sc.hasClients) sc.jumpTo(0.0);
+                            if (sc.hasClients) {
+                              sc.jumpTo(sc.position.minScrollExtent);
+                            }
                           });
                         }
                       },

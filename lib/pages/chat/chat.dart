@@ -247,6 +247,15 @@ class ChatController extends State<ChatPageWithRoom>
     return _cachedEventsKeyMap!;
   }
 
+  /// The [AutoScrollTag] index reserved for the bottom padding sliver in
+  /// [ChatEventList]. Message tiles use [autoScrollIndexForEvent] so their
+  /// indices don't collide with this one.
+  static const int bottomPaddingAutoScrollIndex = 0;
+
+  /// Converts a visible event index into the [AutoScrollTag] index used by
+  /// the scroll controller. Index 0 is reserved for the bottom padding sliver.
+  int autoScrollIndexForEvent(int eventIndex) => eventIndex + 1;
+
   void _recalculateEventsCache() {
     if (timeline == null) {
       _cachedFilteredEvents = [];
@@ -358,9 +367,13 @@ class ChatController extends State<ChatPageWithRoom>
       _cachedFilteredEvents = null;
       _cachedEventsKeyMap = null;
       setState(() {});
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
         if (mounted && scrollController.hasClients) {
-          scrollController.jumpTo(0);
+          await scrollController.scrollToIndex(
+            bottomPaddingAutoScrollIndex,
+            duration: FluffyThemes.animationDuration,
+            preferPosition: AutoScrollPosition.begin,
+          );
         }
       });
       setReadMarker();
@@ -376,7 +389,10 @@ class ChatController extends State<ChatPageWithRoom>
       if (anchorIndex > 0) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted || !scrollController.hasClients) return;
-          scrollController.scrollToIndex(anchorIndex, preferPosition: .begin);
+          scrollController.scrollToIndex(
+            autoScrollIndexForEvent(anchorIndex),
+            preferPosition: AutoScrollPosition.begin,
+          );
         });
       }
     }
@@ -1459,7 +1475,7 @@ class ChatController extends State<ChatPageWithRoom>
   bool _isEventVisibleInScroll(String eventId) {
     final eventIndex = eventsKeyMap[eventId];
     if (eventIndex == null) return false;
-    final tagState = scrollController.tagMap[eventIndex];
+    final tagState = scrollController.tagMap[autoScrollIndexForEvent(eventIndex)];
     final tagContext = tagState?.context;
     if (tagContext == null) return false; // not currently laid out
     final renderBox = tagContext.findRenderObject() as RenderBox?;
@@ -1527,7 +1543,7 @@ class ChatController extends State<ChatPageWithRoom>
       }
     }
     await scrollController.scrollToIndex(
-      eventIndex,
+      autoScrollIndexForEvent(eventIndex),
       duration: FluffyThemes.animationDuration,
       preferPosition: .middle,
     );
@@ -1561,7 +1577,11 @@ class ChatController extends State<ChatPageWithRoom>
       });
       await loadTimelineFuture;
     }
-    scrollController.jumpTo(0);
+    await scrollController.scrollToIndex(
+      bottomPaddingAutoScrollIndex,
+      duration: FluffyThemes.animationDuration,
+      preferPosition: AutoScrollPosition.begin,
+    );
   }
 
   void onEmojiSelected(Category? _, PickerEmoji emoji) {
