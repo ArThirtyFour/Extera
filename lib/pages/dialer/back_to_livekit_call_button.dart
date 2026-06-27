@@ -6,12 +6,8 @@ import 'package:extera_next/pages/dialer/livekit_call_screen.dart';
 class BackToLiveKitCallButton extends StatelessWidget {
   final String? roomId;
   final BuildContext? context;
-  
-  const BackToLiveKitCallButton({
-    super.key,
-    this.roomId,
-    this.context,
-  });
+
+  const BackToLiveKitCallButton({super.key, this.roomId, this.context});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-import 'package:extera_next/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:extera_next/config/app_settings.dart';
@@ -6,6 +5,7 @@ import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/pages/chat_list/chat_list.dart';
 import 'package:extera_next/pages/chat_list/chat_list_bottom_navbar.dart';
 import 'package:extera_next/pages/chat_list/chat_list_legacy_bottom_navbar.dart';
+import 'package:extera_next/widgets/drawer.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/navigation_rail.dart';
 import 'chat_list_body.dart';

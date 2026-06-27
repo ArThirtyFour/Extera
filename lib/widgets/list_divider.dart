@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ListDivider extends StatelessWidget {
   final Color? color;
-  
+
   const ListDivider({this.color, super.key});
 
   @override

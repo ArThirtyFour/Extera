@@ -1,5 +1,3 @@
-import 'package:extera_next/pages/profile/profile_source_data_dialog.dart';
-import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -8,7 +6,9 @@ import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/profile/profile_source_data_dialog.dart';
 import 'package:extera_next/pages/profile/profile_view.dart';
+import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/msc2666_extension.dart';
 import 'package:extera_next/utils/platform_infos.dart';

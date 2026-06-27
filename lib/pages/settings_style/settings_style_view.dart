@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:extera_next/pages/chat/events/message.dart';
-import 'package:extera_next/utils/dummy_timeline.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
@@ -11,8 +9,10 @@ import 'package:matrix/matrix.dart';
 import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/chat/events/message.dart';
 import 'package:extera_next/pages/chat/events/state_message.dart';
 import 'package:extera_next/utils/color_value.dart';
+import 'package:extera_next/utils/dummy_timeline.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:extera_next/widgets/list_divider.dart';

@@ -277,15 +277,13 @@ class _MxcImageState extends State<MxcImage> {
       );
     }
 
-    final repaintKey = ValueKey(
-      [
-        _effectiveCacheKey ?? widget.uri,
-        widget.width,
-        widget.height,
-        widget.isThumbnail,
-        widget.fit,
-      ],
-    );
+    final repaintKey = ValueKey([
+      _effectiveCacheKey ?? widget.uri,
+      widget.width,
+      widget.height,
+      widget.isThumbnail,
+      widget.fit,
+    ]);
 
     final imageWidget = Image.memory(
       data,
@@ -304,10 +302,7 @@ class _MxcImageState extends State<MxcImage> {
 
     return RepaintBoundary(
       key: repaintKey,
-      child: ClipRRect(
-        borderRadius: widget.borderRadius,
-        child: imageWidget,
-      ),
+      child: ClipRRect(borderRadius: widget.borderRadius, child: imageWidget),
     );
   }
 }

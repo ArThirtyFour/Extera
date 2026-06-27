@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:flutter/material.dart';
 
 class ProfileSourceDataDialog extends StatelessWidget {
   final Map<String, dynamic> data;

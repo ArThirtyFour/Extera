@@ -712,19 +712,18 @@ class _ChatViewState extends State<ChatView> {
                     right: 0,
                     child: Align(
                       alignment: Alignment.center,
-                        child: Column(
+                      child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const BackToCallButton(),
                           ValueListenableBuilder<String?>(
-                            valueListenable: LiveKitCallManager().currentCallRoomId,
+                            valueListenable:
+                                LiveKitCallManager().currentCallRoomId,
                             builder: (context, roomId, _) {
                               if (roomId == null) {
                                 return const SizedBox.shrink();
                               }
-                              return BackToLiveKitCallButton(
-                                roomId: roomId,
-                              );
+                              return BackToLiveKitCallButton(roomId: roomId);
                             },
                           ),
                           const MiniAudioPlayer(),

@@ -1,4 +1,3 @@
-import 'package:extera_next/widgets/list_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,6 +6,7 @@ import 'package:matrix/matrix.dart';
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/platform_infos.dart';
+import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
 import 'package:extera_next/widgets/mxc_image_viewer.dart';
 import '../../widgets/matrix.dart';

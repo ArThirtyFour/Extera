@@ -1,11 +1,11 @@
-import 'package:extera_next/pages/chat/chat.dart';
-import 'package:extera_next/pages/chat/events/message_reactions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/chat/chat.dart';
+import 'package:extera_next/pages/chat/events/message_reactions.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import '../../../config/app_config.dart';
 
@@ -42,8 +42,8 @@ class _StateMessageState extends State<StateMessage> {
               padding: const .all(4),
               child: Material(
                 color: widget.selected
-                  ? theme.colorScheme.surfaceContainerHigh
-                  : theme.colorScheme.surface,
+                    ? theme.colorScheme.surfaceContainerHigh
+                    : theme.colorScheme.surface,
                 borderRadius: BorderRadius.circular(AppConfig.borderRadius / 3),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(

@@ -5,20 +5,20 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import 'package:extera_next/config/themes.dart';
-import 'package:extera_next/utils/date_time_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/config/app_settings.dart';
+import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_encryption_settings/chat_encryption_settings.dart';
 import 'package:extera_next/utils/beautify_string_extension.dart';
+import 'package:extera_next/utils/date_time_extension.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:extera_next/widgets/list_divider.dart';
-import 'package:extera_next/config/app_settings.dart';
 
 class ChatEncryptionSettingsView extends StatefulWidget {
   final ChatEncryptionSettingsController controller;

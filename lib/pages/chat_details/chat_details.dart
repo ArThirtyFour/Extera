@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:extera_next/utils/clean_exif.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -12,6 +11,7 @@ import 'package:matrix/matrix.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_details/chat_details_view.dart';
 import 'package:extera_next/pages/settings/settings.dart';
+import 'package:extera_next/utils/clean_exif.dart';
 import 'package:extera_next/utils/file_selector.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/utils/platform_infos.dart';

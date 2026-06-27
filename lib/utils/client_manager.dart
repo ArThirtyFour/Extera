@@ -196,8 +196,7 @@ abstract class ClientManager {
           priority: Priority.max,
         ),
         iOS: DarwinNotificationDetails(sound: 'notification.caf'),
-        windows: WindowsNotificationDetails(
-        ),
+        windows: WindowsNotificationDetails(),
       ),
     );
   }

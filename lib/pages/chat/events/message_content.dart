@@ -26,8 +26,8 @@ import 'cute_events.dart';
 import 'html_message.dart';
 import 'image_bubble.dart';
 import 'map_bubble.dart';
-import 'utd_content.dart';
 import 'message_download_content.dart';
+import 'utd_content.dart';
 
 class MessageContent extends StatelessWidget {
   final Event event;

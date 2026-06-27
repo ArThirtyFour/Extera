@@ -1,8 +1,6 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
-import 'package:extera_next/pages/chat/chat.dart';
-import 'package:extera_next/pages/chat/events/file_sending_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +13,8 @@ import 'package:swipe_to_action/swipe_to_action.dart';
 import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/chat/chat.dart';
+import 'package:extera_next/pages/chat/events/file_sending_indicator.dart';
 import 'package:extera_next/pages/chat/events/room_creation_state_event.dart';
 import 'package:extera_next/utils/date_time_extension.dart';
 import 'package:extera_next/utils/platform_infos.dart';
@@ -795,9 +795,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                       ),
                       if (widget.thread != null)
                         Align(
-                          alignment: ownMessage
-                              ? .bottomRight
-                              : .bottomLeft,
+                          alignment: ownMessage ? .bottomRight : .bottomLeft,
                           child: Padding(
                             padding: const .only(
                               bottom: 8,
@@ -881,9 +879,7 @@ class _MessageBubbleState extends State<MessageBubble> {
         children: <Widget>[
           if (displayTime || widget.selected)
             Padding(
-              padding: displayTime
-                  ? const .symmetric(vertical: 8.0)
-                  : .zero,
+              padding: displayTime ? const .symmetric(vertical: 8.0) : .zero,
               child: Center(
                 child: Padding(
                   padding: const .only(top: 4.0),
@@ -893,10 +889,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                     ),
                     color: theme.colorScheme.surface.withAlpha(128),
                     child: Padding(
-                      padding: const .symmetric(
-                        horizontal: 8.0,
-                        vertical: 2.0,
-                      ),
+                      padding: const .symmetric(horizontal: 8.0, vertical: 2.0),
                       child: Text(
                         event.originServerTs.localizedTime(context),
                         style: TextStyle(
@@ -933,14 +926,8 @@ class _MessageBubbleState extends State<MessageBubble> {
                   ),
                 ),
                 Container(
-                  margin: const .symmetric(
-                    horizontal: 4,
-                    vertical: 16.0,
-                  ),
-                  padding: const .symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
+                  margin: const .symmetric(horizontal: 4, vertical: 16.0),
+                  padding: const .symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(
                       AppConfig.borderRadius / 3,

@@ -1,20 +1,20 @@
 import 'dart:async';
 
-import 'package:extera_next/config/app_config.dart';
-import 'package:extera_next/pages/dialer/dialer.dart';
-import 'package:extera_next/utils/platform_infos.dart';
-import 'package:extera_next/widgets/avatar.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
 import 'package:livekit_client/livekit_client.dart' as lk;
 import 'package:matrix/matrix.dart' show Client, Logs;
 
-import 'package:extera_next/pages/dialer/livekit_service.dart';
-import 'package:extera_next/pages/dialer/livekit_call_manager.dart';
-import 'package:extera_next/widgets/matrix.dart';
-
+import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/dialer/dialer.dart';
+import 'package:extera_next/pages/dialer/livekit_call_manager.dart';
+import 'package:extera_next/pages/dialer/livekit_service.dart';
+import 'package:extera_next/utils/platform_infos.dart';
+import 'package:extera_next/widgets/avatar.dart';
+import 'package:extera_next/widgets/matrix.dart';
 
 class LiveKitCallScreen extends StatefulWidget {
   final String roomId;
@@ -517,7 +517,9 @@ class _LiveKitCallScreenState extends State<LiveKitCallScreen> {
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 150),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: regularParticipants.length > 4 ? 3 : 2,
-                    childAspectRatio: regularParticipants.length > 4 ? 1.0 : 0.8,
+                    childAspectRatio: regularParticipants.length > 4
+                        ? 1.0
+                        : 0.8,
                     mainAxisSpacing: 8,
                     crossAxisSpacing: 8,
                   ),

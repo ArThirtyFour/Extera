@@ -178,7 +178,7 @@ class ImageBubble extends StatelessWidget {
               .replaceAll('<', '&lt;')
               .replaceAll('>', '&gt;');
     final textColor = this.textColor;
-    
+
     if (ownMessage) {
       borderRadius = borderRadius.copyWith(
         topRight: nextEventSameSender ? hardCorner : roundedCorner,

@@ -1,5 +1,3 @@
-import 'package:extera_next/pages/chat/chat.dart';
-import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart' show IterableExtension;
@@ -7,6 +5,8 @@ import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/pages/chat/chat.dart';
+import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
 import 'package:extera_next/widgets/matrix.dart';

@@ -1,8 +1,8 @@
-import 'package:extera_next/config/app_settings.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 
 class EventUndecryptableContent extends StatelessWidget {
@@ -51,7 +51,11 @@ class EventUndecryptableContent extends StatelessWidget {
                 ),
               ),
               WidgetSpan(child: const SizedBox(width: 4)),
-              TextSpan(text: L10n.of(context).couldNotDecryptMessage(event.plaintextBody)),
+              TextSpan(
+                text: L10n.of(
+                  context,
+                ).couldNotDecryptMessage(event.plaintextBody),
+              ),
             ],
             style: textStyle,
           ),

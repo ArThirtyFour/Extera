@@ -3,6 +3,11 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:flutter/material.dart';
+
+import 'package:matrix/encryption/utils/key_verification.dart';
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/bootstrap/view_model/bootstrap_view_model.dart';
@@ -11,9 +16,6 @@ import 'package:extera_next/utils/date_time_extension.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/device_extension.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:matrix/encryption/utils/key_verification.dart';
-import 'package:matrix/matrix.dart';
 
 class RestoreBootstrapView extends StatelessWidget {
   final BootstrapViewModel viewModel;

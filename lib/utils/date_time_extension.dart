@@ -1,8 +1,8 @@
-import 'package:extera_next/config/app_settings.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
+import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 
 /// Provides extra functionality for formatting the time.
@@ -29,7 +29,9 @@ extension DateTimeExtension on DateTime {
       difference(prevTime) < const Duration(hours: 1);
 
   String localizedMessageTime(BuildContext context) =>
-      AppSettings.showSeconds.value ? localizedTimeOfDaySeconds(context) : localizedTimeOfDay(context);
+      AppSettings.showSeconds.value
+      ? localizedTimeOfDaySeconds(context)
+      : localizedTimeOfDay(context);
 
   String localizedTimeOfDaySeconds(BuildContext context) =>
       (MediaQuery.alwaysUse24HourFormatOf(context) ||

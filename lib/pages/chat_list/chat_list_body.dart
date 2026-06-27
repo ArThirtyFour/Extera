@@ -175,9 +175,7 @@ class ChatListViewBody extends StatelessWidget {
                           if (roomId == null) {
                             return const SizedBox.shrink();
                           }
-                          return BackToLiveKitCallButton(
-                            roomId: roomId,
-                          );
+                          return BackToLiveKitCallButton(roomId: roomId);
                         },
                       ),
                       const MiniAudioPlayer(),

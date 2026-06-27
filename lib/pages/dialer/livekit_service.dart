@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:matrix/matrix.dart';
 
@@ -42,7 +43,9 @@ class LiveKitService {
     );
 
     if (response.statusCode != 200) {
-      final msg = response.body.isNotEmpty ? response.body : response.reasonPhrase ?? 'unknown error';
+      final msg = response.body.isNotEmpty
+          ? response.body
+          : response.reasonPhrase ?? 'unknown error';
       throw Exception('lk-jwt-service error (${response.statusCode}): $msg');
     }
 

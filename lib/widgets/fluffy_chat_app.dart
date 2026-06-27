@@ -98,7 +98,7 @@ class _FluffyChatAppState extends State<FluffyChatApp> {
             primaryColor,
             schemeVariant,
             pureBlack,
-            twemoji
+            twemoji,
           ) => MaterialApp.router(
             title: AppConfig.applicationName,
             themeMode: themeMode,

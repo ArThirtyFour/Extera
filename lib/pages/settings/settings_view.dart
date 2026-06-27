@@ -1,4 +1,3 @@
-import 'package:extera_next/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -12,6 +11,7 @@ import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/fluffy_share.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/avatar.dart';
+import 'package:extera_next/widgets/drawer.dart';
 import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/mxc_image.dart';

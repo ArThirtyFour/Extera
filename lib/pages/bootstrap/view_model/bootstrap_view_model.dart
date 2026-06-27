@@ -3,18 +3,19 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import 'package:file_picker/file_picker.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:extera_next/utils/error_reporter.dart';
-import 'package:extera_next/utils/localized_exception_extension.dart';
-import 'package:extera_next/utils/platform_infos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/encryption.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/utils/error_reporter.dart';
+import 'package:extera_next/utils/localized_exception_extension.dart';
+import 'package:extera_next/utils/platform_infos.dart';
 import 'bootstrap_state.dart';
 
 class BootstrapViewModel extends ValueNotifier<BootstrapViewModelState> {
@@ -277,8 +278,7 @@ class BootstrapViewModel extends ValueNotifier<BootstrapViewModelState> {
     BuildContext context,
   ) async {
     final path = await FilePicker.saveFile(
-      fileName:
-          'Extera-Recovery-Key-${DateTime.now().toIso8601String()}.txt',
+      fileName: 'Extera-Recovery-Key-${DateTime.now().toIso8601String()}.txt',
       bytes: Uint8List.fromList(value.recoveryKey!.codeUnits),
     );
     if (path == null) return;

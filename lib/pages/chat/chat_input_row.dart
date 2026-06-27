@@ -1,4 +1,3 @@
-import 'package:extera_next/utils/matrix_sdk_extensions/filtered_timeline_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
@@ -10,11 +9,12 @@ import 'package:extera_next/pages/chat/recording_input_row.dart';
 import 'package:extera_next/pages/chat/recording_view_model.dart';
 import 'package:extera_next/pages/chat/video_note_recording_dialog.dart';
 import 'package:extera_next/shortcuts/chat/paste_shortcut.dart';
+import 'package:extera_next/utils/matrix_sdk_extensions/filtered_timeline_extension.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/matrix.dart';
-import '../../config/themes.dart';
 import '../../config/app_config.dart';
+import '../../config/themes.dart';
 import 'chat.dart';
 import 'input_bar.dart';
 

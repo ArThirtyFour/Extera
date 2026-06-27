@@ -1,4 +1,3 @@
-import 'package:extera_next/utils/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +15,7 @@ import 'package:extera_next/utils/matrix_sdk_extensions/event_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/room_status_extension.dart';
+import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/emoji_picker.dart';
 import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
@@ -592,7 +592,8 @@ class _MessageContextMenuState extends State<MessageContextMenu> {
                               ),
                             const ListDivider(),
                           ],
-                          if (!event.redacted && event.type == EventTypes.Message) ...[
+                          if (!event.redacted &&
+                              event.type == EventTypes.Message) ...[
                             _buildMenuItem(
                               event: event,
                               icon: Icons.forward_outlined,

@@ -3,6 +3,10 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import 'package:flutter/material.dart';
+
+import 'package:go_router/go_router.dart';
+
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/bootstrap/view_model/bootstrap_view_model.dart';
 import 'package:extera_next/pages/bootstrap/widgets/new_passphrase_view.dart';
@@ -12,8 +16,6 @@ import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog
 import 'package:extera_next/widgets/layouts/login_scaffold.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/view_model_builder.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class BootstrapPage extends StatelessWidget {
   const BootstrapPage({super.key});

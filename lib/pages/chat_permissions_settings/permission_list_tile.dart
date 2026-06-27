@@ -98,15 +98,11 @@ class PermissionsListTile extends StatelessWidget {
     };
 
     return ListTile(
-      title: Text(
-        getLocalizedPowerLevelString(context),
-      ),
+      title: Text(getLocalizedPowerLevelString(context)),
       trailing: MenuAnchor(
         alignmentOffset: const Offset(0, 4),
         style: MenuStyle(
-          backgroundColor: WidgetStatePropertyAll(
-            colorScheme.surfaceContainer,
-          ),
+          backgroundColor: WidgetStatePropertyAll(colorScheme.surfaceContainer),
           surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
           elevation: const WidgetStatePropertyAll(2),
           shape: WidgetStatePropertyAll(
@@ -121,9 +117,7 @@ class PermissionsListTile extends StatelessWidget {
         menuChildren: [
           _buildMenuItem(
             context,
-            label: L10n.of(
-              context,
-            ).userLevel(permission < 50 ? permission : 0),
+            label: L10n.of(context).userLevel(permission < 50 ? permission : 0),
             value: permission < 50 ? permission : 0,
             selected: tier == _LevelTier.user,
             accent: Colors.greenAccent,
@@ -191,21 +185,14 @@ class PermissionsListTile extends StatelessWidget {
           Container(
             width: 10,
             height: 10,
-            decoration: BoxDecoration(
-              color: accent,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: accent, shape: BoxShape.circle),
           ),
       style: ButtonStyle(
         backgroundColor: WidgetStatePropertyAll(
-          selected
-              ? colorScheme.secondaryContainer
-              : Colors.transparent,
+          selected ? colorScheme.secondaryContainer : Colors.transparent,
         ),
         foregroundColor: WidgetStatePropertyAll(
-          selected
-              ? colorScheme.onSecondaryContainer
-              : colorScheme.onSurface,
+          selected ? colorScheme.onSecondaryContainer : colorScheme.onSurface,
         ),
         padding: const WidgetStatePropertyAll(
           EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -217,6 +204,7 @@ class PermissionsListTile extends StatelessWidget {
 }
 
 enum _LevelTier { user, moderator, admin }
+
 class _MenuTriggerChip extends StatelessWidget {
   final String label;
   final Color color;
