@@ -395,8 +395,8 @@ class ChatController extends State<ChatPageWithRoom>
 
     final position = scrollController.position;
 
-    final atBottom = position.pixels <= position.minScrollExtent + 1.0;
-    final isScrolledUp = position.pixels > position.minScrollExtent + 1.0;
+    final atBottom = position.pixels <= position.minScrollExtent;
+    final isScrolledUp = position.pixels > position.minScrollExtent;
 
     if (timeline?.allowNewEvent == false ||
         isScrolledUp && !_scrolledUp.value) {
