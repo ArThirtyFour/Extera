@@ -1,3 +1,7 @@
+## Extera 26.4.1
+- Fix chat messages scrolling
+- Show amount of people in a call as a filled button
+
 ## Extera 26.4.0
 - Added support for LiveKit-backed calls (*Element Call*) behind a Labs feature.
 
