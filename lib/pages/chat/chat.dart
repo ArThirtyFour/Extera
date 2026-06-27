@@ -1190,16 +1190,10 @@ class ChatController extends State<ChatPageWithRoom>
       return;
     }
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext ctx) {
-          return RecoveredEventDialog(
-            event: recoveredEvent,
-            timeline: timeline!,
-          );
-        },
-        fullscreenDialog: true,
-      ),
+    await showAdaptiveBottomSheet(
+      context: context,
+      builder: (context) =>
+          RecoveredEventDialog(event: recoveredEvent, timeline: timeline!),
     );
   }
 
@@ -1475,7 +1469,8 @@ class ChatController extends State<ChatPageWithRoom>
   bool _isEventVisibleInScroll(String eventId) {
     final eventIndex = eventsKeyMap[eventId];
     if (eventIndex == null) return false;
-    final tagState = scrollController.tagMap[autoScrollIndexForEvent(eventIndex)];
+    final tagState =
+        scrollController.tagMap[autoScrollIndexForEvent(eventIndex)];
     final tagContext = tagState?.context;
     if (tagContext == null) return false; // not currently laid out
     final renderBox = tagContext.findRenderObject() as RenderBox?;
