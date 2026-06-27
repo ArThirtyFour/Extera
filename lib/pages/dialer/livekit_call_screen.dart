@@ -1205,7 +1205,7 @@ Future<void> openLiveKitCall(BuildContext context, String roomId) async {
   if (callMembers != null && callMembers.isNotEmpty) {
     for (final entry in callMembers.entries) {
       final content = entry.value.content;
-      if (content['m.room.member'] == 'leave') continue;
+      if (content.isEmpty) continue;
       final fociPreferred = content['foci_preferred'] as List?;
       for (final f in fociPreferred ?? []) {
         final fMap = f as Map?;
