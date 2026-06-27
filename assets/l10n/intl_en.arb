@@ -2937,7 +2937,7 @@
     },
     "knocking": "Knocking",
     "@knocking": {},
-    "chatCanBeDiscoveredViaSearchOnServer": "Chat can be discovered via the search on {server}",
+    "chatCanBeDiscoveredViaSearchOnServer": "Publish in {server} room directory",
     "@chatCanBeDiscoveredViaSearchOnServer": {
         "type": "String",
         "placeholders": {

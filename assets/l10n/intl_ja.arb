@@ -32,7 +32,7 @@
 	"cleanExif": "EXIFを削除",
 	"cleanExifDescription": "送信前に画像からEXIFメタデータ（カメラモデル、位置情報、時刻）を削除します。",
 	"@@locale": "ja",
-	"@@last_modified": "2026-06-26T19:05:33.277Z",
+	"@@last_modified": "2026-06-27T17:21:39.754Z",
 	"doNotSendIfCantClean": "クリーンできない画像を送信しない",
 	"doNotSendIfCantCleanDescription": "EXIFメタデータを削除できない場合、画像を送信しません",
 	"repeatPassword": "パスワードを再入力",
@@ -645,7 +645,6 @@
 	"yourGlobalUserIdIs": "あなたのグローバルユーザーIDは ",
 	"noUsersFoundWithQuery": "残念ながら、「{query}」に一致するユーザーが見つかりませんでした。入力ミスがないかご確認ください。",
 	"knocking": "参加を申請しました",
-	"chatCanBeDiscoveredViaSearchOnServer": "{server}の検索でチャットを見つけることができます",
 	"searchChatsRooms": "#チャット、@ユーザーを検索...",
 	"nothingFound": "何も見つかりませんでした...",
 	"groupName": "グループ名",
@@ -899,7 +898,7 @@
 	"downloadUpdateButton": "アップデートをダウンロード",
 	"changelogButton": "新着情報",
 	"updateCheckTitle": "アップデートの確認",
-	"updateCheckSubtitle": "",
+	"updateCheckSubtitle": "アップデートを確認しています",
 	"useTwemoji": "Twemojiを使用",
 	"callAction": "通話",
 	"resetPrivacy": "デフォルトにリセット",
@@ -4096,5 +4095,6 @@
 			}
 		}
 	},
-	"@screenShare": {}
+	"@screenShare": {},
+	"chatCanBeDiscoveredViaSearchOnServer": "{server} のディレクトリで公開する"
 }

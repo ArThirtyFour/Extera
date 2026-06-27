@@ -1,6 +1,6 @@
 {
 	"@@locale": "de",
-	"@@last_modified": "2026-06-26T19:08:04.825Z",
+	"@@last_modified": "2026-06-27T17:19:12.508Z",
 	"alwaysUse24HourFormat": "true",
 	"@alwaysUse24HourFormat": {
 		"description": "Set to true to always display time of day in 24 hour format."
@@ -2909,15 +2909,6 @@
 	},
 	"noPublicLinkHasBeenCreatedYet": "Es wurde noch kein öffentlicher Link erstellt",
 	"@noPublicLinkHasBeenCreatedYet": {},
-	"chatCanBeDiscoveredViaSearchOnServer": "Chat kann über die Suche auf {server} gefunden werden",
-	"@chatCanBeDiscoveredViaSearchOnServer": {
-		"type": "String",
-		"placeholders": {
-			"server": {
-				"type": "String"
-			}
-		}
-	},
 	"appLockDescription": "App mit einer PIN sperren, wenn sie nicht verwendet wird",
 	"@appLockDescription": {},
 	"calls": "Anrufe",
@@ -4215,5 +4206,14 @@
 			}
 		}
 	},
-	"@screenShare": {}
+	"@screenShare": {},
+	"chatCanBeDiscoveredViaSearchOnServer": "Im Verzeichnis von {server} veröffentlichen",
+	"@chatCanBeDiscoveredViaSearchOnServer": {
+		"type": "String",
+		"placeholders": {
+			"server": {
+				"type": "String"
+			}
+		}
+	}
 }

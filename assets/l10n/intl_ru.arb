@@ -2923,7 +2923,7 @@
     },
     "knocking": "Подали заявку",
     "@knocking": {},
-    "chatCanBeDiscoveredViaSearchOnServer": "Чат может быть обнаружен через поиск в {server}",
+    "chatCanBeDiscoveredViaSearchOnServer": "Опубликовать в директории {server}",
     "@chatCanBeDiscoveredViaSearchOnServer": {
         "type": "String",
         "placeholders": {

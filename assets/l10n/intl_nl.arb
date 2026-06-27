@@ -1,6 +1,6 @@
 {
 	"@@locale": "nl",
-	"@@last_modified": "2026-06-26T19:07:25.287Z",
+	"@@last_modified": "2026-06-27T17:19:31.244Z",
 	"@choicesSelected": {
 		"type": "String",
 		"placeholders": {
@@ -3360,7 +3360,6 @@
 	"yourGlobalUserIdIs": "Je globale gebruikers-id is ",
 	"noUsersFoundWithQuery": "Helaas zijn er geen gebruikers gevonden voor \"{query}\". Controleer of er geen typefouten in staan.",
 	"knocking": "Aangeklopt",
-	"chatCanBeDiscoveredViaSearchOnServer": "Chat kan worden gevonden via de zoekfunctie op {server}",
 	"searchChatsRooms": "Zoek naar #chats, @personen...",
 	"nothingFound": "Niets gevonden...",
 	"groupName": "Groepsnaam",
@@ -4096,5 +4095,6 @@
 			}
 		}
 	},
-	"@screenShare": {}
+	"@screenShare": {},
+	"chatCanBeDiscoveredViaSearchOnServer": "Publiceren in de directory van {server}"
 }

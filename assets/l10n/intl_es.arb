@@ -128,7 +128,7 @@
 	"chatBackup": "Copia de seguridad de claves",
 	"pinCode": "Código PIN",
 	"@@locale": "es",
-	"@@last_modified": "2026-06-26T19:08:34.680Z",
+	"@@last_modified": "2026-06-27T17:18:46.581Z",
 	"chatBackupDescription": "La copia de seguridad de las claves está protegida con una clave de recuperación. Guárdala en un lugar seguro.",
 	"chatDetails": "Configuración del chat",
 	"chatHasBeenAddedToThisSpace": "El chat ha sido añadido a este espacio",
@@ -645,7 +645,6 @@
 	"yourGlobalUserIdIs": "Tu identificador global de usuario es ",
 	"noUsersFoundWithQuery": "Lamentablemente, no se encontraron usuarios con la búsqueda \"{query}\". Asegúrate de no haber cometido un error tipográfico.",
 	"knocking": "Solicitud enviada",
-	"chatCanBeDiscoveredViaSearchOnServer": "El chat puede ser encontrado mediante búsqueda en {server}",
 	"searchChatsRooms": "Buscar #chats, @personas...",
 	"nothingFound": "No se encontró nada...",
 	"groupName": "Nombre del grupo",
@@ -4096,5 +4095,6 @@
 			}
 		}
 	},
-	"@screenShare": {}
+	"@screenShare": {},
+	"chatCanBeDiscoveredViaSearchOnServer": "Publicar en el directorio de {server}"
 }
