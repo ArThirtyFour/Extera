@@ -496,23 +496,26 @@ class _ChatViewState extends State<ChatView> {
                 children: <Widget>[
                   if (wallpaperPath.isNotEmpty)
                     Positioned.fill(
-                      child: ClipRect(
-                        child: OverflowBox(
-                          alignment: Alignment.topCenter,
-                          maxHeight: screenHeight,
-                          maxWidth: screenWidth,
-                          child: Opacity(
-                            opacity: AppSettings.wallpaperOpacity.value,
-                            child: ImageFiltered(
-                              imageFilter: ui.ImageFilter.blur(
-                                sigmaX: AppSettings.wallpaperBlur.value,
-                                sigmaY: AppSettings.wallpaperBlur.value,
-                              ),
-                              child: Image.file(
-                                File(wallpaperPath),
-                                fit: BoxFit.cover,
-                                height: screenHeight,
-                                width: screenWidth,
+                      child: Container(
+                        color: Colors.black,
+                        child: ClipRect(
+                          child: OverflowBox(
+                            alignment: Alignment.topCenter,
+                            maxHeight: screenHeight,
+                            maxWidth: screenWidth,
+                            child: Opacity(
+                              opacity: AppSettings.wallpaperOpacity.value,
+                              child: ImageFiltered(
+                                imageFilter: ui.ImageFilter.blur(
+                                  sigmaX: AppSettings.wallpaperBlur.value,
+                                  sigmaY: AppSettings.wallpaperBlur.value,
+                                ),
+                                child: Image.file(
+                                  File(wallpaperPath),
+                                  fit: BoxFit.cover,
+                                  height: screenHeight,
+                                  width: screenWidth,
+                                ),
                               ),
                             ),
                           ),
