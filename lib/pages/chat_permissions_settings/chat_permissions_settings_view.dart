@@ -14,10 +14,12 @@ class _PermissionEntry {
   final String title;
   final String permissionKey;
   final String? category;
+  final bool isStateEvent;
 
   const _PermissionEntry({
     required this.title,
     required this.permissionKey,
+    this.isStateEvent = false,
     this.category,
   });
 }
@@ -38,16 +40,26 @@ class ChatPermissionsSettingsView extends StatelessWidget {
     Map<String, Object?> powerLevelsContent,
     _PermissionEntry entry,
   ) {
-    final defaultLevel = entry.permissionKey == 'users_default' ? 0 : 0;
+    final defaultUserLevel = entry.permissionKey == 'users_default' ? 0 : 0;
+    final defaultEventLevel =
+        powerLevelsContent.tryGet<int>('events_default') ?? 0;
+    final defaultStateLevel =
+        powerLevelsContent.tryGet<int>('state_default') ?? 50;
     if (entry.category == null) {
       final v = powerLevelsContent[entry.permissionKey];
-      return v is int ? v : defaultLevel;
+      return v is int ? v : defaultUserLevel;
     }
     final nested = powerLevelsContent.tryGetMap<String, Object?>(
       entry.category!,
     );
     final v = nested?[entry.permissionKey];
-    return v is int ? v : defaultLevel;
+    return v is int
+        ? v
+        : entry.category == 'events'
+        ? entry.isStateEvent
+              ? defaultStateLevel
+              : defaultEventLevel
+        : defaultUserLevel;
   }
 
   @override
@@ -73,16 +85,19 @@ class ChatPermissionsSettingsView extends StatelessWidget {
             title: l10n.sendMessages,
             permissionKey: EventTypes.Message,
             category: 'events',
+            isStateEvent: false,
           ),
           _PermissionEntry(
             title: l10n.sendStickers,
             permissionKey: EventTypes.Sticker,
             category: 'events',
+            isStateEvent: false,
           ),
           _PermissionEntry(
             title: l10n.sendReactions,
             permissionKey: EventTypes.Reaction,
             category: 'events',
+            isStateEvent: false,
           ),
           _PermissionEntry(
             title: l10n.sendRoomNotifications,
@@ -93,6 +108,7 @@ class ChatPermissionsSettingsView extends StatelessWidget {
             title: l10n.pinMessages,
             permissionKey: EventTypes.RoomPinnedEvents,
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.otherMessageEvents,
@@ -107,6 +123,7 @@ class ChatPermissionsSettingsView extends StatelessWidget {
             title: l10n.startOrJoinCalls,
             permissionKey: 'org.matrix.msc3401.call.member',
             category: 'events',
+            isStateEvent: true,
           ),
         ],
       ),
@@ -117,22 +134,14 @@ class ChatPermissionsSettingsView extends StatelessWidget {
             title: l10n.inviteOtherUsers,
             permissionKey: 'invite',
           ),
-          _PermissionEntry(
-            title: l10n.kickUsers,
-            permissionKey: 'kick',
-          ),
-          _PermissionEntry(
-            title: l10n.banUsers,
-            permissionKey: 'ban',
-          ),
-          _PermissionEntry(
-            title: l10n.redactMessage,
-            permissionKey: 'redact',
-          ),
+          _PermissionEntry(title: l10n.kickUsers, permissionKey: 'kick'),
+          _PermissionEntry(title: l10n.banUsers, permissionKey: 'ban'),
+          _PermissionEntry(title: l10n.redactMessage, permissionKey: 'redact'),
           _PermissionEntry(
             title: l10n.redactOwnMessages,
             permissionKey: EventTypes.Redaction,
             category: 'events',
+            isStateEvent: false,
           ),
         ],
       ),
@@ -143,16 +152,19 @@ class ChatPermissionsSettingsView extends StatelessWidget {
             title: l10n.editRoomAvatar,
             permissionKey: EventTypes.RoomAvatar,
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.editRoomName,
             permissionKey: EventTypes.RoomName,
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.editRoomTopic,
             permissionKey: EventTypes.RoomTopic,
             category: 'events',
+            isStateEvent: true,
           ),
         ],
       ),
@@ -163,46 +175,55 @@ class ChatPermissionsSettingsView extends StatelessWidget {
             title: l10n.editWidgets,
             permissionKey: 'im.vector.modular.widgets',
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.editRoomEmotes,
             permissionKey: 'im.ponies.room_emotes',
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.changeTheVisibilityOfChatHistory,
             permissionKey: EventTypes.HistoryVisibility,
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.enableEncryption,
             permissionKey: EventTypes.Encryption,
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.editPermissions,
             permissionKey: EventTypes.RoomPowerLevels,
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.editRoomAliases,
             permissionKey: EventTypes.RoomCanonicalAlias,
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.editJoinRules,
             permissionKey: 'm.room.join_rules',
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.editBlockedServers,
             permissionKey: 'm.room.server_acl',
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.upgradeRoom,
             permissionKey: EventTypes.RoomTombstone,
             category: 'events',
+            isStateEvent: true,
           ),
           _PermissionEntry(
             title: l10n.editOtherRoomSettings,
@@ -255,10 +276,7 @@ class ChatPermissionsSettingsView extends StatelessWidget {
               final categories = <_PermissionCategory>[
                 ..._categories,
                 if (otherEntries.isNotEmpty)
-                  _PermissionCategory(
-                    title: l10n.other,
-                    entries: otherEntries,
-                  ),
+                  _PermissionCategory(title: l10n.other, entries: otherEntries),
               ];
 
               return Column(
