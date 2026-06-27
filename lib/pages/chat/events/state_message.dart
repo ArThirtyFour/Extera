@@ -80,7 +80,11 @@ class _StateMessageState extends State<StateMessage> {
               ),
             ),
             if (widget.controller?.timeline != null)
-              MessageReactions(event, widget.controller!.timeline!),
+              MessageReactions(
+                event,
+                widget.controller!.timeline!,
+                chatController: widget.controller,
+              ),
           ],
         ),
       ),
