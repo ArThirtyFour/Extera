@@ -34,6 +34,20 @@ A FluffyChat fork on steroids, aimed at adding more features.
 - Built-in image editor
 - More expressive profiles: "About", banner, Rich Presence (MSC4320)
 
+## Supported languages
+> [!WARNING]
+> We use LLMs for translating the app. Exceptions are English and Russian.
+
+- **English**
+- **Russian**
+- Japanese
+- German
+- Spanish
+- Korean
+- Dutch
+
+Other locales are not updated.
+
 ## Building
 
 ### Prerequisites
