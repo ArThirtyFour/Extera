@@ -90,6 +90,7 @@ This project is licensed under the [AGPL-3.0 License](LICENSE). See the LICENSE 
 
 ## Resources
 
+- [Matrix room](https://matrix.to/#/#extera:extera.xyz) - Support room for Extera
 - [Matrix.org](https://matrix.org/) - The Matrix protocol specification
 - [FluffyChat](https://github.com/krille-chan/fluffychat) - The original FluffyChat project
 - [matrix-dart-sdk](https://github.com/ExteraApp/matrix-dart-sdk) - Dart SDK for Matrix
