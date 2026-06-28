@@ -4089,5 +4089,15 @@
     },
     "screenShare": "Screen share",
     "@screenShare": {},
-    "timezone": "Time zone"
+    "timezone": "Time zone",
+    "publishTimezone": "Publish timezone",
+    "removeTimezone": "Remove timezone",
+    "publishTimezoneConfirmation": "Your detected timezone is {timezone}. Do you want to publish it to your profile?",
+    "@publishTimezoneConfirmation": {
+      "placeholders": {
+        "timezone": {"type": "String"}
+      }
+    },
+    "timezonePublished": "Timezone published",
+    "timezoneRemoved": "Timezone removed"
 }

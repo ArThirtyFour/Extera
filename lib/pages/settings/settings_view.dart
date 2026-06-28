@@ -230,28 +230,61 @@ class SettingsView extends StatelessWidget {
                               right: 0,
                               top: 0,
                               child: FutureBuilder<String?>(
-                                future: controller.bannerFuture,
-                                builder: (context, snapshot) {
-                                  return PopupMenuButton<String>(
-                                    icon: const Icon(Icons.more_vert),
-                                    onSelected: (value) {
-                                      if (value == 'set_banner') {
-                                        controller.setBannerAction();
-                                      }
+                                future: controller.timezoneFuture,
+                                builder: (context, tzSnapshot) {
+                                  return FutureBuilder<String?>(
+                                    future: controller.bannerFuture,
+                                    builder: (context, snapshot) {
+                                      return PopupMenuButton<String>(
+                                        icon: const Icon(Icons.more_vert),
+                                        onSelected: (value) {
+                                          if (value == 'set_banner') {
+                                            controller.setBannerAction();
+                                          } else if (value == 'set_timezone') {
+                                            controller.setTimezoneAction();
+                                          }
+                                        },
+                                        itemBuilder: (context) => [
+                                          PopupMenuItem(
+                                            value: 'set_banner',
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(
+                                                  Icons.image_outlined,
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Text(
+                                                  L10n.of(context).setBanner,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          PopupMenuItem(
+                                            value: 'set_timezone',
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  controller.hasTimezone
+                                                      ? Icons
+                                                            .alarm_off
+                                                      : Icons.access_time,
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Text(
+                                                  controller.hasTimezone
+                                                      ? L10n.of(context)
+                                                            .removeTimezone
+                                                      : L10n.of(context)
+                                                            .publishTimezone,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      );
                                     },
-                                    itemBuilder: (context) => [
-                                      PopupMenuItem(
-                                        value: 'set_banner',
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(Icons.image_outlined),
-                                            const SizedBox(width: 12),
-                                            Text(L10n.of(context).setBanner),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
                                   );
                                 },
                               ),
