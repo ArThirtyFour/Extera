@@ -1,3 +1,7 @@
+## Extera 26.4.2
+- Show bottom navbar regardless of whether the room list is empty.
+- Timezones in profiles.
+
 ## Extera 26.4.1
 - Fix chat messages scrolling
 - Show amount of people in a call as a filled button
