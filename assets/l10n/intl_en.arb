@@ -4097,7 +4097,5 @@
       "placeholders": {
         "timezone": {"type": "String"}
       }
-    },
-    "timezonePublished": "Timezone published",
-    "timezoneRemoved": "Timezone removed"
+    }
 }

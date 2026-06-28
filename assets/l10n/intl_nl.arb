@@ -1,6 +1,6 @@
 {
 	"@@locale": "nl",
-	"@@last_modified": "2026-06-27T17:19:31.244Z",
+	"@@last_modified": "2026-06-28T16:07:30.978Z",
 	"@choicesSelected": {
 		"type": "String",
 		"placeholders": {
@@ -4096,5 +4096,16 @@
 		}
 	},
 	"@screenShare": {},
-	"chatCanBeDiscoveredViaSearchOnServer": "Publiceren in de directory van {server}"
+	"chatCanBeDiscoveredViaSearchOnServer": "Publiceren in de directory van {server}",
+	"timezone": "Tijdzone",
+	"publishTimezone": "Tijdzone instellen",
+	"removeTimezone": "Tijdzone verwijderen",
+	"publishTimezoneConfirmation": "Tijdzone gedetecteerd: {timezone}. Weet je zeker dat je deze in je profiel wilt instellen?",
+	"@publishTimezoneConfirmation": {
+		"placeholders": {
+			"timezone": {
+				"type": "String"
+			}
+		}
+	}
 }

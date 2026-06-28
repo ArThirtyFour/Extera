@@ -32,7 +32,7 @@
 	"cleanExif": "EXIFを削除",
 	"cleanExifDescription": "送信前に画像からEXIFメタデータ（カメラモデル、位置情報、時刻）を削除します。",
 	"@@locale": "ja",
-	"@@last_modified": "2026-06-27T17:21:39.754Z",
+	"@@last_modified": "2026-06-28T16:07:12.798Z",
 	"doNotSendIfCantClean": "クリーンできない画像を送信しない",
 	"doNotSendIfCantCleanDescription": "EXIFメタデータを削除できない場合、画像を送信しません",
 	"repeatPassword": "パスワードを再入力",
@@ -4096,5 +4096,16 @@
 		}
 	},
 	"@screenShare": {},
-	"chatCanBeDiscoveredViaSearchOnServer": "{server} のディレクトリで公開する"
+	"chatCanBeDiscoveredViaSearchOnServer": "{server} のディレクトリで公開する",
+	"timezone": "タイムゾーン",
+	"publishTimezone": "タイムゾーンを公開する",
+	"removeTimezone": "タイムゾーンを削除する",
+	"publishTimezoneConfirmation": "タイムゾーン「{timezone}」が検出されました。プロフィールに設定してもよろしいですか？",
+	"@publishTimezoneConfirmation": {
+		"placeholders": {
+			"timezone": {
+				"type": "String"
+			}
+		}
+	}
 }

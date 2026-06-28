@@ -128,7 +128,7 @@
 	"chatBackup": "Copia de seguridad de claves",
 	"pinCode": "Código PIN",
 	"@@locale": "es",
-	"@@last_modified": "2026-06-27T17:18:46.581Z",
+	"@@last_modified": "2026-06-28T16:09:15.850Z",
 	"chatBackupDescription": "La copia de seguridad de las claves está protegida con una clave de recuperación. Guárdala en un lugar seguro.",
 	"chatDetails": "Configuración del chat",
 	"chatHasBeenAddedToThisSpace": "El chat ha sido añadido a este espacio",
@@ -4096,5 +4096,16 @@
 		}
 	},
 	"@screenShare": {},
-	"chatCanBeDiscoveredViaSearchOnServer": "Publicar en el directorio de {server}"
+	"chatCanBeDiscoveredViaSearchOnServer": "Publicar en el directorio de {server}",
+	"timezone": "Zona horaria",
+	"publishTimezone": "Publicar zona horaria",
+	"removeTimezone": "Quitar zona horaria",
+	"publishTimezoneConfirmation": "Se ha detectado la zona horaria: {timezone}. ¿Seguro que quieres publicarla en tu perfil?",
+	"@publishTimezoneConfirmation": {
+		"placeholders": {
+			"timezone": {
+				"type": "String"
+			}
+		}
+	}
 }

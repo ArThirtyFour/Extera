@@ -1,6 +1,6 @@
 {
 	"@@locale": "de",
-	"@@last_modified": "2026-06-27T17:19:12.508Z",
+	"@@last_modified": "2026-06-28T16:08:36.548Z",
 	"alwaysUse24HourFormat": "true",
 	"@alwaysUse24HourFormat": {
 		"description": "Set to true to always display time of day in 24 hour format."
@@ -4212,6 +4212,17 @@
 		"type": "String",
 		"placeholders": {
 			"server": {
+				"type": "String"
+			}
+		}
+	},
+	"timezone": "Zeitzone",
+	"publishTimezone": "Zeitzone angeben",
+	"removeTimezone": "Zeitzone entfernen",
+	"publishTimezoneConfirmation": "Zeitzone erkannt: {timezone}. Sind Sie sicher, dass Sie diese in Ihrem Profil angeben möchten?",
+	"@publishTimezoneConfirmation": {
+		"placeholders": {
+			"timezone": {
 				"type": "String"
 			}
 		}

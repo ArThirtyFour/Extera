@@ -4180,5 +4180,14 @@
       }
     },
     "screenShare": "Демонстрация",
-    "@screenShare": {}
+    "@screenShare": {},
+    "timezone": "Часовой пояс",
+    "publishTimezone": "Указать часовой пояс",
+    "removeTimezone": "Убрать часовой пояс",
+    "publishTimezoneConfirmation": "Определён часовой пояс: {timezone}. Вы уверены, что хотите указать его в профиле?",
+    "@publishTimezoneConfirmation": {
+      "placeholders": {
+        "timezone": {"type": "String"}
+      }
+    }
 }
