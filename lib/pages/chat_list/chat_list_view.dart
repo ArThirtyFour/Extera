@@ -102,8 +102,7 @@ class ChatListView extends StatelessWidget {
                     SafeArea(
                       child: Stack(
                         children: [
-                          if (client.rooms.isNotEmpty &&
-                              !controller.isSearchMode &&
+                          if (!controller.isSearchMode &&
                               !AppSettings.useLegacyNavBar.value)
                             Positioned(
                               left: 32,
@@ -125,8 +124,7 @@ class ChatListView extends StatelessWidget {
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.endFloat,
                 bottomNavigationBar:
-                    client.rooms.isNotEmpty &&
-                        !controller.isSearchMode &&
+                    !controller.isSearchMode &&
                         AppSettings.useLegacyNavBar.value
                     ? ChatListLegacyBottomNavbar(controller)
                     : null,
