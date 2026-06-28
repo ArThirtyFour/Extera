@@ -4088,5 +4088,6 @@
       }
     },
     "screenShare": "Screen share",
-    "@screenShare": {}
+    "@screenShare": {},
+    "timezone": "Time zone"
 }

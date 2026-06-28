@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:flutter/material.dart';
 
 import 'package:extera_next/config/app_config.dart';
@@ -24,14 +25,19 @@ class ProfileSourceDataDialog extends StatelessWidget {
       appBar: AppBar(title: Text(L10n.of(context).showProfileSource)),
       body: Padding(
         padding: const .all(8),
-        child: Material(
-          borderRadius: BorderRadius.circular(AppConfig.borderRadius),
-          color: theme.colorScheme.surfaceContainerHigh,
-          child: Padding(
-            padding: const .all(16),
-            child: Column(
-              mainAxisSize: .min,
-              children: [Expanded(child: SelectableText(json, style: style))],
+        child: MaxWidthBody(
+          withScrolling: true,
+          withoutVerticalPadding: true,
+          withoutVisibleBorder: true,
+          child: Material(
+            borderRadius: BorderRadius.circular(AppConfig.borderRadius),
+            color: theme.colorScheme.surfaceContainerHigh,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: double.infinity),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: SelectableText(json, style: style),
+              ),
             ),
           ),
         ),

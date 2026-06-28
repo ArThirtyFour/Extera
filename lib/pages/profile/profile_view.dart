@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
@@ -465,6 +468,24 @@ class ProfileView extends StatelessWidget {
                             subtitle: Text(L10n.of(context).aboutUser),
                           ),
                         ],
+                        if (controller.tz != null &&
+                            controller.tz!.isNotEmpty) ...[
+                          const ListDivider(),
+                          ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: theme.colorScheme.tertiary,
+                              child: Icon(
+                                Icons.access_time,
+                                color: theme.colorScheme.onTertiary,
+                              ),
+                            ),
+                            title: Text(controller.tz!),
+                            subtitle: Text(L10n.of(context).timezone),
+                            trailing: _TimezoneClock(
+                              timezone: controller.tz!,
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -501,6 +522,71 @@ class ProfileView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _TimezoneClock extends StatefulWidget {
+  final String timezone;
+
+  const _TimezoneClock({required this.timezone});
+
+  @override
+  State<_TimezoneClock> createState() => _TimezoneClockState();
+}
+
+class _TimezoneClockState extends State<_TimezoneClock> {
+  Timer? _timer;
+  DateTime _now = DateTime.now().toUtc();
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 30), (_) {
+      setState(() {
+        _now = DateTime.now().toUtc();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  String _formatUtcOffset(Duration offset) {
+    final totalMinutes = offset.inMinutes;
+    final hours = totalMinutes ~/ 60;
+    final minutes = (totalMinutes % 60).abs();
+    final sign = hours >= 0 ? '+' : '';
+    if (minutes == 0) {
+      return 'UTC$sign$hours';
+    }
+    return 'UTC$sign$hours:${minutes.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tz.Location location;
+    try {
+      location = tz.getLocation(widget.timezone);
+    } catch (e) {
+      Logs().e("Failed to get timezone ${widget.timezone}", e);
+      return const SizedBox.shrink();
+    }
+
+    final userTime = tz.TZDateTime.from(_now, location);
+    final offset = userTime.timeZoneOffset;
+    final hours = userTime.hour.toString().padLeft(2, '0');
+    final minutes = userTime.minute.toString().padLeft(2, '0');
+    final utcLabel = _formatUtcOffset(offset);
+
+    return Text(
+      '$hours:$minutes ($utcLabel)',
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
     );
   }

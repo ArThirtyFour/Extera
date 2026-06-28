@@ -28,6 +28,7 @@ class ProfilePage extends StatefulWidget {
 
 class ProfileController extends State<ProfilePage> {
   String? about;
+  String? tz;
   Map<String, dynamic>? richPresenceData;
   Map<String, dynamic>? profileData;
   Uri? bannerUrl;
@@ -51,6 +52,13 @@ class ProfileController extends State<ProfilePage> {
       setState(() {
         about =
             profile.additionalProperties[AppConfig.aboutProfileField] as String;
+      });
+    }
+
+    if (profile.mTz != null &&
+        profile.mTz!.length <= 256) {
+      setState(() {
+        tz = profile.mTz;
       });
     }
 
@@ -109,7 +117,6 @@ class ProfileController extends State<ProfilePage> {
         richPresenceData!['streaming_link'] is! String) {
       return false;
     }
-    // if (richPresenceData!.containsKey("progress") && (richPresenceData!['progress']))
     return true;
   }
 
@@ -170,7 +177,6 @@ class ProfileController extends State<ProfilePage> {
   }
 
   void showProfileData() async {
-    print(profileData);
     if (profileData == null) return;
     await showAdaptiveBottomSheet(
       context: context,
