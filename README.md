@@ -1,5 +1,7 @@
 # Extera
 
+[![#extera:extera.xyz](https://img.shields.io/matrix/extera:extera.xyz.svg?fetchMode=summary&server_fqdn=matrix.org)](https://matrix.to/#/#extera:extera.xyz) [![Issue tracker](https://img.shields.io/github/issues/ExteraApp/Extera)](https://github.com/ExteraApp/Extera/issues)
+
 A FluffyChat fork on steroids, aimed at adding more features.
 
 ## Features
