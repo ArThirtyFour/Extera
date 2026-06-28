@@ -54,7 +54,8 @@ extension RoomStatusExtension on Room {
     lastReceipts.removeWhere(
       (receipt) =>
           receipt.user.id == client.userID ||
-          receipt.user.id == timeline.events.first.senderId,
+          receipt.user.id == timeline.events.first.senderId ||
+          client.ignoredUsers.contains(receipt.user.id),
     );
     return lastReceipts.toList();
   }
