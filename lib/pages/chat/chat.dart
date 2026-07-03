@@ -556,6 +556,7 @@ class ChatController extends State<ChatPageWithRoom>
                 .indexWhere((e) => e.eventId == readMarkerEventId);
 
       if (timeline != null &&
+          timeline!.events.isNotEmpty &&
           readMarkerEventId.isNotEmpty &&
           readMarkerEventIndex == -1) {
         await timeline?.requestHistory(historyCount: _loadHistoryCount);
