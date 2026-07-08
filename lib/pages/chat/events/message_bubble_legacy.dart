@@ -522,7 +522,7 @@ class _MessageBubbleLegacyState extends State<MessageBubbleLegacy> {
                               : Text(
                                   displayname,
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: (theme.brightness == Brightness.light
                                         ? displayname.color
@@ -543,7 +543,7 @@ class _MessageBubbleLegacyState extends State<MessageBubbleLegacy> {
                         ),
                       Container(
                         alignment: alignment,
-                        padding: const EdgeInsets.only(left: 8),
+                        padding: const EdgeInsets.only(left: 6),
                         child: GestureDetector(
                           onTapDown: (details) =>
                               _tapPosition = details.globalPosition,
