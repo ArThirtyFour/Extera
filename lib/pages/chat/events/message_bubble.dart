@@ -442,6 +442,52 @@ class _MessageBubbleState extends State<MessageBubble> {
         ({MessageTypes.Image, MessageTypes.Video}.contains(event.messageType) &&
             !hasReplyRelation);
 
+    final replyDisplay = _replyEventFuture != null
+        ? FutureBuilder<Event?>(
+            future: _replyEventFuture,
+            builder: (BuildContext context, snapshot) {
+              final replyEvent = snapshot.hasData
+                  ? snapshot.data!
+                  : Event(
+                      eventId: event.inReplyToEventId() ?? '\$fake_event_id',
+                      content: {'msgtype': 'm.text', 'body': '...'},
+                      senderId: event.senderId,
+                      type: 'm.room.message',
+                      room: event.room,
+                      status: EventStatus.error,
+                      originServerTs: DateTime.now(),
+                    );
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: showSenderAtTop ? 4 : 8,
+                  bottom:
+                      noBubble ||
+                          (event.messageType != MessageTypes.Text &&
+                              event.messageType != MessageTypes.Notice)
+                      ? 8
+                      : 0,
+                ),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(
+                    AppConfig.borderRadius - 10,
+                  ),
+                  onTap: () => _scrollToEvent(replyEvent, event),
+                  child: AbsorbPointer(
+                    child: ReplyContent(
+                      replyEvent,
+                      noBubble: noBubble,
+                      ownMessage: ownMessage,
+                      timeline: timeline,
+                    ),
+                  ),
+                ),
+              );
+            },
+          )
+        : const SizedBox.shrink();
+
     final inlineStatusPlaceholder = WidgetSpan(
       alignment: PlaceholderAlignment.middle,
       child: Padding(
@@ -469,7 +515,7 @@ class _MessageBubbleState extends State<MessageBubble> {
             color: (theme.brightness == Brightness.light
                 ? displayname.color
                 : displayname.lightColorText),
-            shadows: !widget.wallpaperMode
+            shadows: !widget.wallpaperMode && !showSenderOverlay
                 ? null
                 : [
                     const Shadow(
@@ -562,6 +608,10 @@ class _MessageBubbleState extends State<MessageBubble> {
                         ? Colors.transparent
                         : null,
                   ),
+                if (ownMessage &&
+                    !event.redacted &&
+                    event.type == EventTypes.Sticker)
+                  Flexible(child: replyDisplay),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: .start,
@@ -632,75 +682,9 @@ class _MessageBubbleState extends State<MessageBubble> {
                                                 ),
                                                 child: senderNameWidget,
                                               ),
-                                            if (_replyEventFuture != null)
-                                              FutureBuilder<Event?>(
-                                                future: _replyEventFuture,
-                                                builder: (BuildContext context, snapshot) {
-                                                  final replyEvent =
-                                                      snapshot.hasData
-                                                      ? snapshot.data!
-                                                      : Event(
-                                                          eventId:
-                                                              event
-                                                                  .inReplyToEventId() ??
-                                                              '\$fake_event_id',
-                                                          content: {
-                                                            'msgtype': 'm.text',
-                                                            'body': '...',
-                                                          },
-                                                          senderId:
-                                                              event.senderId,
-                                                          type:
-                                                              'm.room.message',
-                                                          room: event.room,
-                                                          status:
-                                                              EventStatus.error,
-                                                          originServerTs:
-                                                              DateTime.now(),
-                                                        );
-                                                  return Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 16,
-                                                      right: 16,
-                                                      top: showSenderAtTop
-                                                          ? 4
-                                                          : 8,
-                                                      bottom:
-                                                          noBubble ||
-                                                              (event.messageType !=
-                                                                      MessageTypes
-                                                                          .Text &&
-                                                                  event.messageType !=
-                                                                      MessageTypes
-                                                                          .Notice)
-                                                          ? 8
-                                                          : 0,
-                                                    ),
-                                                    child: InkWell(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            AppConfig
-                                                                    .borderRadius -
-                                                                10,
-                                                          ),
-                                                      onTap: () =>
-                                                          _scrollToEvent(
-                                                            replyEvent,
-                                                            event,
-                                                          ),
-                                                      child: AbsorbPointer(
-                                                        child: ReplyContent(
-                                                          replyEvent,
-                                                          noBubble: noBubble,
-                                                          ownMessage:
-                                                              ownMessage,
-                                                          timeline: timeline,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
+                                            if (event.type !=
+                                                EventTypes.Sticker)
+                                              replyDisplay,
                                             Padding(
                                               padding: EdgeInsets.only(
                                                 top:
@@ -767,7 +751,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                                         if (showSenderOverlay)
                                           Positioned(
                                             left: 10,
-                                            top: 6,
+                                            top: 10,
                                             child: Container(
                                               padding: const .symmetric(
                                                 horizontal: 6,
@@ -775,7 +759,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                                               ),
                                               decoration: BoxDecoration(
                                                 color: Colors.black.withValues(
-                                                  alpha: 0.35,
+                                                  alpha: 0.65,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(10),
@@ -872,6 +856,10 @@ class _MessageBubbleState extends State<MessageBubble> {
                     ],
                   ),
                 ),
+                if (!ownMessage &&
+                    !event.redacted &&
+                    event.type == EventTypes.Sticker)
+                  Flexible(child: replyDisplay),
               ],
             ),
           ],
