@@ -427,6 +427,21 @@ class _MessageBubbleState extends State<MessageBubble> {
     final useBottomRowStatus =
         !useInlineStatus && !useChipStatus && !useBottomChipStatus;
 
+    final hasReplyRelation = event.inReplyToEventId() != null;
+
+    final showSenderAtTop =
+        !nextEventSameSender &&
+        !ownMessage &&
+        !event.room.isDirectChat &&
+        (isTextLike || hasReplyRelation);
+
+    final showSenderOverlay =
+        !nextEventSameSender &&
+        !ownMessage &&
+        !event.room.isDirectChat &&
+        ({MessageTypes.Image, MessageTypes.Video}.contains(event.messageType) &&
+            !hasReplyRelation);
+
     final inlineStatusPlaceholder = WidgetSpan(
       alignment: PlaceholderAlignment.middle,
       child: Padding(
@@ -445,6 +460,29 @@ class _MessageBubbleState extends State<MessageBubble> {
         final displayname =
             snapshot.data?.calcDisplayname() ??
             event.senderFromMemoryOrFallback.calcDisplayname();
+
+        final senderNameWidget = Text(
+          displayname,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: (theme.brightness == Brightness.light
+                ? displayname.color
+                : displayname.lightColorText),
+            shadows: !widget.wallpaperMode
+                ? null
+                : [
+                    const Shadow(
+                      offset: Offset(0.0, 0.0),
+                      blurRadius: 3,
+                      color: Colors.black,
+                    ),
+                  ],
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        );
+
         return Stack(
           children: [
             Positioned(
@@ -584,9 +622,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                                               ? CrossAxisAlignment.end
                                               : CrossAxisAlignment.start,
                                           children: [
-                                            if (!nextEventSameSender &&
-                                                !ownMessage &&
-                                                !event.room.isDirectChat)
+                                            if (showSenderAtTop)
                                               Padding(
                                                 padding: const .only(
                                                   left: 16,
@@ -594,36 +630,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                                                   top: 8,
                                                   // bottom: 4,
                                                 ),
-                                                child: Text(
-                                                  displayname,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        (theme.brightness ==
-                                                            Brightness.light
-                                                        ? displayname.color
-                                                        : displayname
-                                                              .lightColorText),
-                                                    shadows:
-                                                        !widget.wallpaperMode
-                                                        ? null
-                                                        : [
-                                                            const Shadow(
-                                                              offset: Offset(
-                                                                0.0,
-                                                                0.0,
-                                                              ),
-                                                              blurRadius: 3,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ],
-                                                  ),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
+                                                child: senderNameWidget,
                                               ),
                                             if (_replyEventFuture != null)
                                               FutureBuilder<Event?>(
@@ -655,12 +662,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                                                     padding: EdgeInsets.only(
                                                       left: 16,
                                                       right: 16,
-                                                      top:
-                                                          !nextEventSameSender &&
-                                                              !ownMessage &&
-                                                              !event
-                                                                  .room
-                                                                  .isDirectChat
+                                                      top: showSenderAtTop
                                                           ? 4
                                                           : 8,
                                                       bottom:
@@ -709,18 +711,10 @@ class _MessageBubbleState extends State<MessageBubble> {
                                                     }.contains(
                                                       event.messageType,
                                                     )
-                                                    ? !nextEventSameSender &&
-                                                              !ownMessage &&
-                                                              !event
-                                                                  .room
-                                                                  .isDirectChat
+                                                    ? showSenderAtTop
                                                           ? 2
                                                           : 8
-                                                    : !nextEventSameSender &&
-                                                          !ownMessage &&
-                                                          !event
-                                                              .room
-                                                              .isDirectChat
+                                                    : showSenderAtTop
                                                     ? 2
                                                     : 0,
                                                 bottom: useInlineStatus ? 8 : 0,
@@ -770,6 +764,25 @@ class _MessageBubbleState extends State<MessageBubble> {
                                               ),
                                           ],
                                         ),
+                                        if (showSenderOverlay)
+                                          Positioned(
+                                            left: 10,
+                                            top: 6,
+                                            child: Container(
+                                              padding: const .symmetric(
+                                                horizontal: 6,
+                                                vertical: 2,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.black.withValues(
+                                                  alpha: 0.35,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: senderNameWidget,
+                                            ),
+                                          ),
                                         if (useInlineStatus)
                                           Positioned(
                                             bottom: 10,
