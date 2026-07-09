@@ -267,17 +267,18 @@ class SettingsView extends StatelessWidget {
                                               children: [
                                                 Icon(
                                                   controller.hasTimezone
-                                                      ? Icons
-                                                            .alarm_off
+                                                      ? Icons.alarm_off
                                                       : Icons.access_time,
                                                 ),
                                                 const SizedBox(width: 12),
                                                 Text(
                                                   controller.hasTimezone
-                                                      ? L10n.of(context)
-                                                            .removeTimezone
-                                                      : L10n.of(context)
-                                                            .publishTimezone,
+                                                      ? L10n.of(
+                                                          context,
+                                                        ).removeTimezone
+                                                      : L10n.of(
+                                                          context,
+                                                        ).publishTimezone,
                                                 ),
                                               ],
                                             ),

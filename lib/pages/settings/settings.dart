@@ -85,10 +85,7 @@ class SettingsController extends State<Settings> {
   Future<String?> _getTimezone() async {
     final client = Matrix.of(context).client;
     try {
-      final response = await client.getProfileField(
-        client.userID!,
-        'm.tz',
-      );
+      final response = await client.getProfileField(client.userID!, 'm.tz');
       if (response.containsKey('m.tz') &&
           response['m.tz'] is String &&
           response['m.tz'].toString().isNotEmpty) {
@@ -160,10 +157,8 @@ class SettingsController extends State<Settings> {
     if (currentTz != null) {
       final success = await showFutureLoadingDialog(
         context: context,
-        future: () => matrix.client.deleteProfileField(
-          matrix.client.userID!,
-          'm.tz',
-        ),
+        future: () =>
+            matrix.client.deleteProfileField(matrix.client.userID!, 'm.tz'),
       );
       if (success.error == null) {
         updateTimezone();
@@ -173,9 +168,8 @@ class SettingsController extends State<Settings> {
       final selectedTz = await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (context) => _TimezonePickerDialog(
-          detectedTimezone: detectedTz,
-        ),
+        builder: (context) =>
+            _TimezonePickerDialog(detectedTimezone: detectedTz),
       );
       if (selectedTz == null) return;
       final success = await showFutureLoadingDialog(
@@ -197,9 +191,7 @@ class SettingsController extends State<Settings> {
     try {
       tz.getLocation(systemName);
       return systemName;
-    } catch (_) {
-      
-    }
+    } catch (_) {}
     final localOffset = DateTime.now().timeZoneOffset;
     final now = DateTime.now().toUtc();
 
@@ -212,7 +204,7 @@ class SettingsController extends State<Settings> {
       'Pacific',
       'Atlantic',
       'Indian',
-      'Antarctica'
+      'Antarctica',
     ];
 
     final candidates = <String>[];
@@ -556,7 +548,7 @@ class _TimezonePickerDialogState extends State<_TimezonePickerDialog> {
       'Pacific',
       'Atlantic',
       'Indian',
-      'Antarctica'
+      'Antarctica',
     ];
 
     locations.sort((a, b) {
@@ -612,9 +604,9 @@ class _TimezonePickerDialogState extends State<_TimezonePickerDialog> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
-                    L10n.of(context).publishTimezoneConfirmation(
-                      widget.detectedTimezone!,
-                    ),
+                    L10n.of(
+                      context,
+                    ).publishTimezoneConfirmation(widget.detectedTimezone!),
                     style: theme.textTheme.bodyMedium,
                   ),
                 ),

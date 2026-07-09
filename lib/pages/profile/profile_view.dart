@@ -481,9 +481,7 @@ class ProfileView extends StatelessWidget {
                             ),
                             title: Text(controller.tz!),
                             subtitle: Text(L10n.of(context).timezone),
-                            trailing: _TimezoneClock(
-                              timezone: controller.tz!,
-                            ),
+                            trailing: _TimezoneClock(timezone: controller.tz!),
                           ),
                         ],
                       ],

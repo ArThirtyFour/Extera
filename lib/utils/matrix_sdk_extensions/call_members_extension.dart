@@ -11,7 +11,10 @@ extension CallMembersExtension on Room {
         final membershipId = content['membershipID'] as String?;
         final deviceId = content['device_id'] as String?;
         if (membershipId == null || deviceId == null) continue;
-        final mxId = membershipId.replaceAll(':$deviceId', ''); // i am not sure tho
+        final mxId = membershipId.replaceAll(
+          ':$deviceId',
+          '',
+        ); // i am not sure tho
         members.add(mxId);
       }
     }

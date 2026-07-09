@@ -55,8 +55,7 @@ class ProfileController extends State<ProfilePage> {
       });
     }
 
-    if (profile.mTz != null &&
-        profile.mTz!.length <= 256) {
+    if (profile.mTz != null && profile.mTz!.length <= 256) {
       setState(() {
         tz = profile.mTz;
       });
