@@ -224,7 +224,7 @@ class EventVideoPlayer extends StatelessWidget {
           SizedBox(
             width: width,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: HtmlMessage(
                 html: fileDescription,
                 textColor: textColor,

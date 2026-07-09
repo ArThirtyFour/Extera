@@ -588,8 +588,9 @@ class _MessageBubbleState extends State<MessageBubble> {
                                                 !ownMessage &&
                                                 !event.room.isDirectChat)
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 16.0,
+                                                padding: const .only(
+                                                  left: 16,
+                                                  right: 16,
                                                   top: 8,
                                                   // bottom: 4,
                                                 ),
