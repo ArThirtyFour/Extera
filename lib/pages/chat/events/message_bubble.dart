@@ -404,12 +404,14 @@ class _MessageBubbleState extends State<MessageBubble> {
     //   big emotes) we float a translucent pill on top of the content.
     // - bottom row: for HTML, captions, redacted, audio/file/poll we render
     //   the status as a real bottom-right row below the content. No overlap.
-    final isTextLike = {
-      MessageTypes.Text,
-      MessageTypes.Notice,
-      MessageTypes.Emote,
-      MessageTypes.None,
-    }.contains(event.messageType);
+    final isTextLike =
+        {
+          MessageTypes.Text,
+          MessageTypes.Notice,
+          MessageTypes.Emote,
+          MessageTypes.None,
+        }.contains(event.messageType) ||
+        event.redacted;
     final isBigEmote =
         noBubble &&
         event.messageType == MessageTypes.Text &&
@@ -434,7 +436,7 @@ class _MessageBubbleState extends State<MessageBubble> {
         !ownMessage &&
         !event.room.isDirectChat &&
         (isTextLike || hasReplyRelation) &&
-        event.messageType != MessageTypes.Sticker;
+        (event.messageType != MessageTypes.Sticker || event.redacted);
 
     final showSenderOverlay =
         !nextEventSameSender &&
@@ -445,7 +447,8 @@ class _MessageBubbleState extends State<MessageBubble> {
                   MessageTypes.Video,
                 }.contains(event.messageType) &&
                 !hasReplyRelation) ||
-            event.messageType == MessageTypes.Sticker);
+            event.messageType == MessageTypes.Sticker) &&
+        !event.redacted;
 
     final replyDisplay = _replyEventFuture != null
         ? FutureBuilder<Event?>(
