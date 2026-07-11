@@ -433,14 +433,19 @@ class _MessageBubbleState extends State<MessageBubble> {
         !nextEventSameSender &&
         !ownMessage &&
         !event.room.isDirectChat &&
-        (isTextLike || hasReplyRelation);
+        (isTextLike || hasReplyRelation) &&
+        event.messageType != MessageTypes.Sticker;
 
     final showSenderOverlay =
         !nextEventSameSender &&
         !ownMessage &&
         !event.room.isDirectChat &&
-        ({MessageTypes.Image, MessageTypes.Video}.contains(event.messageType) &&
-            !hasReplyRelation);
+        (({
+                  MessageTypes.Image,
+                  MessageTypes.Video,
+                }.contains(event.messageType) &&
+                !hasReplyRelation) ||
+            event.messageType == MessageTypes.Sticker);
 
     final replyDisplay = _replyEventFuture != null
         ? FutureBuilder<Event?>(
