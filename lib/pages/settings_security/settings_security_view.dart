@@ -57,11 +57,11 @@ class SettingsSecurityView extends StatelessWidget {
                 );
               }
               return Padding(
-                padding: const .all(8),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
                     Material(
-                      clipBehavior: .hardEdge,
+                      clipBehavior: Clip.hardEdge,
                       color: theme.colorScheme.surfaceContainerHigh,
                       borderRadius: borderRadius,
                       child: Column(
@@ -69,6 +69,37 @@ class SettingsSecurityView extends StatelessWidget {
                           ListTile(
                             title: Text(
                               L10n.of(context).security,
+                              style: TextStyle(
+                                color: theme.colorScheme.secondary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            trailing: const Icon(Icons.chevron_right_outlined),
+                            title: Text(L10n.of(context).blockedUsers),
+                            subtitle: Text(
+                              L10n.of(context).thereAreCountUsersBlocked(
+                                Matrix.of(context).client.ignoredUsers.length,
+                              ),
+                            ),
+                            onTap: () => context.push(
+                              '/rooms/settings/security/ignorelist',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Material(
+                      clipBehavior: Clip.hardEdge,
+                      color: theme.colorScheme.surfaceContainerHigh,
+                      borderRadius: borderRadius,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(
+                              L10n.of(context).privacy,
                               style: TextStyle(
                                 color: theme.colorScheme.secondary,
                                 fontWeight: FontWeight.bold,
@@ -94,25 +125,7 @@ class SettingsSecurityView extends StatelessWidget {
                               setting: AppSettings.incomingCallsOnLockScreen,
                             ),
                           ],
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Material(
-                      clipBehavior: .hardEdge,
-                      color: theme.colorScheme.surfaceContainerHigh,
-                      borderRadius: borderRadius,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              L10n.of(context).privacy,
-                              style: TextStyle(
-                                color: theme.colorScheme.secondary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          const ListDivider(),
                           SettingsSwitchListTile.adaptive(
                             title: L10n.of(context).cleanExif,
                             subtitle: L10n.of(context).cleanExifDescription,
@@ -172,44 +185,27 @@ class SettingsSecurityView extends StatelessWidget {
                               );
                             },
                           ),
-                          const ListDivider(),
-                          ListTile(
-                            trailing: const Icon(Icons.chevron_right_outlined),
-                            title: Text(L10n.of(context).blockedUsers),
-                            subtitle: Text(
-                              L10n.of(context).thereAreCountUsersBlocked(
-                                Matrix.of(context).client.ignoredUsers.length,
-                              ),
-                            ),
-                            onTap: () => context.push(
-                              '/rooms/settings/security/ignorelist',
-                            ),
-                          ),
-                          if (Matrix.of(context).client.encryption != null) ...{
+                          if (Matrix.of(context).client.encryption != null) ...[
                             if (PlatformInfos.isMobile) ...[
                               const ListDivider(),
                               ListTile(
-                                trailing: const Icon(
-                                  Icons.chevron_right_outlined,
-                                ),
+                                trailing: const Icon(Icons.chevron_right_outlined),
                                 title: Text(L10n.of(context).appLock),
-                                subtitle: Text(
-                                  L10n.of(context).appLockDescription,
-                                ),
+                                subtitle: Text(L10n.of(context).appLockDescription),
                                 onTap: controller.setAppLockAction,
                               ),
                             ],
-                          },
+                          ],
                         ],
                       ),
                     ),
                     const SizedBox(height: 8),
                     Material(
-                      clipBehavior: .hardEdge,
+                      clipBehavior: Clip.hardEdge,
                       color: theme.colorScheme.surfaceContainerHigh,
                       borderRadius: borderRadius,
                       child: Padding(
-                        padding: const .symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Column(
                           children: [
                             ListTile(
@@ -262,7 +258,7 @@ class SettingsSecurityView extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Material(
-                      clipBehavior: .hardEdge,
+                      clipBehavior: Clip.hardEdge,
                       color: theme.colorScheme.surfaceContainerHigh,
                       borderRadius: borderRadius,
                       child: Column(
@@ -309,9 +305,9 @@ class SettingsSecurityView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const ListDivider(),
                           if (capabilities?.mChangePassword?.enabled != false ||
                               error != null) ...[
+                            const ListDivider(),
                             ListTile(
                               leading: const Icon(Icons.password_outlined),
                               trailing: const Icon(
@@ -322,8 +318,8 @@ class SettingsSecurityView extends StatelessWidget {
                                 '/rooms/settings/security/password',
                               ),
                             ),
-                            const ListDivider(),
                           ],
+                          const ListDivider(),
                           ListTile(
                             iconColor: Colors.orange,
                             leading: const Icon(Icons.delete_sweep_outlined),

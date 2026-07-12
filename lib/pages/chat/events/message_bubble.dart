@@ -435,7 +435,10 @@ class _MessageBubbleState extends State<MessageBubble> {
         !nextEventSameSender &&
         !ownMessage &&
         !event.room.isDirectChat &&
-        (isTextLike || hasReplyRelation) &&
+        (isTextLike ||
+            hasReplyRelation ||
+            event.messageType == MessageTypes.Audio ||
+            event.messageType == MessageTypes.File) &&
         (event.messageType != MessageTypes.Sticker || event.redacted);
 
     final showSenderOverlay =
@@ -445,6 +448,7 @@ class _MessageBubbleState extends State<MessageBubble> {
         (({
                   MessageTypes.Image,
                   MessageTypes.Video,
+                  MessageTypes.Location,
                 }.contains(event.messageType) &&
                 !hasReplyRelation) ||
             event.messageType == MessageTypes.Sticker) &&

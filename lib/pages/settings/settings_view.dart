@@ -437,6 +437,57 @@ class SettingsView extends StatelessWidget {
                             leading: CircleAvatar(
                               backgroundColor: theme.colorScheme.secondary,
                               child: Icon(
+                                Icons.forum_outlined,
+                                color: theme.colorScheme.onSecondary,
+                              ),
+                            ),
+                            title: Text(L10n.of(context).chat),
+                            onTap: () => context.go('/rooms/settings/chat'),
+                            tileColor:
+                                activeRoute.startsWith('/rooms/settings/chat')
+                                ? theme.colorScheme.surfaceContainerHigh
+                                : null,
+                          ),
+                          const ListDivider(),
+                          ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: theme.colorScheme.tertiary,
+                              child: Icon(
+                                Icons.window_outlined,
+                                color: theme.colorScheme.onTertiary,
+                              ),
+                            ),
+                            title: Text(L10n.of(context).navigationAndLayout),
+                            onTap: () =>
+                                context.go('/rooms/settings/navigation'),
+                            tileColor:
+                                activeRoute.startsWith(
+                                  '/rooms/settings/navigation',
+                                )
+                                ? theme.colorScheme.surfaceContainerHigh
+                                : null,
+                          ),
+                          const ListDivider(),
+                          ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: theme.colorScheme.primary,
+                              child: Icon(
+                                Icons.call_outlined,
+                                color: theme.colorScheme.onPrimary,
+                              ),
+                            ),
+                            title: Text(L10n.of(context).calls),
+                            onTap: () => context.go('/rooms/settings/calls'),
+                            tileColor:
+                                activeRoute.startsWith('/rooms/settings/calls')
+                                ? theme.colorScheme.surfaceContainerHigh
+                                : null,
+                          ),
+                          const ListDivider(),
+                          ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: theme.colorScheme.secondary,
+                              child: Icon(
                                 Icons.notifications_outlined,
                                 color: theme.colorScheme.onSecondary,
                               ),
@@ -454,17 +505,17 @@ class SettingsView extends StatelessWidget {
                           const ListDivider(),
                           ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: theme.colorScheme.tertiary,
+                              backgroundColor: theme.colorScheme.primary,
                               child: Icon(
-                                Icons.devices_outlined,
-                                color: theme.colorScheme.onTertiary,
+                                Icons.shield_outlined,
+                                color: theme.colorScheme.onPrimary,
                               ),
                             ),
-                            title: Text(L10n.of(context).devices),
-                            onTap: () => context.go('/rooms/settings/devices'),
+                            title: Text(L10n.of(context).security),
+                            onTap: () => context.go('/rooms/settings/security'),
                             tileColor:
                                 activeRoute.startsWith(
-                                  '/rooms/settings/devices',
+                                  '/rooms/settings/security',
                                 )
                                 ? theme.colorScheme.surfaceContainerHigh
                                 : null,
@@ -474,49 +525,15 @@ class SettingsView extends StatelessWidget {
                             leading: CircleAvatar(
                               backgroundColor: theme.colorScheme.secondary,
                               child: Icon(
-                                Icons.forum_outlined,
+                                Icons.devices_outlined,
                                 color: theme.colorScheme.onSecondary,
                               ),
                             ),
-                            title: Text(L10n.of(context).chat),
-                            onTap: () => context.go('/rooms/settings/chat'),
-                            tileColor:
-                                activeRoute.startsWith('/rooms/settings/chat')
-                                ? theme.colorScheme.surfaceContainerHigh
-                                : null,
-                          ),
-                          const ListDivider(),
-                          ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: theme.colorScheme.primary,
-                              child: Icon(
-                                Icons.science_outlined,
-                                color: theme.colorScheme.onPrimary,
-                              ),
-                            ),
-                            title: Text(L10n.of(context).featureSwitches),
-                            onTap: () => context.go('/rooms/settings/features'),
+                            title: Text(L10n.of(context).devices),
+                            onTap: () => context.go('/rooms/settings/devices'),
                             tileColor:
                                 activeRoute.startsWith(
-                                  '/rooms/settings/features',
-                                )
-                                ? theme.colorScheme.surfaceContainerHigh
-                                : null,
-                          ),
-                          const ListDivider(),
-                          ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: theme.colorScheme.tertiary,
-                              child: Icon(
-                                Icons.shield_outlined,
-                                color: theme.colorScheme.onTertiary,
-                              ),
-                            ),
-                            title: Text(L10n.of(context).security),
-                            onTap: () => context.go('/rooms/settings/security'),
-                            tileColor:
-                                activeRoute.startsWith(
-                                  '/rooms/settings/security',
+                                  '/rooms/settings/devices',
                                 )
                                 ? theme.colorScheme.surfaceContainerHigh
                                 : null,

@@ -463,11 +463,11 @@ class SettingsStyleView extends StatelessWidget {
                           ),
                         ),
                         const ListDivider(),
-                        SettingsSwitchListTile.adaptive(
-                          title: L10n.of(context).enableGradient,
-                          setting: AppSettings.enableGradient,
-                        ),
-                        const ListDivider(),
+                        // SettingsSwitchListTile.adaptive(
+                        //   title: L10n.of(context).enableGradient,
+                        //   setting: AppSettings.enableGradient,
+                        // ),
+                        // const ListDivider(),
                         SettingsSwitchListTile.adaptive(
                           title: L10n.of(context).enableChatFrostedGlass,
                           setting: AppSettings.enableChatFrostedGlass,
@@ -585,34 +585,66 @@ class SettingsStyleView extends StatelessWidget {
                   children: [
                     ListTile(
                       title: Text(
-                        L10n.of(context).overview,
+                        L10n.of(context).fonts,
                         style: TextStyle(
                           color: theme.colorScheme.secondary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    SettingsSwitchListTile.adaptive(
-                      title: L10n.of(context).presencesToggle,
-                      setting: AppSettings.showPresences,
-                    ),
-                    const ListDivider(),
-                    SettingsSwitchListTile.adaptive(
-                      title: L10n.of(context).separateChatTypes,
-                      setting: AppSettings.separateChatTypes,
-                    ),
-                    const ListDivider(),
-                    SettingsSwitchListTile.adaptive(
-                      title: L10n.of(context).showSpaceRoomsInGlobalList,
-                      setting: AppSettings.showSpaceRoomsInGlobalList,
-                    ),
-                    if (PlatformInfos.isMobile) ...[
-                      const ListDivider(),
-                      SettingsSwitchListTile.adaptive(
-                        title: L10n.of(context).displayNavigationRail,
-                        setting: AppSettings.displayNavigationRail,
+                    ListTile(
+                      title: Text(L10n.of(context).uiFont),
+                      trailing: FilledButton.tonalIcon(
+                        onPressed: controller.editUIFont,
+                        icon: const Icon(Icons.edit),
+                        label: Text(L10n.of(context).edit),
                       ),
-                    ],
+                    ),
+                    const ListDivider(),
+                    ListTile(
+                      title: Text(L10n.of(context).uiFontFallback),
+                      trailing: FilledButton.tonalIcon(
+                        onPressed: controller.editUIFallbackFonts,
+                        icon: const Icon(Icons.edit),
+                        label: Text(L10n.of(context).edit),
+                      ),
+                    ),
+                    const ListDivider(),
+                    ListTile(
+                      title: Text(L10n.of(context).monospaceFont),
+                      trailing: FilledButton.tonalIcon(
+                        onPressed: controller.editMonospaceFont,
+                        icon: const Icon(Icons.edit),
+                        label: Text(L10n.of(context).edit),
+                      ),
+                    ),
+                    const ListDivider(),
+                    ListTile(
+                      title: Text(L10n.of(context).monospaceFontFallback),
+                      trailing: FilledButton.tonalIcon(
+                        onPressed: controller.editMonospaceFallbackFonts,
+                        icon: const Icon(Icons.edit),
+                        label: Text(L10n.of(context).edit),
+                      ),
+                    ),
+                    const ListDivider(),
+                    ListTile(
+                      title: Text(L10n.of(context).chatFont),
+                      trailing: FilledButton.tonalIcon(
+                        onPressed: controller.editChatFont,
+                        icon: const Icon(Icons.edit),
+                        label: Text(L10n.of(context).edit),
+                      ),
+                    ),
+                    const ListDivider(),
+                    ListTile(
+                      title: Text(L10n.of(context).chatFontFallback),
+                      trailing: FilledButton.tonalIcon(
+                        onPressed: controller.editChatFallbackFonts,
+                        icon: const Icon(Icons.edit),
+                        label: Text(L10n.of(context).edit),
+                      ),
+                    ),
                     if (PlatformInfos.isAndroid) ...[
                       const ListDivider(),
                       SettingsSwitchListTile.adaptive(

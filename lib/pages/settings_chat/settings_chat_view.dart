@@ -9,7 +9,6 @@ import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:extera_next/widgets/list_divider.dart';
-import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/settings_switch_list_tile.dart';
 import 'settings_chat.dart';
 
@@ -33,11 +32,11 @@ class SettingsChatView extends StatelessWidget {
         child: MaxWidthBody(
           withoutVerticalPadding: true,
           child: Padding(
-            padding: const .all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               children: [
                 Material(
-                  clipBehavior: .hardEdge,
+                  clipBehavior: Clip.hardEdge,
                   color: theme.colorScheme.surfaceContainerHigh,
                   borderRadius: borderRadius,
                   child: Column(
@@ -108,13 +107,45 @@ class SettingsChatView extends StatelessWidget {
                         title: L10n.of(context).swipeRightToLeftToReply,
                         setting: AppSettings.swipeRightToLeftToReply,
                       ),
+                      const ListDivider(),
+                      SettingsSwitchListTile.adaptive(
+                        title: L10n.of(context).messageTranslations,
+                        setting: AppSettings.messageTranslation,
+                      ),
+                      const ListDivider(),
+                      SettingsSwitchListTile.adaptive(
+                        title: L10n.of(context).latexMath,
+                        setting: AppSettings.latexMath,
+                      ),
+                      if (PlatformInfos.isMobile) ...[
+                        const ListDivider(),
+                        SettingsSwitchListTile.adaptive(
+                          title: L10n.of(context).enableVideoNotes,
+                          setting: AppSettings.enableVideoNotes,
+                        ),
+                      ],
+                      // const ListDivider(),
+                      // ListTile(
+                      //   title: Text(L10n.of(context).messageFontSize),
+                      //   trailing: Text(
+                      //     '${AppSettings.messageFontSize.value.toStringAsFixed(0)} pt',
+                      //   ),
+                      // ),
+                      // Slider.adaptive(
+                      //   min: 8,
+                      //   max: 32,
+                      //   divisions: 24,
+                      //   value: AppSettings.messageFontSize.value,
+                      //   semanticFormatterCallback: (d) => d.toString(),
+                      //   onChanged: controller.changeMessageFontSize,
+                      // ),
                     ],
                   ),
                 ),
 
                 const SizedBox(height: 8),
                 Material(
-                  clipBehavior: .hardEdge,
+                  clipBehavior: Clip.hardEdge,
                   color: theme.colorScheme.surfaceContainerHigh,
                   borderRadius: borderRadius,
                   child: Column(
@@ -140,52 +171,6 @@ class SettingsChatView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Material(
-                  clipBehavior: .hardEdge,
-                  color: theme.colorScheme.surfaceContainerHigh,
-                  borderRadius: borderRadius,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          L10n.of(context).calls,
-                          style: TextStyle(
-                            color: theme.colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      SettingsSwitchListTile.adaptive(
-                        title: L10n.of(context).experimentalVideoCalls,
-                        setting: AppSettings.experimentalVoip,
-                        onChanged: (value) {
-                          Matrix.of(context).createVoipPlugin();
-                        },
-                      ),
-                      const ListDivider(),
-                      if (PlatformInfos.isDesktop) ...[
-                        SettingsSwitchListTile.adaptive(
-                          title: L10n.of(context).pushToTalkHotkey,
-                          subtitle: L10n.of(
-                            context,
-                          ).pushToTalkHotkeyDescription,
-                          setting: AppSettings.pushToTalkHotkey,
-                        ),
-                        const ListDivider(),
-                      ],
-                      ListTile(
-                        title: Text(L10n.of(context).ringtone),
-                        subtitle: Text(L10n.of(context).ringtoneDescription),
-                        trailing: const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Icon(Icons.chevron_right_outlined),
-                        ),
-                        onTap: () => context.push('/rooms/settings/ringtone'),
-                      ),
                     ],
                   ),
                 ),
