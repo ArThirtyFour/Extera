@@ -792,6 +792,7 @@ class ChatController extends State<ChatPageWithRoom>
     inputBarHeight.dispose();
     scrollController.dispose();
     sendController.dispose();
+    _displayChatDetailsColumn.dispose();
 
     WidgetsBinding.instance.removeObserver(this);
 
@@ -947,8 +948,7 @@ class ChatController extends State<ChatPageWithRoom>
   }
 
   void openCameraAction() async {
-    // Make sure the textfield is unfocused before opening the camera
-    FocusScope.of(context).requestFocus(FocusNode());
+    inputFocus.unfocus();
     final file = await ImagePicker().pickImage(source: ImageSource.camera);
     if (file == null) return;
 
@@ -965,8 +965,7 @@ class ChatController extends State<ChatPageWithRoom>
   }
 
   void openVideoCameraAction() async {
-    // Make sure the textfield is unfocused before opening the camera
-    FocusScope.of(context).requestFocus(FocusNode());
+    inputFocus.unfocus();
     final file = await ImagePicker().pickVideo(
       source: ImageSource.camera,
       maxDuration: const Duration(minutes: 1),

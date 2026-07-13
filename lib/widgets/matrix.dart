@@ -96,7 +96,6 @@ class MatrixState extends State<Matrix> with WidgetsBindingObserver {
       _cachedRootSpaces = null;
       _activeClient = i;
       AppSettings.selectedAccount.setItem(cl!.clientName);
-      // TODO: Multi-client VoiP support
       createVoipPlugin();
     } else {
       Logs().w('Tried to set an unknown client ${cl!.userID} as active');
@@ -478,6 +477,7 @@ class MatrixState extends State<Matrix> with WidgetsBindingObserver {
     client.httpClient.close();
 
     linuxNotifications?.close();
+    _cachedPasswordClearTimer?.cancel();
 
     super.dispose();
   }

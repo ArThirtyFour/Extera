@@ -60,6 +60,7 @@ class KeyVerificationPageState extends State<KeyVerificationDialog> {
     ].contains(widget.request.state)) {
       widget.request.cancel('m.user');
     }
+    _textEditingController?.dispose();
     super.dispose();
   }
 
@@ -92,6 +93,8 @@ class KeyVerificationPageState extends State<KeyVerificationDialog> {
     }
   }
 
+  TextEditingController? _textEditingController;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -117,7 +120,7 @@ class KeyVerificationPageState extends State<KeyVerificationDialog> {
         throw 'Not implemented';
       case KeyVerificationState.askSSSS:
         // prompt the user for their ssss passphrase / key
-        final textEditingController = TextEditingController();
+        _textEditingController = TextEditingController();
         String input;
         body = Container(
           margin: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -130,7 +133,7 @@ class KeyVerificationPageState extends State<KeyVerificationDialog> {
               ),
               Container(height: 10),
               TextField(
-                controller: textEditingController,
+                controller: _textEditingController,
                 autofocus: false,
                 autocorrect: false,
                 onSubmitted: (s) {
@@ -153,7 +156,7 @@ class KeyVerificationPageState extends State<KeyVerificationDialog> {
         buttons.add(
           AdaptiveDialogAction(
             child: Text(L10n.of(context).submit),
-            onPressed: () => checkInput(textEditingController.text),
+            onPressed: () => checkInput(_textEditingController!.text),
           ),
         );
         buttons.add(

@@ -77,5 +77,13 @@ class SettingsPasswordController extends State<SettingsPassword> {
   }
 
   @override
+  void dispose() {
+    newPassword1Controller.dispose();
+    newPassword2Controller.dispose();
+    oldPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => SettingsPasswordView(this);
 }

@@ -81,7 +81,10 @@ Future<String?> showTextInputDialog({
           ),
           actions: [
             OutlinedButton(
-              onPressed: () => Navigator.of(context).pop(null),
+              onPressed: () {
+                controller.dispose();
+                Navigator.of(context).pop(null);
+              },
               style: OutlinedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24.0),
@@ -97,6 +100,7 @@ Future<String?> showTextInputDialog({
                   error.value = errorText;
                   return;
                 }
+                controller.dispose();
                 Navigator.of(context).pop<String>(input);
               },
               autofocus: true,
