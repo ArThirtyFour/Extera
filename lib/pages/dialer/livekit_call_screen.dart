@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:extera_next/utils/matrix_sdk_extensions/call_members_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -1277,12 +1278,29 @@ Future<void> openLiveKitCall(BuildContext context, String roomId) async {
   };
 
   try {
-    await client.setRoomStateWithKey(
+    final memberEventId = await client.setRoomStateWithKey(
       roomId,
       'org.matrix.msc3401.call.member',
       stateKey,
       Map<String, Object?>.from(memberEventContent),
     );
+
+    if (room.callMembersCount <= 1 &&
+        room.canSendEvent("org.matrix.msc4075.rtc.notification")) {
+      await room.sendEvent({
+        'lifetime': 30000,
+        'm.call.intent': 'video',
+        'm.mentions': {
+          'room': true,
+          'user_ids':
+              [], // TODO: we probably can invite only selected users to a call
+        },
+        'm.relates.to': {'event_id': memberEventId, 'rel_type': 'm.reference'},
+        'notification_type': 'notification',
+        'sender_ts': DateTime.now()
+            .millisecondsSinceEpoch, // maybe i can think of a better approach
+      }, type: 'org.matrix.msc4075.rtc.notification');
+    }
   } catch (e) {
     Logs().d('DEBUG: error sending call member event: $e');
   }
