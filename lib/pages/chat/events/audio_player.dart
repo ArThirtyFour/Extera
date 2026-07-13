@@ -125,6 +125,8 @@ class AudioPlayerState extends State<AudioPlayerWidget> {
               .replaceAll('<', '&lt;')
               .replaceAll('>', '&gt;');
 
+    final filename = event.content.tryGet<String>('filename');
+
     // Use ValueListenableBuilders to reactively update UI from the background player
     return ValueListenableBuilder<AudioTrackInfo?>(
       valueListenable: player.trackNotifier,
@@ -352,8 +354,7 @@ class AudioPlayerState extends State<AudioPlayerWidget> {
                                   ],
                                 ),
                               ),
-                              if (fileDescription !=
-                                  widget.event.plaintextBody) ...[
+                              if (fileDescription != filename && filename != null) ...[
                                 const SizedBox(height: 8),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -361,7 +362,7 @@ class AudioPlayerState extends State<AudioPlayerWidget> {
                                     vertical: 8,
                                   ),
                                   child: Text(
-                                    widget.event.plaintextBody,
+                                    filename,
                                     textScaleFactor: MediaQuery.textScalerOf(
                                       context,
                                     ).scale(1),
