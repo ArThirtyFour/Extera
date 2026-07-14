@@ -33,11 +33,18 @@ extension LocalizedBody on Event {
     if (canDownloadInBackground) {
       final dmc = DownloadManager.of(context);
       final filename = content.tryGet<String>('filename') ?? body;
-      dmc.download(
-        context,
-        "${filename}_${roomId!.substring(1, 5)}_${eventId.substring(1, 5)}.${extensionFromMime(attachmentMimetype) ?? filename.split('.').last}",
-        attachmentMxcUrl.toString(),
-      );
+      final mimeExt = extensionFromMime(attachmentMimetype);
+      final ext = content.containsKey('filename') && filename.contains('.')
+          ? '.${filename.split('.').last}'
+          : mimeExt == null
+          ? ''
+          : '.$mimeExt';
+      final downloadFileName =
+          "${filename}_${roomId!.substring(1, 5)}_${eventId.substring(1, 5)}$ext"
+              .replaceAll('/', '-')
+              .replaceAll('\\', '');
+
+      dmc.download(context, downloadFileName, attachmentMxcUrl.toString());
     } else {
       throw Exception(
         "Cannot download in background $hasAttachment ${room.encrypted}",
