@@ -115,7 +115,6 @@ enum AppSettings<T> {
     'xyz.extera.next.incomingCallsOnLockScreen',
     true,
   ),
-  pushToTalkHotkey<bool>('xyz.extera.next.pushToTalkHotkey', false),
   ringtone<String>('xyz.extera.next.ringtone', 'system'),
   audioRecordingNumChannels<int>('audioRecordingNumChannels', 1),
   audioRecordingAutoGain<bool>('audioRecordingAutoGain', true),

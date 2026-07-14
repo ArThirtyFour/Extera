@@ -6,7 +6,6 @@ import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/settings_switch_list_tile.dart';
@@ -56,16 +55,6 @@ class SettingsCallsView extends StatelessWidget {
                         setting: AppSettings.experimentalVoip,
                         onChanged: controller.onExperimentalVoipChanged,
                       ),
-                      if (PlatformInfos.isDesktop) ...[
-                        const ListDivider(),
-                        SettingsSwitchListTile.adaptive(
-                          title: L10n.of(context).pushToTalkHotkey,
-                          subtitle: L10n.of(
-                            context,
-                          ).pushToTalkHotkeyDescription,
-                          setting: AppSettings.pushToTalkHotkey,
-                        ),
-                      ],
                       const ListDivider(),
                       SettingsSwitchListTile.adaptive(
                         title: L10n.of(context).elementCallLiveKit,

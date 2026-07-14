@@ -8,11 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:action_slider/action_slider.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' hide VideoRenderer;
-import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:matrix/matrix.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
-import 'package:extera_next/config/app_settings.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/dialer/task_handler.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
@@ -175,13 +173,6 @@ class CallingView extends State<Calling> {
   late StreamSubscription<CallState> onCallStateChangedSubscription;
   late StreamSubscription<CallStateChange> onCallEventChangedSubscription;
 
-  final HotKey _hotKey = HotKey(
-    key: PhysicalKeyboardKey.keyX,
-    modifiers: [HotKeyModifier.alt],
-    // Set hotkey scope (default is HotKeyScope.system)
-    scope: HotKeyScope.system, // Set as inapp-wide hotkey.
-  );
-
   void onDataReceived(Object data) {
     if (data == 'mute') {
       _muteMic();
@@ -235,15 +226,6 @@ class CallingView extends State<Calling> {
 
     FlutterForegroundTask.addTaskDataCallback(onDataReceived);
 
-    if (AppSettings.pushToTalkHotkey.value) {
-      await hotKeyManager.register(
-        _hotKey,
-        keyDownHandler: (hotKey) {
-          _muteMic();
-        },
-      );
-    }
-
     try {
       // Enable wakelock (keep screen on)
       unawaited(WakelockPlus.enable());
@@ -277,7 +259,6 @@ class CallingView extends State<Calling> {
     try {
       unawaited(WakelockPlus.disable());
     } catch (_) {}
-    hotKeyManager.unregisterAll();
   }
 
   void minimise() {
