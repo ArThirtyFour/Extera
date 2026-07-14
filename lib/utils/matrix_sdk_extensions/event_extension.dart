@@ -42,7 +42,7 @@ extension LocalizedBody on Event {
       final downloadFileName =
           "${filename}_${roomId!.substring(1, 5)}_${eventId.substring(1, 5)}$ext"
               .replaceAll('/', '-')
-              .replaceAll('\\', '');
+              .replaceAll('\\', '-');
 
       dmc.download(context, downloadFileName, attachmentMxcUrl.toString());
     } else {
