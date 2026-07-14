@@ -39,8 +39,11 @@ extension LocalizedBody on Event {
           : mimeExt == null
           ? ''
           : '.$mimeExt';
+      final filenameNoExt = content.containsKey('filename') && filename.contains('.')
+          ? filename.substring(0, filename.lastIndexOf('.'))
+          : filename;
       final downloadFileName =
-          "${filename}_${roomId!.substring(1, 5)}_${eventId.substring(1, 5)}$ext"
+          "${filenameNoExt}_${roomId!.substring(1, 5)}_${eventId.substring(1, 5)}$ext"
               .replaceAll('/', '-')
               .replaceAll('\\', '-');
 
