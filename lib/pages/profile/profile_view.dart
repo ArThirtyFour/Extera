@@ -577,12 +577,10 @@ class _TimezoneClockState extends State<_TimezoneClock> {
 
     final userTime = tz.TZDateTime.from(_now, location);
     final offset = userTime.timeZoneOffset;
-    final hours = userTime.hour.toString().padLeft(2, '0');
-    final minutes = userTime.minute.toString().padLeft(2, '0');
     final utcLabel = _formatUtcOffset(offset);
 
     return Text(
-      '$hours:$minutes ($utcLabel)',
+      '${userTime.localizedTimeShort(context)} ($utcLabel)',
       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
         color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
