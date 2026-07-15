@@ -15,6 +15,8 @@ list(APPEND FLUTTER_PLUGIN_LIST
   geolocator_windows
   hotkey_manager_windows
   livekit_client
+  media_kit_libs_windows_video
+  media_kit_video
   pasteboard
   permission_handler_windows
   record_windows
@@ -22,6 +24,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   share_plus
   sqlcipher_flutter_libs
   url_launcher_windows
+  volume_controller
   webcrypto
   window_manager
   window_to_front

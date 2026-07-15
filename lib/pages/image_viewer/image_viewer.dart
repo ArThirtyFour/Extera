@@ -38,7 +38,7 @@ class ImageViewerController extends State<ImageViewer> {
               (event) => {
                 MessageTypes.Image,
                 MessageTypes.Sticker,
-                if (PlatformInfos.supportsVideoPlayer) MessageTypes.Video,
+                MessageTypes.Video,
               }.contains(event.messageType),
             )
             .toList()
@@ -116,13 +116,6 @@ class ImageViewerController extends State<ImageViewer> {
         Navigator.of(context, rootNavigator: false).pop();
       }
     }
-  }
-
-  @override
-  void dispose() {
-    focusNode.dispose();
-    pageController.dispose();
-    super.dispose();
   }
 
   @override

@@ -8,10 +8,11 @@ import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:video_player/video_player.dart';
+import 'package:media_kit/media_kit.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 
 import 'package:extera_next/pages/image_viewer/image_viewer.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
-import 'package:extera_next/utils/matrix_sdk_extensions/event_extension.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/blur_hash.dart';
 import '../../../utils/error_reporter.dart';
@@ -31,20 +32,92 @@ class EventVideoPlayerState extends State<EventVideoPlayer> {
   ChewieController? _chewieController;
   VideoPlayerController? _videoPlayerController;
 
+  Player? _mediaKitPlayer;
+  VideoController? _mediaKitController;
+
   double? _downloadProgress;
 
-  // The video_player package only doesn't support Windows and Linux.
-  final _supportsVideoPlayer =
-      !PlatformInfos.isWindows && !PlatformInfos.isLinux;
+  bool get _useMediaKit =>
+      !kIsWeb && (PlatformInfos.isWindows || PlatformInfos.isLinux);
 
   void _downloadAction() async {
-    if (!_supportsVideoPlayer) {
-      widget.event.saveFile(context);
-      return;
+    if (_useMediaKit) {
+      _downloadActionMediaKit();
+    } else {
+      _downloadActionVideoPlayer();
     }
+  }
 
+  void _downloadActionMediaKit() async {
     try {
-      // Dispose the controllers if we already have them.
+      _disposeControllers();
+      final player = Player();
+      _mediaKitPlayer = player;
+      _mediaKitController = VideoController(player);
+
+      if (widget.event.room.encrypted) {
+        final fileSize = widget.event.content
+            .tryGetMap<String, dynamic>('info')
+            ?.tryGet<int>('size');
+
+        final videoFile = await widget.event.downloadAndDecryptAttachment(
+          onDownloadProgress: fileSize == null
+              ? null
+              : (progress) {
+                  final progressPercentage = progress / fileSize;
+                  setState(() {
+                    _downloadProgress = progressPercentage < 1
+                        ? progressPercentage
+                        : null;
+                  });
+                },
+        );
+
+        final tempDir = await getTemporaryDirectory();
+        final fileName = Uri.encodeComponent(
+          widget.event.attachmentOrThumbnailMxcUrl()!.pathSegments.last,
+        );
+        final file = File('${tempDir.path}/${fileName}_${videoFile.name}');
+        if (!await file.exists()) {
+          await file.writeAsBytes(videoFile.bytes);
+        }
+        await player.open(Media(file.path));
+      } else {
+        final videoUrl = await widget.event.attachmentMxcUrl!.getDownloadUri(
+          widget.event.room.client,
+        );
+        Logs().d("Video url: $videoUrl");
+        await player.open(
+          Media(
+            videoUrl.toString(),
+            httpHeaders: {
+              'authorization': 'Bearer ${widget.event.room.client.accessToken}',
+            },
+          ),
+        );
+      }
+
+      if (widget.ivController.currentEvent.eventId != widget.event.eventId) {
+        dispose();
+        return;
+      }
+
+      setState(() {});
+    } on IOException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toLocalizedString(context))));
+      }
+    } catch (e, s) {
+      if (mounted) {
+        ErrorReporter(context, 'Unable to play video').onErrorCallback(e, s);
+      }
+    }
+  }
+
+  void _downloadActionVideoPlayer() async {
+    try {
       _disposeControllers();
       late VideoPlayerController videoPlayerController;
 
@@ -65,7 +138,6 @@ class EventVideoPlayerState extends State<EventVideoPlayer> {
                   });
                 },
         );
-        // Create the VideoPlayerController from the contents of videoFile.
         if (kIsWeb) {
           final blob = html.Blob([videoFile.bytes]);
           final networkUri = Uri.parse(html.Url.createObjectUrlFromBlob(blob));
@@ -103,7 +175,6 @@ class EventVideoPlayerState extends State<EventVideoPlayer> {
         return;
       }
 
-      // Create a ChewieController on top.
       setState(() {
         _chewieController = ChewieController(
           videoPlayerController: videoPlayerController,
@@ -127,6 +198,9 @@ class EventVideoPlayerState extends State<EventVideoPlayer> {
     _videoPlayerController?.dispose();
     _chewieController = null;
     _videoPlayerController = null;
+    _mediaKitPlayer?.dispose();
+    _mediaKitPlayer = null;
+    _mediaKitController = null;
   }
 
   @override
@@ -160,46 +234,63 @@ class EventVideoPlayerState extends State<EventVideoPlayer> {
     final width = videoWidth * (height / videoHeight);
 
     final chewieController = _chewieController;
-    return chewieController != null
-        ? Center(
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: Chewie(controller: chewieController),
-            ),
-          )
-        : Stack(
-            children: [
-              Center(
-                child: Hero(
-                  tag: widget.event.eventId,
-                  child: hasThumbnail
-                      ? MxcImage(
-                          event: widget.event,
-                          isThumbnail: true,
-                          width: width,
-                          height: height,
-                          fit: BoxFit.cover,
-                          placeholder: (context) => BlurHash(
-                            blurhash: blurHash,
-                            width: width,
-                            height: height,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : BlurHash(
-                          blurhash: blurHash,
-                          width: width,
-                          height: height,
-                        ),
-                ),
-              ),
-              Center(
-                child: CircularProgressIndicator.adaptive(
-                  value: _downloadProgress,
-                ),
-              ),
-            ],
-          );
+    final mediaKitController = _mediaKitController;
+
+    if (chewieController != null) {
+      return Center(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Chewie(controller: chewieController),
+        ),
+      );
+    }
+
+    if (mediaKitController != null) {
+      return Center(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Video(
+            controller: mediaKitController,
+            controls: MaterialVideoControls,
+          ),
+        ),
+      );
+    }
+
+    return Stack(
+      children: [
+        Center(
+          child: Hero(
+            tag: widget.event.eventId,
+            child: hasThumbnail
+                ? MxcImage(
+                    event: widget.event,
+                    isThumbnail: true,
+                    width: width,
+                    height: height,
+                    fit: BoxFit.cover,
+                    placeholder: (context) => BlurHash(
+                      blurhash: blurHash,
+                      width: width,
+                      height: height,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : BlurHash(
+                    blurhash: blurHash,
+                    width: width,
+                    height: height,
+                  ),
+          ),
+        ),
+        Center(
+          child: CircularProgressIndicator.adaptive(
+            value: _downloadProgress,
+          ),
+        ),
+      ],
+    );
   }
 }

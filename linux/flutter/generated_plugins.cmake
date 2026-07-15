@@ -14,12 +14,15 @@ list(APPEND FLUTTER_PLUGIN_LIST
   handy_window
   hotkey_manager_linux
   livekit_client
+  media_kit_libs_linux
+  media_kit_video
   open_file_linux
   pasteboard
   record_linux
   screen_retriever_linux
   sqlcipher_flutter_libs
   url_launcher_linux
+  volume_controller
   webcrypto
   window_manager
   window_to_front
