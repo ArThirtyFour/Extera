@@ -24,7 +24,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   share_plus
   sqlcipher_flutter_libs
   url_launcher_windows
-  volume_controller
   webcrypto
   window_manager
   window_to_front

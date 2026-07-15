@@ -3,11 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:chewie/chewie.dart';
 import 'package:matrix/matrix.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:universal_html/html.dart' as html;
-import 'package:video_player/video_player.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 
@@ -29,26 +26,12 @@ class EventVideoPlayer extends StatefulWidget {
 }
 
 class EventVideoPlayerState extends State<EventVideoPlayer> {
-  ChewieController? _chewieController;
-  VideoPlayerController? _videoPlayerController;
-
   Player? _mediaKitPlayer;
   VideoController? _mediaKitController;
 
   double? _downloadProgress;
 
-  bool get _useMediaKit =>
-      !kIsWeb && (PlatformInfos.isWindows || PlatformInfos.isLinux);
-
   void _downloadAction() async {
-    if (_useMediaKit) {
-      _downloadActionMediaKit();
-    } else {
-      _downloadActionVideoPlayer();
-    }
-  }
-
-  void _downloadActionMediaKit() async {
     try {
       _disposeControllers();
       final player = Player();
@@ -116,88 +99,7 @@ class EventVideoPlayerState extends State<EventVideoPlayer> {
     }
   }
 
-  void _downloadActionVideoPlayer() async {
-    try {
-      _disposeControllers();
-      late VideoPlayerController videoPlayerController;
-
-      if (widget.event.room.encrypted) {
-        final fileSize = widget.event.content
-            .tryGetMap<String, dynamic>('info')
-            ?.tryGet<int>('size');
-
-        final videoFile = await widget.event.downloadAndDecryptAttachment(
-          onDownloadProgress: fileSize == null
-              ? null
-              : (progress) {
-                  final progressPercentage = progress / fileSize;
-                  setState(() {
-                    _downloadProgress = progressPercentage < 1
-                        ? progressPercentage
-                        : null;
-                  });
-                },
-        );
-        if (kIsWeb) {
-          final blob = html.Blob([videoFile.bytes]);
-          final networkUri = Uri.parse(html.Url.createObjectUrlFromBlob(blob));
-          videoPlayerController = VideoPlayerController.networkUrl(networkUri);
-        } else {
-          final tempDir = await getTemporaryDirectory();
-          final fileName = Uri.encodeComponent(
-            widget.event.attachmentOrThumbnailMxcUrl()!.pathSegments.last,
-          );
-          final file = File('${tempDir.path}/${fileName}_${videoFile.name}');
-          if (await file.exists() == false) {
-            await file.writeAsBytes(videoFile.bytes);
-          }
-          videoPlayerController = VideoPlayerController.file(file);
-        }
-      } else {
-        final videoUrl = await widget.event.attachmentMxcUrl!.getDownloadUri(
-          widget.event.room.client,
-        );
-        Logs().d("Video url: $videoUrl");
-        videoPlayerController = VideoPlayerController.networkUrl(
-          videoUrl,
-          httpHeaders: {
-            'authorization': 'Bearer ${widget.event.room.client.accessToken}',
-          },
-        );
-      }
-
-      _videoPlayerController = videoPlayerController;
-
-      await videoPlayerController.initialize();
-
-      if (widget.ivController.currentEvent.eventId != widget.event.eventId) {
-        dispose();
-        return;
-      }
-
-      setState(() {
-        _chewieController = ChewieController(
-          videoPlayerController: videoPlayerController,
-          useRootNavigator: !kIsWeb,
-          autoPlay: true,
-          autoInitialize: true,
-          looping: true,
-        );
-      });
-    } on IOException catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.toLocalizedString(context))));
-    } catch (e, s) {
-      ErrorReporter(context, 'Unable to play video').onErrorCallback(e, s);
-    }
-  }
-
   void _disposeControllers() {
-    _chewieController?.dispose();
-    _videoPlayerController?.dispose();
-    _chewieController = null;
-    _videoPlayerController = null;
     _mediaKitPlayer?.dispose();
     _mediaKitPlayer = null;
     _mediaKitController = null;
@@ -233,18 +135,7 @@ class EventVideoPlayerState extends State<EventVideoPlayer> {
     final height = MediaQuery.of(context).size.height - 52;
     final width = videoWidth * (height / videoHeight);
 
-    final chewieController = _chewieController;
     final mediaKitController = _mediaKitController;
-
-    if (chewieController != null) {
-      return Center(
-        child: SizedBox(
-          width: width,
-          height: height,
-          child: Chewie(controller: chewieController),
-        ),
-      );
-    }
 
     if (mediaKitController != null) {
       return Center(
