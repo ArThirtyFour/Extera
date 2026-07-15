@@ -24,6 +24,7 @@ import 'package:extera_next/widgets/mxc_image.dart';
 import 'package:extera_next/widgets/mxc_image_viewer.dart';
 import 'package:extera_next/widgets/presence_builder.dart';
 import 'package:extera_next/widgets/rich_presence_card.dart';
+import 'package:extera_next/utils/date_time_extension.dart';
 
 class ProfileView extends StatelessWidget {
   final ProfileController controller;
@@ -575,7 +576,7 @@ class _TimezoneClockState extends State<_TimezoneClock> {
       return const SizedBox.shrink();
     }
 
-    final userTime = tz.TZDateTime.from(_now, location);
+    final userTime = tz.TZDateTime.from(_now, location).localizedTimeShort(context);
     final offset = userTime.timeZoneOffset;
     final hours = userTime.hour.toString().padLeft(2, '0');
     final minutes = userTime.minute.toString().padLeft(2, '0');
